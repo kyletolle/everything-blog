@@ -2,11 +2,11 @@ require 'fastenv'
 require 'fileutils'
 
 module Everything
-  module Myth
+  module Blog
     class ToHtml
       class Output
-        def initialize(myth_name)
-          @myth_name = myth_name
+        def initialize(post_name)
+          @post_name = post_name
           @chunks = []
         end
 
@@ -59,7 +59,7 @@ module Everything
         end
 
         def output_path
-          File.join(base_output_path, @myth_name)
+          File.join(base_output_path, @post_name)
             .tap{|path| FileUtils.mkdir_p(path) }
         end
 

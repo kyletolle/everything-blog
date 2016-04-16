@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 lib = File.expand_path('../../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'everything/myth/cli'
+require 'everything/blog/cli'
 
-Everything::Myth::CLI.start(ARGV)
+Everything::Blog::CLI.start(ARGV)

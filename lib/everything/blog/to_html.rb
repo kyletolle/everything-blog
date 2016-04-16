@@ -2,33 +2,33 @@ require_relative './to_html/output'
 require_relative './to_html/template'
 
 module Everything
-  module Myth
+  module Blog
     class ToHtml
       using Everything::AddWriteHtmlToToPieceRefinement
 
-      def initialize(myth)
-        @myth = myth
+      def initialize(post)
+        @post = post
       end
 
       def convert
-        output = Output.new(myth.name)
+        output = Output.new(post.name)
 
-        def myth.sub_piece_header_markdown
+        def post.sub_piece_header_markdown
           "[#{title}](/)"
         end
 
-        def myth.piece_dir_name
+        def post.piece_dir_name
           ''
         end
 
-        myth.write_html_to(output)
+        post.write_html_to(output)
 
         output.save
       end
 
     private
 
-      attr_reader :myth
+      attr_reader :post
     end
   end
 end
