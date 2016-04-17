@@ -1,3 +1,4 @@
+# TODO: Delete this class.
 require 'kramdown'
 require_relative './add_pieces_to_piece_refinement'
 

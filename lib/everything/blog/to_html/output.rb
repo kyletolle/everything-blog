@@ -1,3 +1,4 @@
+# TODO: Delete this class.
 require 'fastenv'
 require 'fileutils'
 
@@ -10,9 +11,9 @@ module Everything
           @chunks = []
         end
 
-        def add_file(chunk_name, content)
-          @chunks << { name: chunk_name, content: content }
-        end
+        # def add_file(chunk_name, content)
+        #   @chunks << { name: chunk_name, content: content }
+        # end
 
         def save
           write_css_file
@@ -59,12 +60,12 @@ module Everything
         end
 
         def output_path
-          File.join(base_output_path, @post_name)
+          base_output_path
             .tap{|path| FileUtils.mkdir_p(path) }
         end
 
         def file_name
-          'index.html'
+          "#{@post_name}.html"
         end
       end
     end

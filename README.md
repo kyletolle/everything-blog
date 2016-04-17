@@ -7,8 +7,11 @@ Generate an HTML site for a blog of markdown pieces in your `everything` repo.
 Must define these environment variables:
 
 - `EVERYTHING_PATH` - the full path to your everything repo.
-- `HTML_OUTPUT_PATH` - the full path to write the blog's HTML files
-- `TEMPLATE_PATH` - the full path of the ERB HTML template to use for the blog
+- `BLOG_HTML_PATH` - the full path to write the blog's HTML files
+- `TEMPLATES_PATH` - the full path of the folder where the HTML templates for
+  the blog are stored
+
+You can create a `.env` file with these values, if you want.
 
 ## Usage
 

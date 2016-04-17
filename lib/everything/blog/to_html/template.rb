@@ -1,3 +1,4 @@
+# TODO: Delete this class.
 require 'erb'
 require 'tilt'
 

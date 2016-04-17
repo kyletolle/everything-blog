@@ -1,3 +1,4 @@
+# TODO: Delete this class.
 require_relative './to_html/output'
 require_relative './to_html/template'
 
