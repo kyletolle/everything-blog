@@ -3,20 +3,16 @@ require 'digest'
 module Everything
   class Blog
     class S3Site
-      def initialize(pages)
-        @pages = pages
-      end
+      def send_page(page)
+        key = page_path(page)
+        md5 = page_md5(page)
 
-      def send_pages
-        @pages.each do |page|
-          key = page_path(page)
-          md5 = page_md5(page)
+        s3_file = s3_bucket.files.head(key)
 
-          s3_file = s3_bucket.files.head(key)
-
-          if s3_file.nil? || s3_file.etag != md5
-            send_page(key, page.full_page_html)
-          end
+        file_does_not_exist = s3_file.nil?
+        local_file_is_newer = s3_file.etag != md5
+        if file_does_not_exist || local_file_is_newer
+          send_file(key, page.full_page_html)
         end
       end
 
@@ -35,10 +31,10 @@ module Everything
       end
 
       def md5
-        Digest::MD5.new
+        @md5 ||= Digest::MD5.new
       end
 
-      def send_page(key, html)
+      def send_file(key, html)
         s3_bucket.files.create(key: key, body: html)
       end
     end

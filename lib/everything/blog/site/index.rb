@@ -1,17 +1,13 @@
 require 'kramdown'
+require 'everything/blog/site/file'
+require 'time'
 
 module Everything
   class Blog
     class Site
-      class Index
+      class Index < File
         def initialize(page_names)
           @page_names = page_names
-        end
-
-        def save_file
-          File.open(page_file_path, 'w') do |index|
-            index.write(full_page_html)
-          end
         end
 
         def relative_path
@@ -27,11 +23,7 @@ module Everything
       private
 
         def page_file_path
-          File.join(Site.blog_html_path, page_file_name)
-        end
-
-        def page_file_name
-          'index.html'
+          ::File.join(Site.blog_html_path, page_file_name)
         end
 
         def page_content_html

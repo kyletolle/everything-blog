@@ -13,17 +13,12 @@ module Everything
   class Blog
     def generate_site
       index = site.create_index_page(public_post_names)
+      send_page_to_s3(index)
 
-      @pages = public_posts.map do |post|
-        site.create_post_page(post.name, post.content_html)
+      public_posts.map do |post|
+        page = site.create_post_page(post.name, post.content_html)
+        send_page_to_s3(page)
       end
-
-      @pages.unshift(index)
-      self
-    end
-
-    def send_to_s3
-      S3Site.new(@pages).send_pages
 
       self
     end
@@ -53,7 +48,15 @@ module Everything
     end
 
     def blog_source_path
-      File.join(Everything.path, 'blog')
+      ::File.join(Everything.path, 'blog')
+    end
+
+    def send_page_to_s3(page)
+      s3_site.send_page(page)
+    end
+
+    def s3_site
+      @s3_site ||= S3Site.new
     end
   end
 end

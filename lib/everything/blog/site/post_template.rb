@@ -20,7 +20,7 @@ module Everything
         attr_reader :page_content_html
 
         def template_path
-          File.join(templates_path, template_name)
+          ::File.join(templates_path, template_name)
         end
 
         def templates_path
