@@ -18,6 +18,16 @@ module Everything
           end
         end
 
+        def relative_path
+          File.join(post_name, page_file_name)
+        end
+
+        def full_page_html
+          @full_page_html ||= PostTemplate
+            .new(page_content_html)
+            .merge_content_and_template
+        end
+
       private
 
         attr_reader :post_name, :page_content_html
@@ -32,10 +42,6 @@ module Everything
 
         def page_file_name
           'index.html'
-        end
-
-        def full_page_html
-          PostTemplate.new(page_content_html).merge_content_and_template
         end
       end
     end

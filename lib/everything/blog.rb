@@ -6,15 +6,26 @@ Dotenv.load
 
 require 'everything/blog/site'
 require 'everything/blog/post'
+require 'everything/blog/s3_bucket'
+require 'everything/blog/s3_site'
 
 module Everything
   class Blog
     def generate_site
-      site.create_index_page(public_post_names)
+      index = site.create_index_page(public_post_names)
 
-      public_posts.each do |post|
+      @pages = public_posts.map do |post|
         site.create_post_page(post.name, post.content_html)
       end
+
+      @pages.unshift(index)
+      self
+    end
+
+    def send_to_s3
+      S3Site.new(@pages).send_pages
+
+      self
     end
 
   private

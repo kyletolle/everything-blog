@@ -9,7 +9,9 @@ module Everything
       end
 
       def create_index_page(page_names)
-        Index.new(page_names).save_file
+        index = Index.new(page_names)
+        index.save_file
+        index
       end
 
       def create_post_page(post_name, post_content_html)
@@ -17,6 +19,8 @@ module Everything
 
         page = Page.new(post_name, post_content_html)
         page.save_file
+
+        page
       end
     end
   end
