@@ -11,30 +11,32 @@ html, body { height: 100%; }
 body {
   font-family: 'Source Sans Pro', Helvetica, Arial, sans-serif;
   font-size: 16px;
-  line-height: 1.5;
+  line-height: 1.4;
   font-weight: 400;
   background-color: #fdfdfd;
+}
+
+header, article, footer {
+  margin: 16px;
 }
 
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Oxygen', sans-serif;
   font-weight: 400;
-  text-align: center;
 }
 
 h1 {
-  font-size: 2.5em;
+  font-size: 1em;
 }
 
 h2 {
-  font-size: 2em;
-  padding-bottom: .5em;
+  font-size: 0.75em;
+  padding-bottom: 0.5em;
 }
 
 h3 {
   font-size: 2.5em;
-  padding-top: .75em;
-  padding-bottom: .5em;
+  padding-bottom: 0.25em;
 }
 
 a         { color: #2a7ae2; text-decoration: none; }
@@ -42,8 +44,11 @@ a:hover   { text-decoration: underline; }
 a:visited { color: #205caa; }
 
 ul {
-  text-align: center;
   list-style-position: inside;
+}
+
+li p {
+  margin-bottom: 0;
 }
 
 /* Utility */
@@ -73,9 +78,7 @@ p {
 }
 
 footer {
-  padding-top: 1em;
-  line-height: 1.4em;
-  font-size: 1em;
-  text-align: center;
+  padding-top: 0.75em;
+  font-size: 0.75em;
 }
 
