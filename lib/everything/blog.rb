@@ -15,9 +15,19 @@ module Everything
       index = site.create_index_page(public_post_names)
       send_page_to_s3(index)
 
+      css = site.create_css_file
+      send_file_to_s3(css)
+
       public_posts.map do |post|
         page = site.create_post_page(post.name, post.content_html)
         send_page_to_s3(page)
+
+        if post.has_media?
+          media = site.add_media_to_post(post.name, post.media_paths)
+          media.each do |media_item|
+            send_media_to_s3(media_item)
+          end
+        end
       end
 
       self
@@ -53,6 +63,14 @@ module Everything
 
     def send_page_to_s3(page)
       s3_site.send_page(page)
+    end
+
+    def send_file_to_s3(file)
+      s3_site.send_file(file)
+    end
+
+    def send_media_to_s3(media)
+      s3_site.send_media(media)
     end
 
     def s3_site
