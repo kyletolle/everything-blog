@@ -47,6 +47,10 @@ module Everything
       @public_posts ||= post_dirs
         .map { |post_name| Post.new(post_name) }
         .select { |post| post.public? }
+        .sort do |a,b|
+          b.piece.metadata['wordpress']['post_date'] <=>
+            a.piece.metadata['wordpress']['post_date']
+        end
     end
 
     def public_post_names
