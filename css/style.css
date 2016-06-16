@@ -12,6 +12,8 @@ body {
   font-weight: 400;
   background-color: #fdfdfd;
   color: #444;
+  max-width: 800px;
+  margin: 0 auto;
 }
 
 header {
