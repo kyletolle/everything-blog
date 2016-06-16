@@ -76,6 +76,16 @@ p {
   margin-bottom: 0.75em;
 }
 
+/* Inspiration from https://css-tricks.com/examples/hrs/ */
+hr {
+  padding: 0;
+  border: none;
+  border-top: medium double #333;
+  color: #333;
+  text-align: center;
+  margin: 1em;
+}
+
 footer {
   margin: 1.0em;
 }
