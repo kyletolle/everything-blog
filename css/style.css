@@ -126,6 +126,24 @@ pre code:before, pre code:after {
   content: "";
 }
 
+figure {
+  display: inline-block;
+  padding: 1.0em;
+  background-color: #f7f7f7;
+  border-radius: 3px;
+  margin-bottom: 1em;
+  max-width: 300px;
+}
+figure p {
+  margin: 0;
+}
+figcaption {
+  text-align: center;
+  font-size: 0.85em;
+  color: #353535;
+  line-height: 1.2em;
+}
+
 footer {
   margin: 1.0em;
 }
