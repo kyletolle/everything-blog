@@ -10,8 +10,8 @@ module Everything
         Fastenv.blog_html_path
       end
 
-      def create_index_page(page_names)
-        index = Index.new(page_names)
+      def create_index_page(page_names_and_titles)
+        index = Index.new(page_names_and_titles)
         index.save_file
         index
       end

@@ -34,7 +34,7 @@ module Everything
         @piece ||= Piece.find_by_name_recursive(post_name)
       end
 
-      def_delegators :piece, :name
+      def_delegators :piece, :name, :title
 
     private
 

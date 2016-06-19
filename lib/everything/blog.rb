@@ -12,7 +12,7 @@ require 'everything/blog/s3_site'
 module Everything
   class Blog
     def generate_site
-      index = site.create_index_page(public_post_names)
+      index = site.create_index_page(public_post_names_and_titles)
       send_page_to_s3(index)
 
       css = site.create_css_file
@@ -53,8 +53,12 @@ module Everything
         end
     end
 
-    def public_post_names
-      public_posts.map { |post| post.name }
+    def public_post_names_and_titles
+      {}.tap do |h|
+        public_posts.map do |post|
+          h[post.name] = post.title
+        end
+      end
     end
 
     def files_to_ignore

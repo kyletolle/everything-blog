@@ -6,8 +6,8 @@ module Everything
   class Blog
     class Site
       class Index < File
-        def initialize(page_names)
-          @page_names = page_names
+        def initialize(page_names_and_titles)
+          @page_names_and_titles = page_names_and_titles
         end
 
         def relative_path
@@ -33,9 +33,9 @@ module Everything
         end
 
         def page_links_markdown
-          @page_names.map do |page_name|
+          @page_names_and_titles.map do |page_name, page_title|
             <<MD
-- [#{page_name}](/#{page_name}/)
+- [#{page_title}](/#{page_name}/)
 MD
           end.join("\n")
         end
