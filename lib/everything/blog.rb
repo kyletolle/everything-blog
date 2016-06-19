@@ -48,8 +48,12 @@ module Everything
         .map { |post_name| Post.new(post_name) }
         .select { |post| post.public? }
         .sort do |a,b|
-          b.piece.metadata['wordpress']['post_date'] <=>
+          a_created_at = a.piece.metadata['created_at'] ||
             a.piece.metadata['wordpress']['post_date']
+          b_created_at = b.piece.metadata['created_at'] ||
+            b.piece.metadata['wordpress']['post_date']
+
+          b_created_at <=> a_created_at
         end
     end
 
