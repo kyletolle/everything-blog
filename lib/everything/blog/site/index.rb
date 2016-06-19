@@ -28,25 +28,8 @@ module Everything
 
         def page_content_html
           Kramdown::Document
-            .new(intro_text_markdown + page_links_markdown)
+            .new(page_links_markdown)
             .to_html
-        end
-
-        def intro_text_markdown
-<<MD
-I've migrated my site from Wordpress to a static HTML site. The biggest
-improvement you'll notice is speed. The site will load very quickly, so you can
-get to reading immediately.
-
-There are many features this new site does not have. All the content should be
-here, however. This is a work in progress, so I'll be enhancing it as times goes
-on. I'll improve the layout first, so the reading experience is pleasant. And
-I'll move on from there.
-
-I know the site is drastically different now, but this one will be easier for
-both you and me in  the long run. Thanks for your support!
-
-MD
         end
 
         def page_links_markdown
