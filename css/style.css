@@ -152,6 +152,18 @@ figcaption {
   line-height: 1.2em;
 }
 
+blockquote {
+  margin-left: 1em;
+  margin-bottom: 1em;
+  border-left: 3px solid #aaa;
+  background-color: #f7f7f7;
+  padding: 0.5em;
+}
+
+blockquote p {
+  margin-bottom: 0;
+}
+
 footer {
   margin: 1.0em;
 }
