@@ -1,5 +1,6 @@
 require 'kramdown'
 require 'everything/blog/site/file'
+require 'everything/blog/site/index_template'
 require 'time'
 
 module Everything
@@ -15,7 +16,7 @@ module Everything
         end
 
         def full_page_html
-          @full_page_html ||= PostTemplate
+          @full_page_html ||= IndexTemplate
             .new(page_content_html)
             .merge_content_and_template
         end
