@@ -71,6 +71,8 @@ h3 {
 time {
   font-size: 0.6em;
   color: #999;
+  text-align: right;
+  display: block;
 }
 
 abbr {
