@@ -36,8 +36,8 @@ module Everything
       def created_on
         timestamp_to_use = piece.metadata['created_at'] || piece.metadata['wordpress']['post_date']
         created_at = Time.at(timestamp_to_use)
-        # Formatted like: June 16, 2016
-        created_at.strftime('%B %y, %Y')
+        # Formatted like: June 24, 2016
+        created_at.strftime('%B %d, %Y')
       end
 
       def_delegators :piece, :name, :title, :body
