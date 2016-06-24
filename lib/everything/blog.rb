@@ -19,7 +19,9 @@ module Everything
       send_file_to_s3(css)
 
       public_posts.map do |post|
-        page = site.create_post_page(post.name, post.content_html)
+        next unless site.should_generate_page?(post)
+
+        page = site.create_post_page(post, post.content_html)
         send_page_to_s3(page)
 
         if post.has_media?

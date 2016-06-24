@@ -22,10 +22,21 @@ module Everything
         css
       end
 
-      def create_post_page(post_name, post_content_html)
+      def should_generate_page?(post)
         FileUtils.mkdir_p(self.class.blog_html_path)
 
-        page = Page.new(post_name, post_content_html)
+        page = Page.new(post.name)
+        page_mtime = ::File.mtime(page.page_file_path)
+
+        markdown_mtime = ::File.mtime(post.piece.full_path)
+
+        markdown_mtime > page_mtime
+      end
+
+      def create_post_page(post, post_content_html)
+        FileUtils.mkdir_p(self.class.blog_html_path)
+
+        page = Page.new(post, post_content_html)
         page.save_file
 
         page

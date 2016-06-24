@@ -26,6 +26,9 @@ module Everything
             .merge_content_and_template
         end
 
+        def page_file_path
+          ::File.join(page_dir_path, page_file_name)
+        end
       private
 
         attr_reader :post_name, :page_content_html
@@ -34,9 +37,6 @@ module Everything
           ::File.join(Site.blog_html_path, post_name)
         end
 
-        def page_file_path
-          ::File.join(page_dir_path, page_file_name)
-        end
       end
     end
   end
