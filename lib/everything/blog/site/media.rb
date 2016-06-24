@@ -29,7 +29,20 @@ module Everything
           ::File.open(media_file_path)
         end
 
+        def content_type
+          file_extension_match = media_file_path.match(/\.(jpg,gif,png,mp3)$/)
+          file_extension = file_extension_match[1]
+          CONTENT_TYPES[file_extension]
+        end
+
       private
+
+        CONTENT_TYPES = {
+          'jpg' => 'image/jpeg',
+          'gif' => 'image/gif',
+          'png' => 'image/png',
+          'mp3' => 'audio/mpeg'
+        }
 
         attr_reader :post_name, :original_image_path
 

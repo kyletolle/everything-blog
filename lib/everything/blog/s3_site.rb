@@ -12,7 +12,7 @@ module Everything
         file_does_not_exist = s3_file.nil?
         local_file_is_newer = s3_file&.etag != md5
         if file_does_not_exist || local_file_is_newer
-          send_file_to_s3(key, page.full_page_html)
+          send_file_to_s3(key, page.full_page_html, 'text/html')
         end
       end
 
@@ -25,7 +25,7 @@ module Everything
         file_does_not_exist = s3_file.nil?
         local_file_is_newer = s3_file&.etag != md5
         if file_does_not_exist || local_file_is_newer
-          send_file_to_s3(key, file.content)
+          send_file_to_s3(key, file.content, 'text/css')
         end
       end
 
@@ -38,7 +38,7 @@ module Everything
         file_does_not_exist = s3_file.nil?
         local_file_is_newer = s3_file&.etag != md5
         if file_does_not_exist || local_file_is_newer
-          send_file_to_s3(key, media.media_file)
+          send_file_to_s3(key, media.media_file, media.content_type)
         end
       end
 
@@ -68,8 +68,8 @@ module Everything
         @md5 ||= Digest::MD5.new
       end
 
-      def send_file_to_s3(key, html)
-        s3_bucket.files.create(key: key, body: html)
+      def send_file_to_s3(key, html, content_type)
+        s3_bucket.files.create(key: key, body: html, content_type: content_type)
       end
     end
   end
