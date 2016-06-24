@@ -5,7 +5,7 @@ module Everything
   class Blog
     class Site
       class PostTemplate
-        def initialize(page_content_html, post=nil)
+        def initialize(page_content_html, post)
           @page_content_html = page_content_html
           @post = post
         end

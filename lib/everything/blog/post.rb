@@ -10,12 +10,6 @@ module Everything
         @post_name = post_name
       end
 
-      def content_html
-        Kramdown::Document
-          .new(piece.raw_markdown)
-          .to_html
-      end
-
       def public?
         return false unless piece && File.exist?(piece.metadata.file_path)
 
@@ -34,7 +28,19 @@ module Everything
         @piece ||= Piece.find_by_name_recursive(post_name)
       end
 
-      def_delegators :piece, :name, :title
+      def body_html
+        Kramdown::Document.new(body)
+          .to_html
+      end
+
+      def created_on
+        timestamp_to_use = piece.metadata['created_at'] || piece.metadata['wordpress']['post_date']
+        created_at = Time.at(timestamp_to_use)
+        # Formatted like: June 16, 2016
+        created_at.strftime('%B %y, %Y')
+      end
+
+      def_delegators :piece, :name, :title, :body
 
     private
 

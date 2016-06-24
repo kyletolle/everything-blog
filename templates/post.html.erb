@@ -5,7 +5,7 @@
   <!-- For viewing the page on mobile devices -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
   <title>
-    <%= respond_to?(:title) ? title + ' | ' : '' %>Thoughts of an Eaten Sun
+    <%= title %> - Thoughts of an Eaten Sun
   </title>
   <link rel="stylesheet" href="/style.css">
 </head>
@@ -16,11 +16,15 @@
     </h1>
     <h2>through the mind of kyle tolle</h2>
   </header>
-  <section>
+  <main>
     <article>
+      <header>
+        <h1><%= title %></h1>
+        <time><%= created_on %></time>
+      </header>
       <%= yield %>
     </article>
-  </section>
+  </main>
   <footer>
     <small>Copyright &copy; 2016 Kyle Tolle</small>
   </footer>

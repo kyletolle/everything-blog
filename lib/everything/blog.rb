@@ -21,7 +21,7 @@ module Everything
       public_posts.map do |post|
         next unless site.should_generate_page?(post)
 
-        page = site.create_post_page(post, post.content_html)
+        page = site.create_post_page(post, post.body_html)
         send_page_to_s3(page)
 
         if post.has_media?
