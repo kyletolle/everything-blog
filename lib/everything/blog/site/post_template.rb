@@ -5,12 +5,13 @@ module Everything
   class Blog
     class Site
       class PostTemplate
-        def initialize(page_content_html)
+        def initialize(page_content_html, post=nil)
           @page_content_html = page_content_html
+          @post = post
         end
 
         def merge_content_and_template
-          Tilt.new(template_path).render do
+          Tilt.new(template_path).render(@post) do
             page_content_html
           end
         end

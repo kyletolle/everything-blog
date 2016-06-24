@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
   <!-- For viewing the page on mobile devices -->
   <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0">
-  <title>Thoughts of an Eaten Sun</title>
+  <title>
+    <%= respond_to?(:title) ? title + ' | ' : '' %>Thoughts of an Eaten Sun
+  </title>
   <link rel="stylesheet" href="/style.css">
 </head>
 <body>

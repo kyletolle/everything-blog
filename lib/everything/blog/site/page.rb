@@ -5,8 +5,9 @@ module Everything
   class Blog
     class Site
       class Page < File
-        def initialize(post_name, page_content_html)
-          @post_name = post_name
+        def initialize(post, page_content_html=nil)
+          @post = post
+          @post_name = post.name
           @page_content_html = page_content_html
         end
 
@@ -22,7 +23,7 @@ module Everything
 
         def full_page_html
           @full_page_html ||= PostTemplate
-            .new(page_content_html)
+            .new(page_content_html, @post)
             .merge_content_and_template
         end
 
