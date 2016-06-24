@@ -25,7 +25,7 @@ module Everything
       def should_generate_page?(post)
         FileUtils.mkdir_p(self.class.blog_html_path)
 
-        page = Page.new(post.name)
+        page = Page.new(post)
         page_mtime = ::File.mtime(page.page_file_path)
 
         markdown_mtime = ::File.mtime(post.piece.full_path)
