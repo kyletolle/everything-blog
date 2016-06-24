@@ -16,18 +16,18 @@ body {
   margin: 0 auto;
 }
 
-header {
+body > header {
   margin: 1.0em;
   line-height: 1.0em;
 }
 
-header h1 {
+body > header h1 {
   font-size: 0.75em;
   padding: 0em;
   margin: 0em;
 }
 
-header h2 {
+body > header h2 {
   font-size: 0.6em;
   padding: 0em;
   margin: 0em;
@@ -42,6 +42,13 @@ h1, h2, h3, h4, h5, h6 {
   font-family: 'Oxygen', sans-serif;
   font-weight: 400;
   padding-bottom: 0.5em;
+}
+
+article > header {
+  padding-bottom: 0.5em;
+}
+article > header h1 {
+  padding-bottom: 0;
 }
 
 h1 {
@@ -59,6 +66,11 @@ h2 {
 h3 {
   font-size: 1.25em;
   padding-top: 0.75em;
+}
+
+time {
+  font-size: 0.6em;
+  color: #999;
 }
 
 abbr {
