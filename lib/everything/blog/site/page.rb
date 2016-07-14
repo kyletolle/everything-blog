@@ -1,43 +1,49 @@
-require 'everything/blog/site/file'
-require 'everything/blog/site/post_template'
+require_relative 'source_file'
+require_relative 'post_template'
 
 module Everything
   class Blog
     class Site
-      class Page < File
-        def initialize(post, page_content_html=nil)
+      class Page < SourceFile
+        def initialize(post)
           @post = post
-          @post_name = post.name
-          @page_content_html = page_content_html
         end
 
-        def save_file
-          FileUtils.mkdir_p(page_dir_path)
-
-          super
+        def source_content
+          post.body
         end
 
-        def relative_path
-          ::File.join(post_name, page_file_name)
+        def should_generate_output?
+          markdown_mtime > output_mtime || metadata_mtime > output_mtime
         end
 
-        def full_page_html
-          @full_page_html ||= PostTemplate
-            .new(page_content_html, @post)
-            .merge_content_and_template
-        end
-
-        def page_file_path
-          ::File.join(page_dir_path, page_file_name)
-        end
       private
 
-        attr_reader :post_name, :page_content_html
+        attr_reader :post
 
-        def page_dir_path
-          ::File.join(Site.blog_html_path, post_name)
+        def template_context
+          @post
         end
 
+        def template_klass
+          PostTemplate
+        end
+
+        def output_mtime
+          @output_time ||= File.mtime(output_file_path)
+        end
+
+        def markdown_mtime
+          @markdown_mtime ||= File.mtime(post.piece.full_path)
+        end
+
+        def metadata_mtime
+          @metadata_mtime ||= File.mtime(post.metadata.full_path)
+        end
+
+        def source_path
+          @post.full_path
+        end
       end
     end
   end

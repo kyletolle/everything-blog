@@ -3,34 +3,31 @@ require 'fileutils'
 module Everything
   class Blog
     class Site
-      class Media
-        def initialize(post_name, original_image_path)
-          @post_name = post_name
+      class Media < SourceFile
+        def initialize(original_image_path)
           @original_image_path = original_image_path
         end
 
         def save_file
-          FileUtils.mkdir_p(page_dir_path)
+          puts "We want to make this path: #{output_dir_path}"
+          # FileUtils.mkdir_p(output_dir_path)
 
-          ::File.open(media_file_path, 'wb') do |file|
-            file.write(binary_file_data)
-          end
+          puts "We want to create this file: #{output_file_path}"
+          # File.open(output_file_path, 'wb') do |file|
+          #   file.write(binary_output_content)
+          # end
         end
 
-        def relative_path
-          ::File.join(post_name, media_file_name)
-        end
-
-        def binary_file_data
-          ::File.binread(original_image_path)
+        def binary_output_content
+          File.binread(original_image_path)
         end
 
         def media_file
-          ::File.open(media_file_path)
+          File.open(output_file_path)
         end
 
         def content_type
-          file_extension_match = media_file_path.match(/\.(jpg,gif,png,mp3)$/)
+          file_extension_match = output_file_path.match(/\.(jpg,gif,png,mp3)$/)
           file_extension = file_extension_match[1]
           CONTENT_TYPES[file_extension]
         end
@@ -44,18 +41,14 @@ module Everything
           'mp3' => 'audio/mpeg'
         }
 
-        attr_reader :post_name, :original_image_path
+        attr_reader :original_image_path
 
-        def page_dir_path
-          ::File.join(Site.blog_html_path, post_name)
+        def output_file_name
+          File.basename(original_image_path)
         end
 
-        def media_file_path
-          ::File.join(page_dir_path, media_file_name)
-        end
-
-        def media_file_name
-          ::File.basename(original_image_path)
+        def source_path
+          File.dirname(original_image_path)
         end
       end
     end

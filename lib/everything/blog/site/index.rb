@@ -1,36 +1,22 @@
-require 'kramdown'
-require 'everything/blog/site/file'
-require 'everything/blog/site/index_template'
-require 'time'
+require_relative 'source_file'
+require_relative 'index_template'
 
 module Everything
   class Blog
     class Site
-      class Index < File
+      class Index < SourceFile
         def initialize(page_names_and_titles)
           @page_names_and_titles = page_names_and_titles
         end
 
-        def relative_path
-          page_file_name
-        end
-
-        def full_page_html
-          @full_page_html ||= IndexTemplate
-            .new(page_content_html)
-            .merge_content_and_template
+        def source_content
+          page_links_markdown
         end
 
       private
 
-        def page_file_path
-          ::File.join(Site.blog_html_path, page_file_name)
-        end
-
-        def page_content_html
-          Kramdown::Document
-            .new(page_links_markdown)
-            .to_html
+        def template_klass
+          IndexTemplate
         end
 
         def page_links_markdown
@@ -39,6 +25,10 @@ module Everything
 - [#{page_title}](/#{page_name}/)
 MD
           end.join("\n")
+        end
+
+        def source_path
+          base_output_dir_path
         end
       end
     end

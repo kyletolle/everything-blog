@@ -28,11 +28,6 @@ module Everything
         @piece ||= Piece.find_by_name_recursive(post_name)
       end
 
-      def body_html
-        Kramdown::Document.new(body)
-          .to_html
-      end
-
       def created_on
         # Formatted like: June 24, 2016
         created_at.strftime('%B %d, %Y')

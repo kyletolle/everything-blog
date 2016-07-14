@@ -2,74 +2,124 @@ require 'digest'
 
 module Everything
   class Blog
-    class S3Site
-      def send_page(page)
-        key = file_path(page)
-        md5 = page_md5(page)
-
-        s3_file = s3_bucket.files.head(key)
-
-        file_does_not_exist = s3_file.nil?
-        local_file_is_newer = s3_file&.etag != md5
-        if file_does_not_exist || local_file_is_newer
-          send_file_to_s3(key, page.full_page_html, 'text/html')
-        end
+    class RemoteFile
+      def content
+        raise NotImplementedError
       end
 
-      def send_file(file)
-        key = file_path(file)
-        md5 = content_md5(file.content)
-
-        s3_file = s3_bucket.files.head(key)
-
-        file_does_not_exist = s3_file.nil?
-        local_file_is_newer = s3_file&.etag != md5
-        if file_does_not_exist || local_file_is_newer
-          send_file_to_s3(key, file.content, 'text/css')
-        end
+      def content_type
+        raise NotImplementedError
       end
 
-      def send_media(media)
-        key = file_path(media)
-        md5 = media_md5(media)
-
-        s3_file = s3_bucket.files.head(key)
-
-        file_does_not_exist = s3_file.nil?
-        local_file_is_newer = s3_file&.etag != md5
+      def send
         if file_does_not_exist || local_file_is_newer
-          send_file_to_s3(key, media.media_file, media.content_type)
+          puts "SENDING TO S3 IS FAKED OUT RIGHT NOW"
+          # create_remote_file
         end
       end
 
     private
 
-      def s3_bucket
-        @s3_bucket ||= S3Bucket.new
+      attr_reader :file
+
+      def file_does_not_exist
+        remote_file.nil?
       end
 
-      def file_path(file)
+      def local_file_is_newer
+        remote_file&.etag != content_hash
+      end
+
+      def create_remote_file
+        s3_bucket.files.create(
+          key: remote_key,
+          body: content,
+          content_type: content_type
+        )
+      end
+
+      def remote_key
         file.relative_path
+          .tap {|o| puts "FILE RELATIVE PATH: #{o}"}
       end
 
-      def page_md5(page)
-        md5.hexdigest(page.full_page_html)
-      end
-
-      def content_md5(content)
+      def content_hash
         md5.hexdigest(content)
       end
 
-      def media_md5(media)
-        md5.hexdigest(media.binary_file_data)
+      def remote_file
+        s3_bucket.files.head(remote_key)
+      end
+
+      def s3_bucket
+        @s3_bucket ||= S3Bucket.new
       end
 
       def md5
         @md5 ||= Digest::MD5.new
       end
+    end
 
-      def send_file_to_s3(key, html, content_type)
-        s3_bucket.files.create(key: key, body: html, content_type: content_type)
+    class HtmlRemoteFile < RemoteFile
+      def initialize(file)
+        @file = file
+      end
+
+      def content
+        file.content
+      end
+
+      def content_type
+        'text/html'
+      end
+    end
+
+    class StylesheetRemoteFile < RemoteFile
+      def initialize(file)
+        @file = file
+      end
+
+      def content
+        file.content
+      end
+
+      def content_type
+        'text/css'
+      end
+    end
+
+    class BinaryRemoteFile < RemoteFile
+      def initialize(file)
+        @file = file
+      end
+
+      def content
+        file.media_file
+      end
+
+      def content_type
+        file.content_type
+      end
+
+    private
+
+      def content_hash
+        md5.hexdigest(file.binary_file_data)
+      end
+    end
+
+    class S3Site
+      def self.ToRemoteFile(file)
+        case file
+        when Site::Css
+          StylesheetRemoteFile.new(file)
+        when Site::Index
+          HtmlRemoteFile.new(file)
+        when Site::Media
+          BinaryRemoteFile.new(file)
+        when Site::Page
+          HtmlRemoteFile.new(file)
+        end
       end
     end
   end
