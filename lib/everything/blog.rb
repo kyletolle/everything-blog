@@ -4,23 +4,24 @@ require 'bundler/setup'
 Bundler.require(:default)
 Dotenv.load
 
-require 'everything/blog/site'
-require 'everything/blog/post'
-require 'everything/blog/s3_bucket'
-require 'everything/blog/s3_site'
-require 'everything/blog/source_site'
+require_relative 'blog/source/site'
+require_relative 'blog/output/site'
+require_relative 'blog/post'
+require_relative 'blog/s3_bucket'
+require_relative 'blog/s3_site'
 
 module Everything
   class Blog
     def generate_site
-      source_files.each do |output_file|
-        next unless output_file.should_generate_output?
+      puts 'generating entire blog site'
+      source_files
+        .tap{|o| puts "number of source files: #{o.count}" }
+        .tap{|o| puts 'source files'; puts o}
 
-        output_file.save_file
+      output = Output::Site.new(source_files)
+      output.generate
 
-        # TODO: Separate the generating from the sending.
-        S3Site::ToRemoteFile(output_file).send
-      end
+      # S3Site.new(output.output_files).send
 
       # We may want to send the new media for a piece even though we didn't
       # regenerate the HTML. How would we handle that?
@@ -31,11 +32,11 @@ module Everything
   private
 
     def source_files
-      source_site.files
+      @source_files ||= source_site.files.compact
     end
 
     def source_site
-      @source_site ||= SourceSite.new
+      @source_site ||= Source::Site.new
     end
   end
 end

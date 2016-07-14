@@ -1,4 +1,4 @@
-require_relative 'template'
+require_relative '../site/template'
 
 module Everything
   class Blog

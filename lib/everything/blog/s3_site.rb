@@ -121,6 +121,13 @@ module Everything
           HtmlRemoteFile.new(file)
         end
       end
+
+      def initialize(output_files)
+        # TODO: Separate the generating from the sending.
+        output_files.each do |output_file|
+          ToRemoteFile(output_file).send
+        end
+      end
     end
   end
 end

@@ -1,23 +1,22 @@
-require_relative 'source_file'
-require_relative 'index_template'
+require_relative './file_base'
 
 module Everything
   class Blog
-    class Site
-      class Index < SourceFile
+    module Source
+      class Index < FileBase
         def initialize(page_names_and_titles)
           @page_names_and_titles = page_names_and_titles
         end
 
-        def source_content
+        def content
           page_links_markdown
         end
 
-      private
-
-        def template_klass
-          IndexTemplate
+        def file_name
+          ''
         end
+
+      private
 
         def page_links_markdown
           @page_names_and_titles.map do |page_name, page_title|
@@ -25,10 +24,6 @@ module Everything
 - [#{page_title}](/#{page_name}/)
 MD
           end.join("\n")
-        end
-
-        def source_path
-          base_output_dir_path
         end
       end
     end
