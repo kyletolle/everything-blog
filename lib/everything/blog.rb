@@ -6,17 +6,17 @@ Dotenv.load
 
 require_relative 'blog/source/site'
 require_relative 'blog/output/site'
-require_relative 'blog/post'
 require_relative 'blog/s3_bucket'
 require_relative 'blog/s3_site'
 
 module Everything
   class Blog
     def generate_site
-      puts 'generating entire blog site'
+      puts
+      puts 'Blog: Generating entire site'
       source_files
-        .tap{|o| puts "number of source files: #{o.count}" }
-        .tap{|o| puts 'source files'; puts o}
+        .tap{|o| puts "Blog: Number of source files: #{o.count}" }
+        .tap{|o| puts 'Blog: Source files'; puts o}
 
       output = Output::Site.new(source_files)
       output.generate

@@ -1,6 +1,7 @@
 require 'forwardable'
 require_relative 'index'
 require_relative 'posts_finder'
+require_relative 'stylesheet'
 
 module Everything
   class Blog
@@ -27,7 +28,7 @@ module Everything
         end
 
         def stylesheet
-          # Source::Stylesheet.new
+          Source::Stylesheet.new
         end
 
         def pages

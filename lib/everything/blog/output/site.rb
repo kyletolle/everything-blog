@@ -1,5 +1,4 @@
 require_relative 'file_base'
-require_relative 'index'
 
 module Everything
   class Blog
@@ -10,23 +9,26 @@ module Everything
         end
 
         def initialize(source_files)
-          puts 'creating output site'
+          puts
+          puts 'Output: Creating site'
           @source_files = source_files
         end
 
         def generate
-          puts 'generating output files'
+          puts 'Output: Generating files'
           output_files
-            .tap{|o| puts "output files count: #{o.count}"}
+            .tap{|o| puts "Output: Number of output files: #{o.count}"}
             .select(&:should_generate_output?)
-            .tap{|o| puts "output files we should generate: #{o.count}" }
+            .tap{|o| puts "Output: Number of output files to generate: #{o.count}" }
             .map(&:save_file)
         end
 
         def output_files
-          @output_files ||= source_files.map do |source_file|
-            puts 'mapping source files to output files'
-            Output::FileBase.ToOutputFile(source_file)
+          @output_files ||= begin
+            puts 'Output: Mapping source files to output files'
+            source_files.map do |source_file|
+              Output::FileBase.ToOutputFile(source_file)
+            end
           end
         end
 

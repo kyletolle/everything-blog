@@ -6,9 +6,13 @@ module Everything
     module Output
       class FileBase
         def self.ToOutputFile(source_file)
+          # TODO: Could use some metaprogramming to change the Source namespage
+          # to Output.
           case source_file
           when Source::Index
             Output::Index.new(source_file)
+          when Source::Stylesheet
+            Output::Stylesheet.new(source_file)
           end
         end
 
@@ -21,14 +25,14 @@ module Everything
         end
 
         def save_file
-          puts "We want to make this path: #{output_dir_path}"
-          puts "We want to create this file: #{output_file_path}"
+          puts
+          puts "Output FileBase: Want to create path: #{output_dir_path}"
+          FileUtils.mkdir_p(output_dir_path)
 
-          # FileUtils.mkdir_p(output_dir_path)
-
-          # File.open(output_file_path, 'w') do |file|
-          #   file.write(output_content)
-          # end
+          puts "Output FileBase: Want to create file: #{output_file_path}"
+          File.open(output_file_path, 'w') do |file|
+            file.write(output_content)
+          end
         end
 
         def should_generate_output?
@@ -80,3 +84,6 @@ module Everything
     end
   end
 end
+
+require_relative 'index'
+require_relative 'stylesheet'

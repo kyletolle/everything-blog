@@ -1,4 +1,4 @@
-require_relative './file_base'
+require_relative 'file_base'
 
 module Everything
   class Blog

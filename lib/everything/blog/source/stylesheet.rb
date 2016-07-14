@@ -1,21 +1,21 @@
-require_relative 'source_file'
+require_relative 'file_base'
 
 module Everything
   class Blog
-    class Site
-      class Css < SourceFile
-        def output_content
-          @output_content ||= File.read('css/style.css')
+    module Source
+      class Stylesheet < FileBase
+        def content
+          @content ||= File.read(source_file_path)
+        end
+
+        def file_name
+          'style.css'
         end
 
       private
 
-        def output_file_name
-          'style.css'
-        end
-
-        def source_path
-          base_output_dir_path
+        def source_file_path
+          File.join('css', file_name)
         end
       end
     end

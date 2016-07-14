@@ -1,9 +1,9 @@
-require_relative '../site/template'
+require_relative 'template_base'
 
 module Everything
   class Blog
-    class Site
-      class PostTemplate < Template
+    module Output
+      class PostTemplate < TemplateBase
       private
 
         def template_name

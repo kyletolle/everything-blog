@@ -7,13 +7,13 @@ module Everything
       class FileBase
         def relative_dir_path
           # We can use an approach like the one here: http://stackoverflow.com/questions/11471261/ruby-how-to-calculate-a-path-relative-to-another-one
-          @relative_dir_path ||= Pathname.new(source_file_path)
-            .sub(base_source_dir_path, '')
-            .to_s
+          @relative_dir_path ||= File.dirname(relative_file_path)
         end
 
         def relative_file_path
-          File.join(relative_dir_path, file_name)
+          @relative_file_path ||= Pathname.new(source_file_path)
+            .sub(base_source_dir_path, '')
+            .to_s
         end
 
         def content

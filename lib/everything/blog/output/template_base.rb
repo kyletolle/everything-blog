@@ -3,8 +3,8 @@ require 'tilt'
 
 module Everything
   class Blog
-    class Site
-      class Template
+    module Output
+      class TemplateBase
         def initialize(content_html, template_context=nil)
           @content_html = content_html
           @template_context = template_context

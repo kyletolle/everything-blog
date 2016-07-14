@@ -1,5 +1,5 @@
-require_relative './file_base'
-require_relative './index_template'
+require_relative 'file_base'
+require_relative 'index_template'
 
 module Everything
   class Blog
