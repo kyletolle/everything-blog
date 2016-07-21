@@ -27,6 +27,8 @@ module Everything
           @output_files ||= begin
             puts 'Output: Mapping source files to output files'
             source_files.map do |source_file|
+              # TODO: This feels weird, could I call this method on the source
+              # file's class?
               Output::FileBase.ToOutputFile(source_file)
             end
           end

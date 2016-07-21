@@ -13,6 +13,8 @@ module Everything
             Output::Index.new(source_file)
           when Source::Stylesheet
             Output::Stylesheet.new(source_file)
+          when Source::Page
+            Output::Page.new(source_file)
           end
         end
 
@@ -87,3 +89,4 @@ end
 
 require_relative 'index'
 require_relative 'stylesheet'
+require_relative 'page'

@@ -20,12 +20,6 @@ module Everything
           raise NotImplementedError
         end
 
-        def should_generate_output?
-          # Override this in sub classes to add some smarts as to whether the
-          # file should be generated.
-          true
-        end
-
         def file_name
           raise NotImplementedError
         end

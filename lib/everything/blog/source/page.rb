@@ -1,48 +1,32 @@
-require_relative 'source_file'
-require_relative 'post_template'
+require_relative 'file_base'
 
 module Everything
   class Blog
-    class Site
-      class Page < SourceFile
+    module Source
+      class Page < FileBase
+        attr_reader :post
+
         def initialize(post)
           @post = post
         end
 
-        def source_content
+        def content
           post.body
         end
 
-        def should_generate_output?
-          markdown_mtime > output_mtime || metadata_mtime > output_mtime
+        def file_name
+          'index.md'
         end
 
       private
 
-        attr_reader :post
-
-        def template_context
-          @post
+        # TODO: Come up with a better way of doing this. Too hacky.
+        def base_source_dir_path
+          File.join(super(), 'blog')
         end
 
-        def template_klass
-          PostTemplate
-        end
-
-        def output_mtime
-          @output_time ||= File.mtime(output_file_path)
-        end
-
-        def markdown_mtime
-          @markdown_mtime ||= File.mtime(post.piece.full_path)
-        end
-
-        def metadata_mtime
-          @metadata_mtime ||= File.mtime(post.metadata.full_path)
-        end
-
-        def source_path
-          @post.full_path
+        def source_file_path
+          post.piece.content.file_path
         end
       end
     end

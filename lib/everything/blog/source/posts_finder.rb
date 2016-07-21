@@ -15,7 +15,7 @@ module Everything
           # posts. And then we could add another line so that it filters out
           # media where the source file hasn't changed since the output file was
           # created.
-          @media_for_posts ||= @posts
+          @media_for_posts ||= posts
             .map { |post| post.media_paths }
             .flatten
             .compact

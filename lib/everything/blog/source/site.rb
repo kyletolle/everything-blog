@@ -2,6 +2,7 @@ require 'forwardable'
 require_relative 'index'
 require_relative 'posts_finder'
 require_relative 'stylesheet'
+require_relative 'page'
 
 module Everything
   class Blog
@@ -32,10 +33,9 @@ module Everything
         end
 
         def pages
-          # posts_finder.posts.map do |post|
-          #   Source::Page.new(post)
-          # end
-          []
+          posts_finder.posts.map do |post|
+            Source::Page.new(post)
+          end
         end
 
         def media_for_posts
