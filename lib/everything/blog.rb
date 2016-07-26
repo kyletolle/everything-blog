@@ -16,7 +16,7 @@ module Everything
       puts 'Blog: Generating entire site'
       source_files
         .tap{|o| puts "Blog: Number of source files: #{o.count}" }
-        .tap{|o| puts 'Blog: Source files'; puts o}
+        # .tap{|o| puts 'Blog: Source files'; puts o}
 
       output = Output::Site.new(source_files)
       output.generate

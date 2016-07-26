@@ -15,6 +15,11 @@ module Everything
             Output::Stylesheet.new(source_file)
           when Source::Page
             Output::Page.new(source_file)
+          when Source::Media
+            Output::Media.new(source_file)
+          else
+            raise 'No corresponding Output class found for source file type' \
+            "`#{source_file.class.name}`."
           end
         end
 
@@ -29,12 +34,12 @@ module Everything
         def save_file
           puts
           puts "Output FileBase: Want to create path: #{output_dir_path}"
-          FileUtils.mkdir_p(output_dir_path)
+          # FileUtils.mkdir_p(output_dir_path)
 
           puts "Output FileBase: Want to create file: #{output_file_path}"
-          File.open(output_file_path, 'w') do |file|
-            file.write(output_content)
-          end
+          # File.open(output_file_path, file_mode) do |file|
+          #   file.write(output_content)
+          # end
         end
 
         def should_generate_output?
@@ -82,6 +87,20 @@ module Everything
         def template_klass
           raise NotImplementedError
         end
+
+
+        def file_type
+          :text
+        end
+
+        def file_mode
+          FILE_MODES[file_type]
+        end
+
+        FILE_MODES = {
+          text:   'w',
+          binary: 'wb'
+        }
       end
     end
   end
@@ -90,3 +109,4 @@ end
 require_relative 'index'
 require_relative 'stylesheet'
 require_relative 'page'
+require_relative 'media'

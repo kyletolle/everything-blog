@@ -5,7 +5,6 @@ module Everything
   class Blog
     module Output
       class Page < FileBase
-
         def should_generate_output?
           markdown_newer_than_output? || metadata_newer_than_output?
         end

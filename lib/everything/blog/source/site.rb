@@ -3,6 +3,7 @@ require_relative 'index'
 require_relative 'posts_finder'
 require_relative 'stylesheet'
 require_relative 'page'
+require_relative 'media'
 
 module Everything
   class Blog
@@ -39,10 +40,9 @@ module Everything
         end
 
         def media_for_posts
-          # posts_finder.media_for_posts.map do |media_path|
-          #   Source::Media.new(media_path)
-          # end
-          []
+          posts_finder.media_for_posts.map do |media_path|
+            Source::Media.new(media_path)
+          end
         end
 
         def public_post_names_and_titles
