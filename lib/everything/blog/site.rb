@@ -26,6 +26,9 @@ module Everything
         FileUtils.mkdir_p(self.class.blog_html_path)
 
         page = Page.new(post)
+
+        return true unless ::File.exist?(page.page_file_path)
+
         page_mtime = ::File.mtime(page.page_file_path)
 
         markdown_mtime = ::File.mtime(post.piece.full_path)
