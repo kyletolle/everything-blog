@@ -111,13 +111,13 @@ module Everything
     class S3Site
       def self.ToRemoteFile(file)
         case file
-        when Site::Css
+        when Output::Stylesheet
           StylesheetRemoteFile.new(file)
-        when Site::Index
+        when Output::Index
           HtmlRemoteFile.new(file)
-        when Site::Media
+        when Output::Media
           BinaryRemoteFile.new(file)
-        when Site::Page
+        when Output::Page
           HtmlRemoteFile.new(file)
         end
       end
