@@ -6,7 +6,7 @@ module Everything
     module Output
       class FileBase
         def self.ToOutputFile(source_file)
-          # TODO: Could use some metaprogramming to change the Source namespage
+          # TODO: Could use some metaprogramming to change the Source namespace
           # to Output.
           case source_file
           when Source::Index
