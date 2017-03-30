@@ -6,6 +6,8 @@ module Everything
     module Output
       class Page < FileBase
         def should_generate_output?
+          # TODO: Also need to know if the template changed, because we also
+          # want to generate in that case too.
           markdown_newer_than_output? || metadata_newer_than_output?
         end
 
