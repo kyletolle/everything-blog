@@ -4,6 +4,10 @@ Generate an HTML site for a blog of markdown pieces in your `everything` repo.
 
 ## Setup
 
+```
+bundle install --path=.bundle
+```
+
 Must define these environment variables:
 
 - `EVERYTHING_PATH` - the full path to your everything repo.
