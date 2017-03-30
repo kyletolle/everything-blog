@@ -20,7 +20,7 @@ You can create a `.env` file with these values, if you want.
 ## Usage
 
 ```
-bin/eb generate your-post-name-here
+bin/eb generate
 ```
 
 Make it easier to use by putting this in your .zshrc:
