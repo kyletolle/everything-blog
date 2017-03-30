@@ -125,8 +125,8 @@ module Everything
       def initialize(output_files)
         # TODO: Separate the generating from the sending.
         output_files.each do |output_file|
-          ToRemoteFile(output_file).send
-        end
+            self.class.ToRemoteFile(output_file).send
+          end
       end
     end
   end
