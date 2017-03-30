@@ -5,7 +5,7 @@ module Everything
     module Output
       class Media < FileBase
         def output_content
-          File.binread(source_file.content)
+          source_file.content
         end
 
         def output_file_name
