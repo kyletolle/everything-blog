@@ -21,23 +21,20 @@ describe Everything::Blog::Source::Index do
 
     it 'returns a string with as many lines as the number of pages passed in' do
       actual_line_count = actual_content_lines.count
+
       expected_line_count = given_page_names_and_titles.count
       expect(actual_line_count).to eq(expected_line_count)
     end
 
-    it 'returns a markdown list of links' do
-      expected_markdown_list_and_link_format = /- \[.*\]\(.*\)/
-      expect(actual_content_lines)
-        .to all(match(expected_markdown_list_and_link_format))
-    end
+    it 'returns a markdown list of links using page titles as link text and names as link path' do
+      expected_markdown_content =
+        <<~MD
+          - [Bits and Bytes](/bits-and-bytes/)
+          - [Many Things Have Been Said](/many-things-have-been-said/)
+        MD
+        .chop
 
-    it 'returns markdown links using page titles as link text and names as link path' do
-      given_page_names_and_titles.each
-        .with_index do |(page_name, page_title), index|
-          actual_content_line = actual_content_lines[index]
-          expected_link_format = /\[#{page_title}\]\(\/#{page_name}\/\)/
-          expect(actual_content_line).to match(expected_link_format)
-        end
+      expect(actual_content).to match(expected_markdown_content)
     end
   end
 
