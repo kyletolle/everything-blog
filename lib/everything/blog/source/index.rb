@@ -20,9 +20,7 @@ module Everything
 
         def page_links_markdown
           @page_names_and_titles.map do |page_name, page_title|
-            <<MD
-- [#{page_title}](/#{page_name}/)
-MD
+            "- [#{page_title}](/#{page_name}/)"
           end.join("\n")
         end
       end
