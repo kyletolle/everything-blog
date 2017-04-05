@@ -3,7 +3,7 @@ require_relative 'file_base'
 module Everything
   class Blog
     module Source
-      class Index < FileBase
+      class Index < Everything::Blog::Source::FileBase
         def initialize(page_names_and_titles)
           @page_names_and_titles = page_names_and_titles
         end

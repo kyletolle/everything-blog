@@ -3,7 +3,7 @@ require_relative 'file_base'
 module Everything
   class Blog
     module Source
-      class Stylesheet < FileBase
+      class Stylesheet < Everything::Blog::Source::FileBase
         def content
           @content ||= File.read(source_file_path)
         end
