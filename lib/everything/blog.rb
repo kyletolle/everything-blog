@@ -4,6 +4,9 @@ require 'bundler/setup'
 Bundler.require(:default)
 Dotenv.load
 
+require_relative 'add_pathname_to_everything_refinement'
+
+require_relative 'blog/source'
 require_relative 'blog/source/site'
 require_relative 'blog/output/site'
 require_relative 'blog/s3_bucket'
