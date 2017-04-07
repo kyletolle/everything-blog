@@ -15,7 +15,7 @@ module Everything
         end
 
         def file_name
-          'index.md'
+          post.piece.content.file_name
         end
 
       private
