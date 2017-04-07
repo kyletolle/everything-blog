@@ -1,7 +1,17 @@
 module Everything
   class Blog
     module Source
+      using Everything::AddPathnameToEverythingRefinement
+
       class << self
+        def absolute_path
+          File.join(Everything.path, path)
+        end
+
+        def absolute_pathname
+          Everything.pathname.join(pathname)
+        end
+
         def path
           'blog'
         end
