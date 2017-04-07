@@ -43,4 +43,17 @@ describe Everything::Blog::Source::Index do
       expect(index.file_name).to eq('')
     end
   end
+
+  describe '#relative_dir_path' do
+    it 'is the root path' do
+      expect(index.relative_dir_path).to eq('/')
+    end
+  end
+
+  describe '#relative_file_path' do
+    it 'is the root path' do
+      expect(index.relative_file_path).to eq('/')
+    end
+  end
 end
+
