@@ -27,7 +27,7 @@ module Everything
       private
 
         def base_source_dir_path
-          Fastenv.everything_path
+          Everything.path
         end
 
         def base_source_pathname
