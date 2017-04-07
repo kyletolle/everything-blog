@@ -24,10 +24,8 @@ module Everything
           :binary
         end
 
-        # TODO: Come up with a better way of doing this. Too hacky.
-        # TODO: This is shared with Source::Page.
         def base_source_dir_path
-          File.join(super(), 'blog')
+          Everything::Blog::Source.path
         end
       end
     end

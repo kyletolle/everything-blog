@@ -20,10 +20,8 @@ module Everything
 
       private
 
-        # TODO: Come up with a better way of doing this. Too hacky.
-        # TODO: This is shared with Source::Media.
         def base_source_dir_path
-          File.join(super(), 'blog')
+          Everything::Blog::Source.path
         end
 
         def source_file_path
