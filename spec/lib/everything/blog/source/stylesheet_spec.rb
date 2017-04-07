@@ -38,5 +38,17 @@ describe Everything::Blog::Source::Stylesheet do
       expect(stylesheet.file_name).to eq(expected_file_name)
     end
   end
+
+  describe '#relative_dir_path' do
+    it 'is a relative path to the dir' do
+      expect(stylesheet.relative_dir_path).to eq('css')
+    end
+  end
+
+  describe '#relative_file_path' do
+    it 'is a relative path to the file' do
+      expect(stylesheet.relative_file_path).to eq('css/style.css')
+    end
+  end
 end
 
