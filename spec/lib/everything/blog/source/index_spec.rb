@@ -19,14 +19,14 @@ describe Everything::Blog::Source::Index do
       actual_content.split("\n")
     end
 
-    it 'returns a string with as many lines as the number of pages passed in' do
+    it 'is a string with as many lines as the number of pages passed in' do
       actual_line_count = actual_content_lines.count
 
       expected_line_count = given_page_names_and_titles.count
       expect(actual_line_count).to eq(expected_line_count)
     end
 
-    it 'returns a markdown list of links using page titles as link text and names as link path' do
+    it 'is a markdown list of links using page titles as link text and names as link path' do
       expected_markdown_content =
         <<~MD
           - [Bits and Bytes](/bits-and-bytes/)

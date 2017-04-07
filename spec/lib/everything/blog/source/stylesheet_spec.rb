@@ -21,7 +21,7 @@ describe Everything::Blog::Source::Stylesheet do
 
   describe '#content' do
     FakeFS do
-      it 'returns the content of the stylesheet file' do
+      it 'is the content of the stylesheet file' do
         given_stylesheet_content = 'fake stylesheet content'
         expected_stylesheet_content = given_stylesheet_content
 
