@@ -21,7 +21,7 @@ module Everything
       private
 
         def base_source_dir_path
-          Everything::Blog::Source.path
+          Everything::Blog::Source.absolute_path
         end
 
         def source_file_path
