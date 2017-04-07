@@ -18,8 +18,13 @@ module Everything
 
       private
 
+        # TODO: It would be nice to have this Markdown link and list generation
+        # in its own class.
         def page_links_markdown
           @page_names_and_titles.map do |page_name, page_title|
+            # TODO: Add an extra \n to the end of this string to make the list
+            # get generated with p tags that contain links, instead of just a
+            # list with links.
             "- [#{page_title}](/#{page_name}/)"
           end.join("\n")
         end
