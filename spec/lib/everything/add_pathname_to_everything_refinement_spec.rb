@@ -19,7 +19,7 @@ describe Everything::AddPathnameToEverythingRefinement do
     end
 
     it 'adds the pathname method to Everything' do
-      expect(refined_context.pathname).to eq expected_pathname
+      expect(refined_context.pathname).to eq(expected_pathname)
     end
   end
 end
