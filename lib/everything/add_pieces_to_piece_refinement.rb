@@ -1,3 +1,4 @@
+# TODO: Delete this class.
 module Everything
   module AddPiecesToPieceRefinement
     refine Everything::Piece do
