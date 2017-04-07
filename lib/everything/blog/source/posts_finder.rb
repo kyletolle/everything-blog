@@ -32,7 +32,7 @@ module Everything
         end
 
         def blog_source_path
-          File.join(Everything.path, 'blog')
+          Everything::Blog::Source.absolute_path
         end
 
         def files_to_ignore
