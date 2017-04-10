@@ -1,3 +1,4 @@
+require 'pp'
 require 'bundler/setup'
 Bundler.require(:default)
 require './lib/everything/blog/post'
@@ -111,7 +112,45 @@ describe Everything::Blog::Post do
 
   describe '#has_media?'
   describe '#media_paths'
-  describe '#piece'
+
+  describe '#piece' do
+    include_context 'stub out everything path'
+
+    context 'when the post is in the root directory' do
+      before do
+        create_piece(given_post_name)
+      end
+
+      after do
+        delete_piece(given_post_name)
+      end
+
+      it 'finds the root piece' do
+        FakeFS do
+          expected_root_piece_path = File.join(Everything.path, given_post_name)
+          expect(post.piece.full_path).to eq(expected_root_piece_path)
+        end
+      end
+    end
+
+    context 'when the post is in a nested directory' do
+      before do
+        create_piece(File.join('nested_dir', given_post_name))
+      end
+
+      after do
+        delete_piece(File.join('nested_dir', given_post_name))
+      end
+
+      it 'finds the nested piece' do
+        FakeFS do
+          expected_nested_piece_path = File.join(Everything.path, 'nested_dir', given_post_name)
+          expect(post.piece.full_path).to eq(expected_nested_piece_path)
+        end
+      end
+    end
+  end
+
   describe '#created_on'
   describe '#created_on_iso8601'
   describe '#piece'
