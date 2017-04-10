@@ -25,7 +25,7 @@ module Everything
       end
 
       def piece
-        @piece ||= Piece.find_by_name_recursive(post_name)
+        @piece ||= Everything::Piece.find_by_name_recursive(post_name)
       end
 
       def created_on
