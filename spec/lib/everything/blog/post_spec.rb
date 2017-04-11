@@ -63,6 +63,14 @@ describe Everything::Blog::Post do
       delete_piece(given_post_name)
     end
 
+    shared_examples 'raises a TypeError' do
+      it 'raises an error' do
+        FakeFS do
+          expect { post.created_at }.to raise_error(TypeError)
+        end
+      end
+    end
+
     context 'when the piece metadata has the created_at key' do
       before do
         allow_any_instance_of(Everything::Piece::Metadata)
@@ -76,11 +84,7 @@ describe Everything::Blog::Post do
           'not a timestamp'
         end
 
-        it 'raises an error' do
-          FakeFS do
-            expect { post.created_at }.to raise_error(TypeError)
-          end
-        end
+        include_examples 'raises a TypeError'
       end
 
       context 'with a value that is a timestamp' do
@@ -91,7 +95,7 @@ describe Everything::Blog::Post do
           Time.at(given_created_at)
         end
 
-        it 'is that timestamp' do
+        it 'is the created_at timestamp' do
           FakeFS do
             expect(post.created_at).to eq(expected_created_at)
           end
@@ -100,12 +104,68 @@ describe Everything::Blog::Post do
     end
 
     context 'when the piece metadata is missing the created_at key' do
-      context 'when the piece metadata has the wordpress key' do
-        context 'with a value that is missing the post_date key'
-        context 'with a value that has the post_date key'
-        context 'with a value that is not a timestamp'
+      before do
+        allow_any_instance_of(Everything::Piece::Metadata)
+          .to receive(:[])
+          .with('created_at')
+          .and_return(nil)
+      end
 
-        context 'with a value that is a timestamp'
+      context 'when the piece metadata is missing the wordpress key' do
+        before do
+          allow_any_instance_of(Everything::Piece::Metadata)
+            .to receive(:[])
+            .with('wordpress')
+            .and_return(nil)
+        end
+
+        # We aren't going to handle this right now.
+      end
+
+      context 'when the piece metadata has the wordpress key' do
+        let(:fake_wordpress_data) do
+          {}
+        end
+
+        before do
+          allow_any_instance_of(Everything::Piece::Metadata)
+            .to receive(:[])
+            .with('wordpress')
+            .and_return(fake_wordpress_data)
+        end
+
+        context 'with a value that is missing the post_date key' do
+          include_examples 'raises a TypeError'
+        end
+
+        context 'with a value that has the post_date key' do
+          let(:fake_wordpress_data) do
+            super().merge('post_date' => given_post_date)
+          end
+
+          context 'with a value that is not a timestamp' do
+            let(:given_post_date) do
+              'not a timestamp'
+            end
+
+            include_examples 'raises a TypeError'
+          end
+
+          context 'with a value that is a timestamp' do
+            let(:given_post_date) do
+              1491886636
+            end
+            let(:expected_created_at) do
+              Time.at(given_post_date)
+            end
+
+            it 'is the created_at timestamp' do
+              FakeFS do
+                expect(post.created_at).to eq(expected_created_at)
+              end
+            end
+          end
+        end
       end
     end
   end
