@@ -4,13 +4,6 @@ Bundler.require(:default)
 require './lib/everything/blog/post'
 
 describe Everything::Blog::Post do
-  let(:post) do
-    described_class.new(given_post_name)
-  end
-  let(:given_post_name) do
-    'grond-crawled-on'
-  end
-
   shared_context 'stub out everything path' do
     let(:fake_everything_path) do
       '/fake/everything/path'
@@ -49,6 +42,71 @@ describe Everything::Blog::Post do
       piece_path = File.join(Everything.path, piece_name)
       fake_piece = Everything::Piece.new(piece_path)
       File.delete(fake_piece.metadata.file_path)
+    end
+  end
+
+  let(:post) do
+    described_class.new(given_post_name)
+  end
+  let(:given_post_name) do
+    'grond-crawled-on'
+  end
+
+  describe '#created_at' do
+    include_context 'stub out everything path'
+
+    before do
+      create_piece(given_post_name)
+    end
+
+    after do
+      delete_piece(given_post_name)
+    end
+
+    context 'when the piece metadata has the created_at key' do
+      before do
+        allow_any_instance_of(Everything::Piece::Metadata)
+          .to receive(:[])
+          .with('created_at')
+          .and_return(given_created_at)
+      end
+
+      context 'with a value that is not a timestamp' do
+        let(:given_created_at) do
+          'not a timestamp'
+        end
+
+        it 'raises an error' do
+          FakeFS do
+            expect { post.created_at }.to raise_error(TypeError)
+          end
+        end
+      end
+
+      context 'with a value that is a timestamp' do
+        let(:given_created_at) do
+          1491886636
+        end
+        let(:expected_created_at) do
+          Time.at(given_created_at)
+        end
+
+        it 'is that timestamp' do
+          FakeFS do
+            expect(post.created_at).to eq(expected_created_at)
+          end
+        end
+      end
+    end
+
+    context 'when the piece metadata is missing the created_at key' do
+      context 'when the piece metadata has the wordpress key' do
+        context 'with a value that is missing the post_date key'
+        context 'with a value that has the post_date key'
+        context 'with a value that is not a timestamp'
+
+        context 'with a value that is a timestamp'
+      end
     end
   end
 
@@ -112,6 +170,7 @@ describe Everything::Blog::Post do
 
   describe '#has_media?'
   describe '#media_paths'
+  describe '#media_glob'
 
   describe '#piece' do
     include_context 'stub out everything path'
