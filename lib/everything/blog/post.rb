@@ -11,6 +11,13 @@ module Everything
       end
 
       def created_at
+        # TODO: If there is no timestamp, perhaps we want to say "Unknown" date?
+        # Or should we raise an error if something doesn't have a timestamp?
+        # TODO: Can we move to a created_on value in the YAML?
+        # TODO: Remember, some posts were written in the east code timezone,
+        # some in mountain time, and others in pacific time. This would be
+        # simplified if we used the created_on as a date, since that's the
+        # output we use anyway.
         timestamp_to_use = piece.metadata['created_at'] || piece.metadata['wordpress']['post_date']
         Time.at(timestamp_to_use)
       end
