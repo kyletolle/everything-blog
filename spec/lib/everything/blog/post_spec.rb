@@ -264,21 +264,16 @@ describe Everything::Blog::Post do
       expect(post.media_glob).to start_with(fake_piece.full_path)
     end
 
-    it 'includes jpg files' do
-      expect(post.media_glob).to match('jpg')
+    shared_examples 'includes files of type' do |file_type|
+      it "includes #{file_type} files" do
+        expect(post.media_glob).to match(file_type)
+      end
     end
 
-    it 'includes png files' do
-      expect(post.media_glob).to match('png')
-    end
-
-    it 'includes gif files' do
-      expect(post.media_glob).to match('gif')
-    end
-
-    it 'includes mp3 files' do
-      expect(post.media_glob).to match('mp3')
-    end
+    include_examples 'includes files of type', 'jpg'
+    include_examples 'includes files of type', 'png'
+    include_examples 'includes files of type', 'gif'
+    include_examples 'includes files of type', 'mp3'
   end
 
   describe '#piece' do
