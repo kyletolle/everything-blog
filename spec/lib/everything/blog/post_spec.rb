@@ -328,9 +328,6 @@ describe Everything::Blog::Post do
     end
   end
 
-  describe '#created_on'
-  describe '#created_on_iso8601'
-  describe '#piece'
   describe '#name'
   describe '#title'
   describe '#body'
