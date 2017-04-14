@@ -195,6 +195,31 @@ describe Everything::Blog::Post do
     end
   end
 
+  describe '#created_on_iso8601' do
+    let(:given_created_at) do
+      1491886636
+    end
+
+    before do
+      create_piece(given_post_name)
+
+      allow_any_instance_of(Everything::Piece::Metadata)
+        .to receive(:[])
+        .with('created_at')
+        .and_return(given_created_at)
+    end
+
+    after do
+      delete_piece(given_post_name)
+    end
+
+    it 'is the ISO 8601 format date' do
+      FakeFS do
+        expect(post.created_on_iso8601).to eq('2017-04-10')
+      end
+    end
+  end
+
   describe '#public?' do
     include_context 'stub out everything path'
 
