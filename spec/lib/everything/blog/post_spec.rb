@@ -256,7 +256,30 @@ describe Everything::Blog::Post do
 
   describe '#has_media?'
   describe '#media_paths'
-  describe '#media_glob'
+
+  describe '#media_glob' do
+    include_context 'with fake piece'
+
+    it "globs files in the piece's path" do
+      expect(post.media_glob).to start_with(fake_piece.full_path)
+    end
+
+    it 'includes jpg files' do
+      expect(post.media_glob).to match('jpg')
+    end
+
+    it 'includes png files' do
+      expect(post.media_glob).to match('png')
+    end
+
+    it 'includes gif files' do
+      expect(post.media_glob).to match('gif')
+    end
+
+    it 'includes mp3 files' do
+      expect(post.media_glob).to match('mp3')
+    end
+  end
 
   describe '#piece' do
     context 'when the post is in the root directory' do
