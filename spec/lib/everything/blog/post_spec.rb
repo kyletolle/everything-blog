@@ -257,7 +257,9 @@ describe Everything::Blog::Post do
       context 'where the metadata file does exist' do
         context 'where the piece is not public' do
           before do
-            allow_any_instance_of(Everything::Piece).to receive(:public?).and_return(false)
+            allow_any_instance_of(Everything::Piece)
+              .to receive(:public?)
+              .and_return(false)
           end
 
           it 'is false' do
@@ -269,7 +271,9 @@ describe Everything::Blog::Post do
 
         context 'where the piece is public' do
           before do
-            allow_any_instance_of(Everything::Piece).to receive(:public?).and_return(true)
+            allow_any_instance_of(Everything::Piece)
+              .to receive(:public?)
+              .and_return(true)
           end
 
           it 'is true' do
