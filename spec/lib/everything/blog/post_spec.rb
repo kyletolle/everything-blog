@@ -270,7 +270,32 @@ describe Everything::Blog::Post do
     end
   end
 
-  describe '#has_media?'
+  describe '#has_media?' do
+    context 'when there are no media paths' do
+      before do
+        allow(post)
+          .to receive(:media_paths)
+          .and_return([])
+      end
+
+      it 'is false' do
+        expect(post.has_media?).to eq(false)
+      end
+    end
+
+    context 'when there are media paths' do
+      before do
+        allow(post)
+          .to receive(:media_paths)
+          .and_return(['/some/fake/media.mp3'])
+      end
+
+      it 'is true' do
+        expect(post.has_media?).to eq(true)
+      end
+    end
+  end
+
   describe '#media_paths'
 
   describe '#media_glob' do
