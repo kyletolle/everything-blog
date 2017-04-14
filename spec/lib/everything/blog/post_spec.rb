@@ -45,10 +45,8 @@ describe Everything::Blog::Post do
     end
   end
 
-  def delete_metadata_file(piece_name)
-    FakeFS do
-      piece_path = File.join(Everything.path, piece_name)
-      fake_piece = Everything::Piece.new(piece_path)
+  shared_context 'with deleted metadata file' do
+    before do
       File.delete(fake_piece.metadata.file_path)
     end
   end
@@ -221,9 +219,7 @@ describe Everything::Blog::Post do
       include_context 'with fake piece'
 
       context 'where the metadata file does not exist' do
-        before do
-          delete_metadata_file(given_post_name)
-        end
+        include_context 'with deleted metadata file'
 
         it 'is false' do
           expect(post.public?).to eq false
