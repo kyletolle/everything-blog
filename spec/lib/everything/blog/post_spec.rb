@@ -14,26 +14,34 @@ describe Everything::Blog::Post do
     end
   end
 
-  def create_piece(piece_name, options={})
-    FakeFS do
-      piece_path = File.join(Everything.path, piece_name)
-      fake_piece = Everything::Piece.new(piece_path)
-      FileUtils.mkdir_p(fake_piece.full_path)
+  shared_context 'with fake piece' do
+    include_context 'stub out everything path'
 
-      File.open(fake_piece.content.file_path, 'w') do |f|
-        f.write("# Grond Crawled on\nOr so I was told.")
-      end
+    let(:piece_path) do
+      File.join(Everything.path, given_post_name)
+    end
+    let(:fake_piece) do
+      Everything::Piece.new(piece_path)
+    end
 
-      File.open(fake_piece.metadata.file_path, 'w') do |f|
-        f.write("---\npublic: #{options[:public?] || false}")
+    before do
+      FakeFS do
+        FileUtils.mkdir_p(fake_piece.full_path)
+
+        File.open(fake_piece.content.file_path, 'w') do |f|
+          f.write("# Grond Crawled on\nOr so I was told.")
+        end
+
+        File.open(fake_piece.metadata.file_path, 'w') do |f|
+          f.write("---\npublic: #{post_options[:public?] || false}")
+        end
       end
     end
-  end
 
-  def delete_piece(piece_name)
-    FakeFS do
-      piece_path = File.join(Everything.path, piece_name)
-      FileUtils.rm_rf(piece_path)
+    after do
+      FakeFS do
+        FileUtils.rm_rf(piece_path)
+      end
     end
   end
 
@@ -48,20 +56,18 @@ describe Everything::Blog::Post do
   let(:post) do
     described_class.new(given_post_name)
   end
-  let(:given_post_name) do
+  let(:fake_post_name) do
     'grond-crawled-on'
+  end
+  let(:given_post_name) do
+    fake_post_name
+  end
+  let(:post_options) do
+    {}
   end
 
   describe '#created_at' do
-    include_context 'stub out everything path'
-
-    before do
-      create_piece(given_post_name)
-    end
-
-    after do
-      delete_piece(given_post_name)
-    end
+    include_context 'with fake piece'
 
     shared_examples 'raises a TypeError' do
       it 'raises an error' do
@@ -171,23 +177,17 @@ describe Everything::Blog::Post do
   end
 
   describe '#created_on' do
-    include_context 'stub out everything path'
+    include_context 'with fake piece'
 
     let(:given_created_at) do
       1491886636
     end
 
     before do
-      create_piece(given_post_name)
-
       allow_any_instance_of(Everything::Piece::Metadata)
         .to receive(:[])
         .with('created_at')
         .and_return(given_created_at)
-    end
-
-    after do
-      delete_piece(given_post_name)
     end
 
     it 'is the human-friendly, American-style date' do
@@ -198,23 +198,17 @@ describe Everything::Blog::Post do
   end
 
   describe '#created_on_iso8601' do
-    include_context 'stub out everything path'
+    include_context 'with fake piece'
 
     let(:given_created_at) do
       1491886636
     end
 
     before do
-      create_piece(given_post_name)
-
       allow_any_instance_of(Everything::Piece::Metadata)
         .to receive(:[])
         .with('created_at')
         .and_return(given_created_at)
-    end
-
-    after do
-      delete_piece(given_post_name)
     end
 
     it 'is the ISO 8601 format date' do
@@ -234,13 +228,7 @@ describe Everything::Blog::Post do
     end
 
     context 'where there is a piece with that name' do
-      before do
-        create_piece(given_post_name)
-      end
-
-      after do
-        delete_piece(given_post_name)
-      end
+      include_context 'with fake piece'
 
       context 'where the metadata file does not exist' do
         before do
@@ -291,37 +279,32 @@ describe Everything::Blog::Post do
   describe '#media_glob'
 
   describe '#piece' do
-    include_context 'stub out everything path'
-
     context 'when the post is in the root directory' do
-      before do
-        create_piece(given_post_name)
-      end
+      include_context 'with fake piece'
 
-      after do
-        delete_piece(given_post_name)
+      let(:expected_root_piece_path) do
+        File.join(Everything.path, given_post_name)
       end
 
       it 'finds the root piece' do
         FakeFS do
-          expected_root_piece_path = File.join(Everything.path, given_post_name)
           expect(post.piece.full_path).to eq(expected_root_piece_path)
         end
       end
     end
 
     context 'when the post is in a nested directory' do
-      before do
-        create_piece(File.join('nested_dir', given_post_name))
+      let(:given_post_name) do
+        File.join('nested_dir', fake_post_name)
       end
+      include_context 'with fake piece'
 
-      after do
-        delete_piece(File.join('nested_dir', given_post_name))
+      let(:expected_nested_piece_path) do
+        File.join(Everything.path, 'nested_dir', fake_post_name)
       end
 
       it 'finds the nested piece' do
         FakeFS do
-          expected_nested_piece_path = File.join(Everything.path, 'nested_dir', given_post_name)
           expect(post.piece.full_path).to eq(expected_nested_piece_path)
         end
       end
