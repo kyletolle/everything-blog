@@ -51,6 +51,12 @@ describe Everything::Blog::Post do
     end
   end
 
+  shared_context 'with deleted piece' do
+    before do
+      FileUtils.rm_rf(fake_piece.full_path)
+    end
+  end
+
   shared_context 'with deleted metadata file' do
     before do
       File.delete(fake_piece.metadata.file_path)
@@ -70,9 +76,9 @@ describe Everything::Blog::Post do
     {}
   end
 
-  describe '#body' do
-    include_context 'with fake piece'
+  include_context 'with fake piece'
 
+  describe '#body' do
     let(:expected_post_body) { fake_piece_body }
 
     it "is the piece's body" do
@@ -81,8 +87,6 @@ describe Everything::Blog::Post do
   end
 
   describe '#created_at' do
-    include_context 'with fake piece'
-
     shared_examples 'raises a TypeError' do
       it 'raises an error' do
         expect { post.created_at }.to raise_error(TypeError)
@@ -185,8 +189,6 @@ describe Everything::Blog::Post do
   end
 
   describe '#created_on' do
-    include_context 'with fake piece'
-
     let(:given_created_at) do
       1491886636
     end
@@ -204,8 +206,6 @@ describe Everything::Blog::Post do
   end
 
   describe '#created_on_iso8601' do
-    include_context 'with fake piece'
-
     let(:given_created_at) do
       1491886636
     end
@@ -223,17 +223,15 @@ describe Everything::Blog::Post do
   end
 
   describe '#public?' do
-    include_context 'stub out everything path'
-
     context 'where there is no piece with that name' do
+      include_context 'with deleted piece'
+
       it 'raises an error' do
         expect{post.public?}.to raise_error(ArgumentError)
       end
     end
 
     context 'where there is a piece with that name' do
-      include_context 'with fake piece'
-
       context 'where the metadata file does not exist' do
         include_context 'with deleted metadata file'
 
@@ -299,8 +297,6 @@ describe Everything::Blog::Post do
   describe '#media_paths'
 
   describe '#media_glob' do
-    include_context 'with fake piece'
-
     it "globs files in the piece's path" do
       expect(post.media_glob).to start_with(fake_piece.full_path)
     end
@@ -318,8 +314,6 @@ describe Everything::Blog::Post do
   end
 
   describe '#name' do
-    include_context 'with fake piece'
-
     it "is the piece's name" do
       expect(post.name).to eq(given_post_name)
     end
@@ -327,8 +321,6 @@ describe Everything::Blog::Post do
 
   describe '#piece' do
     context 'when the post is in the root directory' do
-      include_context 'with fake piece'
-
       let(:expected_root_piece_path) do
         File.join(Everything.path, given_post_name)
       end
@@ -342,7 +334,6 @@ describe Everything::Blog::Post do
       let(:given_post_name) do
         File.join('nested_dir', fake_post_name)
       end
-      include_context 'with fake piece'
 
       let(:expected_nested_piece_path) do
         File.join(Everything.path, 'nested_dir', fake_post_name)
@@ -355,8 +346,6 @@ describe Everything::Blog::Post do
   end
 
   describe '#title' do
-    include_context 'with fake piece'
-
     let(:expected_post_title) { fake_piece_title }
 
     it "is the piece's title" do
