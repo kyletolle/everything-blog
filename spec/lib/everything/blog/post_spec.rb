@@ -23,6 +23,12 @@ describe Everything::Blog::Post do
     let(:fake_piece) do
       Everything::Piece.new(piece_path)
     end
+    let(:fake_piece_title) do
+      'Grond Crawled On'
+    end
+    let(:fake_piece_body) do
+      'Or so I was told.'
+    end
 
     before do
       FakeFS.activate!
@@ -30,7 +36,7 @@ describe Everything::Blog::Post do
       FileUtils.mkdir_p(fake_piece.full_path)
 
       File.open(fake_piece.content.file_path, 'w') do |f|
-        f.write("# Grond Crawled on\nOr so I was told.")
+        f.write("# #{fake_piece_title}\n\n#{fake_piece_body}")
       end
 
       File.open(fake_piece.metadata.file_path, 'w') do |f|
@@ -62,6 +68,16 @@ describe Everything::Blog::Post do
   end
   let(:post_options) do
     {}
+  end
+
+  describe '#body' do
+    include_context 'with fake piece'
+
+    let(:expected_post_body) { fake_piece_body }
+
+    it "is the piece's body" do
+      expect(post.body).to eq(expected_post_body)
+    end
   end
 
   describe '#created_at' do
@@ -276,6 +292,14 @@ describe Everything::Blog::Post do
     include_examples 'includes files of type', 'mp3'
   end
 
+  describe '#name' do
+    include_context 'with fake piece'
+
+    it "is the piece's name" do
+      expect(post.name).to eq(given_post_name)
+    end
+  end
+
   describe '#piece' do
     context 'when the post is in the root directory' do
       include_context 'with fake piece'
@@ -305,7 +329,13 @@ describe Everything::Blog::Post do
     end
   end
 
-  describe '#name'
-  describe '#title'
-  describe '#body'
+  describe '#title' do
+    include_context 'with fake piece'
+
+    let(:expected_post_title) { fake_piece_title }
+
+    it "is the piece's title" do
+      expect(post.title).to eq(expected_post_title)
+    end
+  end
 end
