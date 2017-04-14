@@ -294,7 +294,48 @@ describe Everything::Blog::Post do
     end
   end
 
-  describe '#media_paths'
+  describe '#media_paths' do
+    shared_context 'with fake file of type' do |file_type|
+     let(:fake_file_path) do
+       File.join(fake_piece.full_path, "fake_file.#{file_type}")
+     end
+
+      before do
+        File.open(fake_file_path, 'w') do |f|
+          f.write("This is a fake #{file_type}")
+        end
+      end
+    end
+
+    shared_examples 'includes piece media of type' do |file_type|
+      include_context 'with fake file of type', file_type
+
+      it "includes the piece's #{file_type}s" do
+        expect(post.media_paths).to include(fake_file_path)
+      end
+    end
+
+    context 'when the piece contains no media files' do
+      it 'is an empty array' do
+        expect(post.media_paths).to eq([])
+      end
+    end
+
+    context 'when the piece contains media files' do
+      include_examples 'includes piece media of type', 'jpg'
+      include_examples 'includes piece media of type', 'png'
+      include_examples 'includes piece media of type', 'gif'
+      include_examples 'includes piece media of type', 'mp3'
+    end
+
+    context 'when the piece contains other non-media files' do
+      include_context 'with fake file of type', 'txt'
+
+      it 'does not include those non-media files' do
+        expect(post.media_paths).not_to include(fake_file_path)
+      end
+    end
+  end
 
   describe '#media_glob' do
     it "globs files in the piece's path" do
