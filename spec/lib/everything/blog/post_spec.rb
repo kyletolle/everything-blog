@@ -170,6 +170,31 @@ describe Everything::Blog::Post do
     end
   end
 
+  describe '#created_on' do
+    let(:given_created_at) do
+      1491886636
+    end
+
+    before do
+      create_piece(given_post_name)
+
+      allow_any_instance_of(Everything::Piece::Metadata)
+        .to receive(:[])
+        .with('created_at')
+        .and_return(given_created_at)
+    end
+
+    after do
+      delete_piece(given_post_name)
+    end
+
+    it 'is the human-friendly, American-style date' do
+      FakeFS do
+        expect(post.created_on).to eq('April 10, 2017')
+      end
+    end
+  end
+
   describe '#public?' do
     include_context 'stub out everything path'
 
