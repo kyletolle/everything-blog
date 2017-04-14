@@ -25,23 +25,23 @@ describe Everything::Blog::Post do
     end
 
     before do
-      FakeFS do
-        FileUtils.mkdir_p(fake_piece.full_path)
+      FakeFS.activate!
 
-        File.open(fake_piece.content.file_path, 'w') do |f|
-          f.write("# Grond Crawled on\nOr so I was told.")
-        end
+      FileUtils.mkdir_p(fake_piece.full_path)
 
-        File.open(fake_piece.metadata.file_path, 'w') do |f|
-          f.write("---\npublic: #{post_options[:public?] || false}")
-        end
+      File.open(fake_piece.content.file_path, 'w') do |f|
+        f.write("# Grond Crawled on\nOr so I was told.")
+      end
+
+      File.open(fake_piece.metadata.file_path, 'w') do |f|
+        f.write("---\npublic: #{post_options[:public?] || false}")
       end
     end
 
     after do
-      FakeFS do
-        FileUtils.rm_rf(piece_path)
-      end
+      FileUtils.rm_rf(piece_path)
+
+      FakeFS.deactivate!
     end
   end
 
@@ -71,9 +71,7 @@ describe Everything::Blog::Post do
 
     shared_examples 'raises a TypeError' do
       it 'raises an error' do
-        FakeFS do
-          expect { post.created_at }.to raise_error(TypeError)
-        end
+        expect { post.created_at }.to raise_error(TypeError)
       end
     end
 
@@ -102,9 +100,7 @@ describe Everything::Blog::Post do
         end
 
         it 'is the created_at timestamp' do
-          FakeFS do
-            expect(post.created_at).to eq(expected_created_at)
-          end
+          expect(post.created_at).to eq(expected_created_at)
         end
       end
     end
@@ -166,9 +162,7 @@ describe Everything::Blog::Post do
             end
 
             it 'is the created_at timestamp' do
-              FakeFS do
-                expect(post.created_at).to eq(expected_created_at)
-              end
+              expect(post.created_at).to eq(expected_created_at)
             end
           end
         end
@@ -191,9 +185,7 @@ describe Everything::Blog::Post do
     end
 
     it 'is the human-friendly, American-style date' do
-      FakeFS do
-        expect(post.created_on).to eq('April 10, 2017')
-      end
+      expect(post.created_on).to eq('April 10, 2017')
     end
   end
 
@@ -212,9 +204,7 @@ describe Everything::Blog::Post do
     end
 
     it 'is the ISO 8601 format date' do
-      FakeFS do
-        expect(post.created_on_iso8601).to eq('2017-04-10')
-      end
+      expect(post.created_on_iso8601).to eq('2017-04-10')
     end
   end
 
@@ -236,9 +226,7 @@ describe Everything::Blog::Post do
         end
 
         it 'is false' do
-          FakeFS do
-            expect(post.public?).to eq false
-          end
+          expect(post.public?).to eq false
         end
       end
 
@@ -251,9 +239,7 @@ describe Everything::Blog::Post do
           end
 
           it 'is false' do
-            FakeFS do
-              expect(post.public?).to eq false
-            end
+            expect(post.public?).to eq false
           end
         end
 
@@ -265,9 +251,7 @@ describe Everything::Blog::Post do
           end
 
           it 'is true' do
-            FakeFS do
-              expect(post.public?).to eq true
-            end
+            expect(post.public?).to eq true
           end
         end
       end
@@ -287,9 +271,7 @@ describe Everything::Blog::Post do
       end
 
       it 'finds the root piece' do
-        FakeFS do
-          expect(post.piece.full_path).to eq(expected_root_piece_path)
-        end
+        expect(post.piece.full_path).to eq(expected_root_piece_path)
       end
     end
 
@@ -304,9 +286,7 @@ describe Everything::Blog::Post do
       end
 
       it 'finds the nested piece' do
-        FakeFS do
-          expect(post.piece.full_path).to eq(expected_nested_piece_path)
-        end
+        expect(post.piece.full_path).to eq(expected_nested_piece_path)
       end
     end
   end
