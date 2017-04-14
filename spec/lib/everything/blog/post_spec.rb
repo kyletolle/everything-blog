@@ -171,6 +171,8 @@ describe Everything::Blog::Post do
   end
 
   describe '#created_on' do
+    include_context 'stub out everything path'
+
     let(:given_created_at) do
       1491886636
     end
@@ -196,6 +198,8 @@ describe Everything::Blog::Post do
   end
 
   describe '#created_on_iso8601' do
+    include_context 'stub out everything path'
+
     let(:given_created_at) do
       1491886636
     end
