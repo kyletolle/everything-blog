@@ -11,6 +11,9 @@ describe Everything::Blog::Source::Index do
     described_class.new(given_page_names_and_titles)
   end
 
+  # TODO: Test the methods inherited from Source::FileBase too.
+  # include_context 'acts like a source file'
+
   describe '#content' do
     let(:actual_content) do
       index.content
@@ -44,12 +47,14 @@ describe Everything::Blog::Source::Index do
     end
   end
 
+  # TODO: Should this actually be an empty string?
   describe '#relative_dir_path' do
     it 'is the root path' do
       expect(index.relative_dir_path).to eq('/')
     end
   end
 
+  # TODO: Should this actually be an empty string?
   describe '#relative_file_path' do
     it 'is the root path' do
       expect(index.relative_file_path).to eq('/')

@@ -5,6 +5,12 @@ module Everything
   class Blog
     module Source
       class FileBase
+        # TODO: Can we take some hints from the ruby File class and use the same
+        # methods they do? basename, pathname, absolute_path, etc?
+        # http://ruby-doc.org/core-2.4.1/File.html
+        # And for joining paths with others, we can use File.expand_path. So we
+        # shouldn't probably need to have this relative_file_path and
+        # base_source_dir_path and stuff.
         def relative_dir_path
           # We can use an approach like the one here: http://stackoverflow.com/questions/11471261/ruby-how-to-calculate-a-path-relative-to-another-one
           @relative_dir_path ||= File.dirname(relative_file_path)
@@ -26,6 +32,8 @@ module Everything
 
       private
 
+        # TODO: Move this into its own Source class/module. It makes sense to
+        # have it in its own location.
         def base_source_dir_path
           Everything.path
         end

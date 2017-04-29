@@ -23,11 +23,15 @@ module Everything
       end
 
       def created_on
+        # TODO: This is the format we can create from the YAML iso8601 format.
+        # Call this method something else. Something like #created_on_human
         # Formatted like: June 24, 2016
         created_at.strftime('%B %d, %Y')
       end
 
       def created_on_iso8601
+        # TODO: This should be the format the YAML contains. This should be
+        # called #created_on.
         # Formatted like: 2016-06-24
         created_at.strftime('%F')
       end
