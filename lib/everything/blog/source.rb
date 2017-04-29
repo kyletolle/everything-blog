@@ -7,7 +7,7 @@ module Everything
 
       class << self
         def absolute_path
-          File.join(Everything.path, path)
+          absolute_pathname.to_s
         end
 
         def absolute_pathname
