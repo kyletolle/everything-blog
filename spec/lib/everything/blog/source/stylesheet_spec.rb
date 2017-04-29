@@ -11,11 +11,11 @@ describe Everything::Blog::Source::Stylesheet do
 
   def create_fake_stylesheet(stylesheet_content)
     FakeFS do
-        FileUtils.mkdir('css')
-        stylesheet_filename = File.join('css', 'style.css')
-        File.open(stylesheet_filename, 'w') do |f|
-          f.write stylesheet_content
-        end
+      FileUtils.mkdir('css')
+      stylesheet_filename = File.join('css', 'style.css')
+      File.open(stylesheet_filename, 'w') do |f|
+        f.write stylesheet_content
+      end
     end
   end
 
