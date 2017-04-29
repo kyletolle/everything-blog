@@ -1,11 +1,14 @@
+require 'pp'
+require 'bundler/setup'
+Bundler.require(:default)
+require './spec/support/shared'
 require './lib/everything/blog/source'
 
 describe Everything::Blog::Source do
   describe '.absolute_path' do
-    before do
-      expect(Everything).to receive(:path).and_return('/everything/path')
-    end
-    let(:expected_absolute_path) { '/everything/path/blog' }
+    include_context 'stub out everything path'
+
+    let(:expected_absolute_path) { '/fake/everything/path/blog' }
 
     it 'is the absolute blog dir' do
       expect(described_class.absolute_path).to eq(expected_absolute_path)
@@ -13,12 +16,10 @@ describe Everything::Blog::Source do
   end
 
   describe '.absolute_pathname' do
-    before do
-      expect(Everything).to receive(:path).and_return('/everything/path')
-    end
+    include_context 'stub out everything path'
 
     let(:expected_absolute_pathname) do
-      Pathname.new('/everything/path/blog')
+      Pathname.new('/fake/everything/path/blog')
     end
 
     it 'is the absolute blog pathname' do
