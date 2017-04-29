@@ -1,3 +1,5 @@
+require './lib/everything/add_pathname_to_everything_refinement'
+
 module Everything
   class Blog
     module Source
