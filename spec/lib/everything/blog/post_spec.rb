@@ -1,19 +1,10 @@
 require 'pp'
 require 'bundler/setup'
 Bundler.require(:default)
+require './spec/support/shared'
 require './lib/everything/blog/post'
 
 describe Everything::Blog::Post do
-  shared_context 'stub out everything path' do
-    let(:fake_everything_path) do
-      '/fake/everything/path'
-    end
-
-    before do
-      allow(Everything).to receive(:path).and_return(fake_everything_path)
-    end
-  end
-
   shared_context 'with fake piece' do
     include_context 'stub out everything path'
 
