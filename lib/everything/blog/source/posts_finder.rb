@@ -28,7 +28,7 @@ module Everything
         end
 
         def all_posts
-          all_post_dirs.map { |post_name| Post.new(post_name) }
+          all_post_dirs.map { |post_name| Everything::Blog::Post.new(post_name) }
         end
 
         def blog_source_path
