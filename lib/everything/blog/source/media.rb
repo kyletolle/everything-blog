@@ -1,4 +1,5 @@
-require 'fileutils'
+require_relative 'file_base'
+require_relative '../source'
 
 module Everything
   class Blog

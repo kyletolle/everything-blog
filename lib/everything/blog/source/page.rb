@@ -1,6 +1,6 @@
 require_relative 'file_base'
-require './lib/everything/blog/post'
-require './lib/everything/blog/source'
+require_relative '../post'
+require_relative '../source'
 
 module Everything
   class Blog
