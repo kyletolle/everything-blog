@@ -1,4 +1,4 @@
-require 'pp'
+require 'pp' # Helps prevent an error like: 'superclass mismatch for class File'
 require './lib/everything/blog/source/stylesheet'
 require 'fakefs/spec_helpers'
 
