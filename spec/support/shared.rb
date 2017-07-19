@@ -14,11 +14,11 @@ shared_context 'with fake piece' do
   let(:given_post_name) do
     fake_post_name
   end
-  let(:piece_path) do
+  let(:given_piece_path) do
     File.join(Everything.path, given_post_name)
   end
   let(:fake_piece) do
-    Everything::Piece.new(piece_path)
+    Everything::Piece.new(given_piece_path)
   end
   let(:fake_post_name) do
     'grond-crawled-on'
@@ -48,7 +48,7 @@ shared_context 'with fake piece' do
   end
 
   after do
-    FileUtils.rm_rf(piece_path)
+    FileUtils.rm_rf(given_piece_path)
 
     FakeFS.deactivate!
   end

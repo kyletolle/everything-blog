@@ -9,7 +9,7 @@ describe Everything::Blog::Source::Page do
   include FakeFS::SpecHelpers
 
   include_context 'with fake piece'
-  let(:piece_path) do
+  let(:given_piece_path) do
     # We want to create our fake posts in the blog directory.
     File.join(Everything::Blog::Source.absolute_path, given_post_name)
   end
