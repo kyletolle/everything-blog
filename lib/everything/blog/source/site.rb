@@ -10,7 +10,7 @@ module Everything
     module Source
       class Site
         def initialize
-          # TODO: We could update this to only include the blog and stylesheet if
+          # TODO: We could update this to only include the index and stylesheet if
           # those pages have changed and need to be regenerated?
           @files = [ blog_index, stylesheet ]
           @files += pages
@@ -52,7 +52,6 @@ module Everything
             end
           end
         end
-
       end
     end
   end
