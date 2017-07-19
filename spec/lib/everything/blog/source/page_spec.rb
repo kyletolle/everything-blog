@@ -14,11 +14,11 @@ describe Everything::Blog::Source::Page do
     File.join(Everything::Blog::Source.absolute_path, given_post_name)
   end
 
-  let(:post) do
+  let(:given_post) do
     Everything::Blog::Post.new(given_post_name)
   end
   let(:page) do
-    described_class.new(post)
+    described_class.new(given_post)
   end
 
   let(:expected_markdown_file_name) do
@@ -26,14 +26,20 @@ describe Everything::Blog::Source::Page do
   end
 
   describe '#content' do
-    it "is the post's content" do
+    it "is the given post's content" do
       expect(page.content).to eq(fake_piece_body)
     end
   end
 
   describe '#file_name' do
-    it "is post's markdown file" do
+    it "is given post's markdown file" do
       expect(page.file_name).to eq(expected_markdown_file_name)
+    end
+  end
+
+  describe '#post' do
+    it 'is the given post' do
+      expect(page.post).to eq(given_post)
     end
   end
 
