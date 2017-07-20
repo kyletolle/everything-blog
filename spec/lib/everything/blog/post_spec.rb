@@ -8,9 +8,6 @@ describe Everything::Blog::Post do
   let(:post) do
     described_class.new(given_post_name)
   end
-  let(:given_post_name) do
-    fake_post_name
-  end
   let(:post_options) do
     {}
   end
@@ -158,6 +155,40 @@ describe Everything::Blog::Post do
 
     it 'is the ISO 8601 format date' do
       expect(post.created_on_iso8601).to eq('2017-04-10')
+    end
+  end
+
+  describe '#new_created_on' do
+    let(:given_created_on) do
+      Date.parse('2017-07-19')
+    end
+
+    before do
+      allow_any_instance_of(Everything::Piece::Metadata)
+        .to receive(:[])
+        .with('created_on')
+        .and_return(given_created_on)
+    end
+
+    it 'is the date where the string is ISO 8601 format' do
+      expect(post.new_created_on.to_s).to eq('2017-07-19')
+    end
+  end
+
+  describe '#new_created_on_human' do
+    let(:given_created_on) do
+      Date.parse('2017-07-19')
+    end
+
+    before do
+      allow_any_instance_of(Everything::Piece::Metadata)
+        .to receive(:[])
+        .with('created_on')
+        .and_return(given_created_on)
+    end
+
+    it 'is the human-friendly, American-style date' do
+      expect(post.new_created_on_human).to eq('July 19, 2017')
     end
   end
 

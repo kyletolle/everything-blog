@@ -36,6 +36,16 @@ module Everything
         created_at.strftime('%F')
       end
 
+      # TODO: This will replace #created_on_iso8601 above.
+      def new_created_on
+        piece.metadata['created_on']
+      end
+
+      # TODO: This will replace #created_on above.
+      def new_created_on_human
+        new_created_on.strftime('%B %d, %Y')
+      end
+
       def public?
         return false unless piece && File.exist?(piece.metadata.file_path)
 
