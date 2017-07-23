@@ -3,6 +3,7 @@ require 'bundler/setup'
 Bundler.require(:default)
 require './lib/everything/blog/source/posts_finder'
 # require './spec/support/shared'
+require './spec/support/post_helpers'
 require 'fakefs/spec_helpers'
 
 describe Everything::Blog::Source::PostsFinder do
@@ -30,16 +31,37 @@ describe Everything::Blog::Source::PostsFinder do
     end
 
     context 'where there are posts' do
-      context 'where none are public'
+      include PostHelpers
+
+      context 'where none are public' do
+        before do
+          create_post('some-title', 'Some Title', 'This is the body')
+        end
+
+        it 'is an empty array' do
+          expect(posts_finder.posts).to eq([])
+        end
+      end
+
       context 'where some are public' do
         context 'where one piece has created_at timestamp' do
-          context 'and the other has created_at timestamp'
-          context 'and the other has wordpress post_date timestamp'
+          context 'and the other has created_at timestamp' do
+            it 'returns the most recent post first'
+          end
+
+          context 'and the other has wordpress post_date timestamp' do
+            it 'returns the most recent post first'
+          end
         end
 
         context 'where one piece has wordpress post_date timestamp' do
-          context 'and the other has created_at timestamp'
-          context 'and the other has wordpress post_date timestamp'
+          context 'and the other has created_at timestamp' do
+            it 'returns the most recent post first'
+          end
+
+          context 'and the other has wordpress post_date timestamp' do
+            it 'returns the most recent post first'
+          end
         end
       end
     end
