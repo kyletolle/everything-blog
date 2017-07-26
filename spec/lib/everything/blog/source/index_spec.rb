@@ -1,3 +1,6 @@
+require 'pp' # Helps prevent an error like: 'superclass mismatch for class File'
+require 'bundler/setup'
+Bundler.require(:default)
 require './lib/everything/blog/source/index'
 
 describe Everything::Blog::Source::Index do
@@ -58,6 +61,34 @@ describe Everything::Blog::Source::Index do
   describe '#relative_file_path' do
     it 'is the root path' do
       expect(index.relative_file_path).to eq('/')
+    end
+  end
+
+  describe '#==' do
+    context'when the other index has different page names and titles' do
+      let(:different_page_names_and_titles) do
+        {
+          'chunks-and-chops' => 'Chunks and Chops',
+          'wheeble-whobble'  => 'Wheeble Whobble'
+        }
+      end
+      let(:other_index) do
+        described_class.new(different_page_names_and_titles)
+      end
+
+      it 'is false' do
+        expect(index == other_index).to eq(false)
+      end
+    end
+
+    context 'when the other index has the same page names and titles' do
+      let(:other_index) do
+        described_class.new(given_page_names_and_titles)
+      end
+
+      it 'is true' do
+        expect(index == other_index).to eq(true)
+      end
     end
   end
 end

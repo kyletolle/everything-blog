@@ -16,6 +16,10 @@ module Everything
           ''
         end
 
+        def ==(other)
+          self.content == other.content
+        end
+
       private
 
         # TODO: It would be nice to have this Markdown link and list generation
