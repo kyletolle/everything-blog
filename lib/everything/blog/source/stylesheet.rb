@@ -12,6 +12,11 @@ module Everything
           'style.css'
         end
 
+        # TODO: Make it check the absolute path
+        def ==(other)
+          self.file_name == other.file_name
+        end
+
       private
 
         def source_file_path
@@ -19,6 +24,7 @@ module Everything
         end
 
         #TODO: I could see this using the follwing instead:
+        #TODO: And this would apply to other source file types too.
         # def dirname
         #   'css'
         # end
