@@ -21,6 +21,17 @@ module PostHelpers
     end
   end
 
+  def create_media_for_post(post_name)
+    piece_path = File.join(Everything::Blog::Source.absolute_path, post_name)
+
+    ['jpg', 'mp3'].each do |media_type|
+      media_path = File.join(piece_path, "lala.#{media_type}")
+      File.open(media_path, 'w') do |f|
+        f.write('whoop-de-doo')
+      end
+    end
+  end
+
   def delete_post(post_name)
     piece_path = File.join(Everything::Blog::Source.absolute_path, post_name)
 

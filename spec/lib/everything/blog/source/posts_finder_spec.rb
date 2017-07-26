@@ -8,6 +8,8 @@ require 'fakefs/spec_helpers'
 
 describe Everything::Blog::Source::PostsFinder do
   include FakeFS::SpecHelpers
+  include PostHelpers
+
 
   let(:posts_finder) do
     described_class.new
@@ -24,8 +26,6 @@ describe Everything::Blog::Source::PostsFinder do
     end
 
     context 'where there are posts' do
-      include PostHelpers
-
       context 'where none are public' do
         before do
           create_post('some-title', 'Some Title', 'This is the body')
@@ -136,6 +136,55 @@ describe Everything::Blog::Source::PostsFinder do
 
             include_examples 'returns the most recent post first'
           end
+        end
+      end
+    end
+  end
+
+  describe '#media_for_posts' do
+    include_context 'with fakefs'
+    include_context 'create blog path'
+
+    context 'when there are no public posts' do
+      it 'is an empty array' do
+        expect(posts_finder.media_for_posts).to eq([])
+      end
+    end
+
+    context 'when there are public posts' do
+      before do
+        create_post('some-title', 'Some Title', 'This is the body',
+                    'public' => true, 'created_at' => 111)
+        create_post('another-title', 'Another Title', 'This is the body',
+                    'public' => true, 'created_at' => 121)
+      end
+
+      after do
+        delete_post('some-title')
+        delete_post('another-title')
+      end
+
+      context 'that have no media files' do
+        it 'is an empty array' do
+          expect(posts_finder.media_for_posts).to eq([])
+        end
+      end
+
+      context 'that each have multiple media files' do
+        before do
+          create_media_for_post('some-title')
+          create_media_for_post('another-title')
+        end
+
+        it 'returns the media paths by newest post first' do
+          expect(posts_finder.media_for_posts).to eq(
+            [
+              File.join(Everything::Blog::Source.absolute_path, 'another-title', 'lala.jpg'),
+              File.join(Everything::Blog::Source.absolute_path, 'another-title', 'lala.mp3'),
+              File.join(Everything::Blog::Source.absolute_path, 'some-title', 'lala.jpg'),
+              File.join(Everything::Blog::Source.absolute_path, 'some-title', 'lala.mp3')
+            ]
+          )
         end
       end
     end
