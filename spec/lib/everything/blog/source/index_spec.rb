@@ -65,7 +65,7 @@ describe Everything::Blog::Source::Index do
   end
 
   describe '#==' do
-    context'when the other index has different page names and titles' do
+    context 'when the other index has different page names and titles' do
       let(:different_page_names_and_titles) do
         {
           'chunks-and-chops' => 'Chunks and Chops',
