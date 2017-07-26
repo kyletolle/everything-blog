@@ -8,6 +8,22 @@ shared_context 'stub out everything path' do
   end
 end
 
+shared_context 'create blog path' do
+  before do
+    FileUtils.mkdir_p(Everything::Blog::Source.absolute_path)
+  end
+end
+
+shared_context 'with fakefs' do
+  before do
+    FakeFS.activate!
+  end
+
+  after do
+    FakeFS.deactivate!
+  end
+end
+
 shared_context 'with fake piece' do
   include_context 'stub out everything path'
 
