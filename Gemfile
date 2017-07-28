@@ -11,5 +11,5 @@ gem 'fog-aws'
 gem 'rspec',                 '~> 3.6.0'
 gem 'fakefs',                require: 'fakefs/safe'
 gem 'guard-rspec',           require: false
-gem 'activesupport'
+gem 'activesupport',         '5.1.2'
 
