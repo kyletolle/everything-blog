@@ -78,5 +78,28 @@ describe Everything::Blog::Source::Media do
       expect(media.source_file_path).to eq(given_source_file_path)
     end
   end
+
+  # TODO: Implement this
+  describe '#==' do
+    context "when the other media's file path doesn't match" do
+      let(:other_media) do
+        described_class.new('/some/other/media/file.png')
+      end
+
+      it 'is false' do
+        expect(media == other_media).to eq(false)
+      end
+    end
+
+    context "when the other media's file path matches" do
+      let(:other_media) do
+        described_class.new(given_source_file_path)
+      end
+
+      it 'is true' do
+        expect(media == other_media).to eq(true)
+      end
+    end
+  end
 end
 

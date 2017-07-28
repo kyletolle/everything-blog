@@ -19,6 +19,10 @@ module Everything
           File.basename(source_file_path)
         end
 
+        def ==(other)
+          self.source_file_path == other.source_file_path
+        end
+
       private
 
         def file_type
