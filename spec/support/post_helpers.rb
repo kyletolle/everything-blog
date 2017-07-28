@@ -15,8 +15,13 @@ module PostHelpers
 
     metadata = {}.tap do |h|
       h['public'] = is_public || false
-      h['created_at'] = created_at if created_at
       h['wordpress'] = wordpress.deep_stringify_keys if wordpress
+      h['created_at'] =
+        if created_at
+          created_at
+        elsif !wordpress
+          Time.now.to_i
+        end
     end
 
     File.open(piece.metadata.file_path, 'w') do |f|
