@@ -174,6 +174,7 @@ describe Everything::Blog::Source::PostsFinder do
           create_media_for_post('another-title')
         end
 
+        # TODO: Need to clean up how we work with media files in tests.
         it 'returns the media paths by newest post first' do
           expect(posts_finder.media_for_posts).to eq(
             [
