@@ -3,10 +3,12 @@ require 'bundler/setup'
 Bundler.require(:default)
 require './lib/everything/blog/source/page'
 require './spec/support/shared'
+require './spec/support/post_helpers'
 require 'fakefs/spec_helpers'
 
 describe Everything::Blog::Source::Page do
   include FakeFS::SpecHelpers
+  include PostHelpers
 
   include_context 'with fake piece'
   let(:given_piece_path) do
@@ -58,6 +60,46 @@ describe Everything::Blog::Source::Page do
     end
     it 'is a relative path to the file' do
       expect(page.relative_file_path).to eq(expected_relative_file_path)
+    end
+  end
+
+  # TODO: Implement this
+  describe '#==' do
+    include_context 'with fakefs'
+    include_context 'create blog path'
+
+    context "when the other page's post's full path does not match" do
+      before do
+        create_post('some-title', 'Some Title', 'Some body text here.')
+      end
+
+      after do
+        delete_post('some-title')
+      end
+
+      let(:other_post) do
+        Everything::Blog::Post.new('some-title')
+      end
+      let(:other_page) do
+        described_class.new(other_post)
+      end
+
+      it 'is false' do
+        expect(page == other_page).to eq(false)
+      end
+    end
+
+    context "when the other page's post's full path matches" do
+      let(:other_post) do
+        Everything::Blog::Post.new(given_post_name)
+      end
+      let(:other_page) do
+        described_class.new(other_post)
+      end
+
+      it 'is true' do
+        expect(page == other_page).to eq(true)
+      end
     end
   end
 end
