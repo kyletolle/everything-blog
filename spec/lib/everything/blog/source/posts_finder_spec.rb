@@ -10,7 +10,6 @@ describe Everything::Blog::Source::PostsFinder do
   include FakeFS::SpecHelpers
   include PostHelpers
 
-
   let(:posts_finder) do
     described_class.new
   end
