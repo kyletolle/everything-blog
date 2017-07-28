@@ -84,6 +84,7 @@ module Everything
           File.dirname output_file_path
         end
 
+        # TODO: Name this something similar to the source site's absolute_path
         def base_output_dir_path
           Output::Site.blog_html_path
         end
