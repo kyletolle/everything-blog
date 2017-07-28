@@ -79,7 +79,6 @@ describe Everything::Blog::Source::Media do
     end
   end
 
-  # TODO: Implement this
   describe '#==' do
     context "when the other media's file path doesn't match" do
       let(:other_media) do
