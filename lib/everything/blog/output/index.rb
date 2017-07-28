@@ -4,11 +4,11 @@ require_relative 'index_template'
 module Everything
   class Blog
     module Output
-      class Index < FileBase
+      class Index < Everything::Blog::Output::FileBase
       private
 
         def template_klass
-          IndexTemplate
+          Everything::Blog::Output::IndexTemplate
         end
       end
     end

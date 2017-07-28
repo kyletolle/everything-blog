@@ -9,14 +9,14 @@ module Everything
           # TODO: Could use some metaprogramming to change the Source namespace
           # to Output.
           case source_file
-          when Source::Index
-            Output::Index.new(source_file)
-          when Source::Stylesheet
-            Output::Stylesheet.new(source_file)
-          when Source::Page
-            Output::Page.new(source_file)
-          when Source::Media
-            Output::Media.new(source_file)
+          when Everything::Blog::Source::Index
+            Everything::Blog::Output::Index.new(source_file)
+          when Everything::Blog::Source::Stylesheet
+            Everything::Blog::Output::Stylesheet.new(source_file)
+          when Everything::Blog::Source::Page
+            Everything::Blog::Output::Page.new(source_file)
+          when Everything::Blog::Source::Media
+            Everything::Blog::Output::Media.new(source_file)
           else
             raise 'No corresponding Output class found for source file type' \
             "`#{source_file.class.name}`."
