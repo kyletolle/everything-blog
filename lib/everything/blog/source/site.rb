@@ -22,26 +22,26 @@ module Everything
       private
 
         def blog_index
-          Source::Index.new(public_post_names_and_titles)
+          Everything::Blog::Source::Index.new(public_post_names_and_titles)
         end
 
         def posts_finder
-          @posts_finder ||= Source::PostsFinder.new
+          @posts_finder ||= Everything::Blog::Source::PostsFinder.new
         end
 
         def stylesheet
-          Source::Stylesheet.new
+          Everything::Blog::Source::Stylesheet.new
         end
 
         def pages
           posts_finder.posts.map do |post|
-            Source::Page.new(post)
+            Everything::Blog::Source::Page.new(post)
           end
         end
 
         def media_for_posts
           posts_finder.media_for_posts.map do |media_path|
-            Source::Media.new(media_path)
+            Everything::Blog::Source::Media.new(media_path)
           end
         end
 
