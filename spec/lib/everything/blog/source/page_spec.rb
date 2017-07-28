@@ -63,14 +63,13 @@ describe Everything::Blog::Source::Page do
     end
   end
 
-  # TODO: Implement this
   describe '#==' do
     include_context 'with fakefs'
     include_context 'create blog path'
 
     context "when the other page's post's full path does not match" do
       before do
-        create_post('some-title', 'Some Title', 'Some body text here.')
+        create_post('some-title')
       end
 
       after do

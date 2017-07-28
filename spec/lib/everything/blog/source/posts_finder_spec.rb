@@ -27,8 +27,8 @@ describe Everything::Blog::Source::PostsFinder do
     context 'where there are posts' do
       context 'where none are public' do
         before do
-          create_post('some-title', 'Some Title', 'This is the body')
-          create_post('another-title', 'Another Title', 'This is the body')
+          create_post('some-title')
+          create_post('another-title')
         end
 
         after do
@@ -61,8 +61,7 @@ describe Everything::Blog::Source::PostsFinder do
 
         context 'where one piece has an older created_at timestamp' do
           before do
-            create_post('some-title', 'Some Title', 'This is the body',
-                        'public' => true, 'created_at' => older_timestamp)
+            create_post('some-title', is_public: true, created_at: older_timestamp)
           end
 
           after do
@@ -71,8 +70,9 @@ describe Everything::Blog::Source::PostsFinder do
 
           context 'and the other has a newer created_at timestamp' do
             before do
-              create_post('another-title', 'Another Title', 'This is the body',
-                          'public' => true, 'created_at' => newer_timestamp )
+              create_post('another-title',
+                          is_public:     true,
+                          created_at: newer_timestamp)
             end
 
             after do
@@ -84,9 +84,9 @@ describe Everything::Blog::Source::PostsFinder do
 
           context 'and the other has a newer wordpress post_date timestamp' do
             before do
-              create_post('another-title', 'Another Title', 'This is the body',
-                          'public'    => true,
-                          'wordpress' => { 'post_date' => newer_timestamp })
+              create_post('another-title',
+                          is_public:     true,
+                          wordpress: { post_date: newer_timestamp })
             end
 
             after do
@@ -99,9 +99,9 @@ describe Everything::Blog::Source::PostsFinder do
 
         context 'where one piece has an older wordpress post_date timestamp' do
           before do
-            create_post('some-title', 'Some Title', 'This is the body',
-                        'public'    => true,
-                        'wordpress' => { 'post_date' => older_timestamp })
+            create_post('some-title',
+                        is_public:    true,
+                        wordpress: { post_date: older_timestamp })
           end
 
           after do
@@ -110,8 +110,8 @@ describe Everything::Blog::Source::PostsFinder do
 
           context 'and the other has a newer created_at timestamp' do
             before do
-              create_post('another-title', 'Another Title', 'This is the body',
-                          'public' => true, 'created_at' => newer_timestamp)
+              create_post('another-title',
+                          is_public: true, created_at: newer_timestamp)
             end
 
             after do
@@ -123,14 +123,13 @@ describe Everything::Blog::Source::PostsFinder do
 
           context 'and the other has a newer wordpress post_date timestamp' do
             before do
-              create_post('another-title', 'Another Title', 'This is the body',
-                          'public'    => true,
-                          'wordpress' => { 'post_date' => newer_timestamp})
+              create_post('another-title',
+                          is_public:    true,
+                          wordpress: { post_date: newer_timestamp })
             end
 
             after do
               delete_post('another-title')
-
             end
 
             include_examples 'returns the most recent post first'
@@ -152,10 +151,10 @@ describe Everything::Blog::Source::PostsFinder do
 
     context 'when there are public posts' do
       before do
-        create_post('some-title', 'Some Title', 'This is the body',
-                    'public' => true, 'created_at' => 111)
-        create_post('another-title', 'Another Title', 'This is the body',
-                    'public' => true, 'created_at' => 121)
+        create_post('some-title',
+                    is_public: true, created_at: 111)
+        create_post('another-title',
+                    is_public: true, created_at: 121)
       end
 
       after do
@@ -189,4 +188,3 @@ describe Everything::Blog::Source::PostsFinder do
     end
   end
 end
-
