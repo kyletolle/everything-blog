@@ -3,7 +3,7 @@ require_relative 'file_base'
 module Everything
   class Blog
     module Output
-      class Stylesheet < FileBase
+      class Stylesheet < Everything::Blog::Output::FileBase
       private
 
         def output_content

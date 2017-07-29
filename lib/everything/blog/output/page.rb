@@ -4,7 +4,7 @@ require_relative 'post_template'
 module Everything
   class Blog
     module Output
-      class Page < FileBase
+      class Page < Everything::Blog::Output::FileBase
         def should_generate_output?
           # TODO: Also need to know if the template changed, because we also
           # want to generate in that case too.
@@ -47,7 +47,7 @@ module Everything
         end
 
         def template_klass
-          PostTemplate
+          Everything::Blog::Output::PostTemplate
         end
       end
     end

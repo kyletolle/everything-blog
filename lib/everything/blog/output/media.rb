@@ -3,7 +3,7 @@ require_relative 'file_base'
 module Everything
   class Blog
     module Output
-      class Media < FileBase
+      class Media < Everything::Blog::Output::FileBase
         def output_content
           source_file.content
         end
