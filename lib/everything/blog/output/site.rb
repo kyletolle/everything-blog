@@ -4,10 +4,6 @@ module Everything
   class Blog
     module Output
       class Site
-        def self.blog_html_path
-          Fastenv.blog_html_path
-        end
-
         def initialize(source_files)
           puts
           puts 'Output: Creating site'

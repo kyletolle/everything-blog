@@ -11,7 +11,7 @@ bundle install --path=.bundle
 Must define these environment variables:
 
 - `EVERYTHING_PATH` - the full path to your everything repo.
-- `BLOG_HTML_PATH` - the full path to write the blog's HTML files
+- `BLOG_OUTPUT_PATH` - the full path to write the blog's HTML files
 - `TEMPLATES_PATH` - the full path of the folder where the HTML templates for
   the blog are stored
 

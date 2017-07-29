@@ -77,16 +77,14 @@ module Everything
         end
 
         def output_file_path
-          File.join(base_output_dir_path, relative_dir_path, output_file_name)
+          File.join(
+            Everything::Blog::Output.absolute_path,
+            relative_dir_path,
+            output_file_name)
         end
 
         def output_dir_path
           File.dirname output_file_path
-        end
-
-        # TODO: Name this something similar to the source site's absolute_path
-        def base_output_dir_path
-          Output::Site.blog_html_path
         end
 
         def template_context
