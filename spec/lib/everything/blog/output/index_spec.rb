@@ -34,3 +34,4 @@ describe Everything::Blog::Output::Index do
     end
   end
 end
+
