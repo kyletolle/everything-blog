@@ -1,3 +1,4 @@
+require_relative '../output'
 require 'kramdown'
 require 'fileutils'
 
