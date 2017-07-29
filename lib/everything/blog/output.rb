@@ -3,11 +3,11 @@ module Everything
     module Output
       class << self
         def absolute_path
-          Fastenv.blog_output_path
+          absolute_pathname.to_s
         end
 
         def absolute_pathname
-          Pathname.new(absolute_path)
+          Pathname.new(Fastenv.blog_output_path)
         end
       end
     end
