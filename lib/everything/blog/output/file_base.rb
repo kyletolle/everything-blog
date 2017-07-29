@@ -1,13 +1,5 @@
 require 'kramdown'
 require 'fileutils'
-require_relative '../source/index'
-require_relative '../source/stylesheet'
-require_relative '../source/page'
-require_relative '../source/media'
-require_relative 'index'
-require_relative 'stylesheet'
-require_relative 'page'
-require_relative 'media'
 
 module Everything
   class Blog
@@ -113,3 +105,11 @@ module Everything
   end
 end
 
+require_relative '../source/index'
+require_relative '../source/stylesheet'
+require_relative '../source/page'
+require_relative '../source/media'
+require_relative 'index'
+require_relative 'stylesheet'
+require_relative 'page'
+require_relative 'media'
