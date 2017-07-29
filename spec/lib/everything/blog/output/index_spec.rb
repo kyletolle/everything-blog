@@ -21,6 +21,12 @@ describe Everything::Blog::Output::Index do
     described_class.new(source_index)
   end
 
+  describe '#output_file_name' do
+    it 'is an index html file' do
+      expect(index.output_file_name).to eq('index.html')
+    end
+  end
+
   describe '#relative_dir_path' do
     it 'should be the same path as the source index' do
       expect(index.relative_dir_path).to eq(source_index.relative_dir_path)

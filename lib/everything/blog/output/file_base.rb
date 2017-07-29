@@ -27,6 +27,10 @@ module Everything
           @source_file = source_file
         end
 
+        def output_file_name
+          'index.html'
+        end
+
         def relative_dir_path
           source_file.relative_dir_path
         end
@@ -62,10 +66,6 @@ module Everything
           @output_content ||= template_klass
             .new(content_html, template_context)
             .merge_content_and_template
-        end
-
-        def output_file_name
-          'index.html'
         end
 
         def output_file_path
