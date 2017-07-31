@@ -2,6 +2,8 @@ require_relative '../output'
 require 'kramdown'
 require 'fileutils'
 
+class Everything::Blog::Output::NoOutputFileTypeFound < StandardError; end
+
 module Everything
   class Blog
     module Output
@@ -19,7 +21,8 @@ module Everything
           when Everything::Blog::Source::Media
             Everything::Blog::Output::Media.new(source_file)
           else
-            raise 'No corresponding Output class found for source file type' \
+            raise Everything::Blog::Output::NoOutputFileTypeFound,
+              'No corresponding Output class found for source file type ' \
             "`#{source_file.class.name}`."
           end
         end
@@ -87,7 +90,6 @@ module Everything
         def template_klass
           raise NotImplementedError
         end
-
 
         def file_type
           :text
