@@ -50,6 +50,26 @@ describe Everything::Blog::Output::Index do
     end
   end
 
+  describe '#save_file' do
+    context 'when the blog output path does not already exist' do
+      it 'creates it'
+    end
+
+    context 'when the blog output path already exists' do
+      it 'does not clear the folder'
+    end
+
+    context 'when the file does not already exist' do
+      it 'creates it'
+      it 'writes the correct file data'
+    end
+
+    context 'when the file already exists' do
+      it 'overwrites it'
+      it 'writes the correct file data'
+    end
+  end
+
   describe '#source_file' do
     it 'returns the source index it was created with' do
       expect(index.source_file).to eq(source_index)
