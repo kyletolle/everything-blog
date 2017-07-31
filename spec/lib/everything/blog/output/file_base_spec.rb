@@ -5,7 +5,7 @@ require './lib/everything/blog/output/file_base'
 
 describe Everything::Blog::Output::FileBase do
   describe '.ToOutputFile' do
-    let(:to_output_file) do
+    let(:output_file) do
       described_class.ToOutputFile(given_source_file)
     end
 
@@ -15,7 +15,7 @@ describe Everything::Blog::Output::FileBase do
       end
 
       it 'raises the correct error and message' do
-        expect { to_output_file }.to raise_error(
+        expect { output_file }.to raise_error(
           Everything::Blog::Output::NoOutputFileTypeFound,
           /No .* Output class found .*String/
         )
@@ -23,15 +23,55 @@ describe Everything::Blog::Output::FileBase do
     end
 
     context 'with a source file of type' do
-      context 'index' do
-        let(:source_index_double) do
-          double(Everything::Blog::Source::Index)
+      shared_examples 'creates the proper output class' do
+        it 'returns the proper output class' do
+          expect(output_file).to be_a(expected_output_class)
         end
-        let(:given_source_file) { source_index_double }
+
+        it 'creates the output class with the source file' do
+          expect(output_file.source_file).to eq(given_source_file)
+        end
       end
-      context 'stylesheet'
-      context 'page'
-      context 'media'
+
+      context 'index' do
+        let(:given_source_file) do
+          Everything::Blog::Source::Index.new({})
+        end
+        let(:expected_output_class) do
+          Everything::Blog::Output::Index
+        end
+        include_examples 'creates the proper output class'
+      end
+
+      context 'stylesheet' do
+        let(:given_source_file) do
+          Everything::Blog::Source::Stylesheet.new
+        end
+        let(:expected_output_class) do
+          Everything::Blog::Output::Stylesheet
+        end
+        include_examples 'creates the proper output class'
+      end
+
+      context 'page' do
+        let(:given_source_file) do
+          Everything::Blog::Source::Page.new(Everything::Blog::Post.new(''))
+        end
+        let(:expected_output_class) do
+          Everything::Blog::Output::Page
+        end
+        include_examples 'creates the proper output class'
+      end
+
+      context 'media' do
+        let(:given_source_file) do
+          Everything::Blog::Source::Media.new('')
+        end
+        let(:expected_output_class) do
+          Everything::Blog::Output::Media
+        end
+        include_examples 'creates the proper output class'
+      end
     end
   end
 end
