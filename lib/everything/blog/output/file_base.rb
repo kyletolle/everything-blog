@@ -27,6 +27,8 @@ module Everything
           end
         end
 
+        attr_reader :source_file
+
         def initialize(source_file)
           @source_file = source_file
         end
@@ -64,8 +66,6 @@ module Everything
         end
 
       private
-
-        attr_reader :source_file
 
         def content_html
           Kramdown::Document

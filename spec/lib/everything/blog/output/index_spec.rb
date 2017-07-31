@@ -50,6 +50,12 @@ describe Everything::Blog::Output::Index do
     end
   end
 
+  describe '#source_file' do
+    it 'returns the source index it was created with' do
+      expect(index.source_file).to eq(source_index)
+    end
+  end
+
   describe '#should_generate_output?' do
     # TODO: Add detection for whether the Index should generate or not.
     it 'should be true' do
