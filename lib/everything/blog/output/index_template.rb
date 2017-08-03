@@ -3,7 +3,7 @@ require_relative 'template_base'
 module Everything
   class Blog
     module Output
-      class IndexTemplate < TemplateBase
+      class IndexTemplate < Everything::Blog::Output::TemplateBase
       private
 
         def template_name
