@@ -35,10 +35,21 @@ describe Everything::Blog::Output::Index do
     end
   end
 
+  describe '#output_dir_path' do
+    let(:expected_output_dir_path) do
+      fake_blog_output_path
+    end
+
+    it 'is the full path for the output dir' do
+      expect(index.output_dir_path).to eq(expected_output_dir_path)
+    end
+  end
+
   describe '#output_file_path' do
     let(:expected_output_file_path) do
       File.join(fake_blog_output_path, index.output_file_name)
     end
+
     it 'is the full path for the output file' do
       expect(index.output_file_path).to eq(expected_output_file_path)
     end

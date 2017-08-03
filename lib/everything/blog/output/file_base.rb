@@ -37,6 +37,10 @@ module Everything
           'index.html'
         end
 
+        def output_dir_path
+          File.dirname output_file_path
+        end
+
         def output_file_path
           File.join(
             Everything::Blog::Output.absolute_path,
@@ -77,10 +81,6 @@ module Everything
           @output_content ||= template_klass
             .new(content_html, template_context)
             .merge_content_and_template
-        end
-
-        def output_dir_path
-          File.dirname output_file_path
         end
 
         def template_context
