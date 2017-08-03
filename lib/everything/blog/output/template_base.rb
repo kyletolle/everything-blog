@@ -18,18 +18,15 @@ module Everything
           end
         end
 
+        def template_path
+          # TODO: We're getting an error for trying to access a child class'
+          # constants. It seems the fix might be wrapping it in a method. For
+          # fucks sake, Ruby. Just lemme do it! https://stackoverflow.com/a/9949907/249218
+          ::File.join(templates_path, TEMPLATE_NAME)
+        end
+
         def templates_path
           Fastenv.templates_path
-        end
-
-      private
-
-        def template_path
-          ::File.join(templates_path, template_name)
-        end
-
-        def template_name
-          raise NotImplementedError
         end
       end
     end

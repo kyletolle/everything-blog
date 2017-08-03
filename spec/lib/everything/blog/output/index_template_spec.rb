@@ -14,6 +14,23 @@ describe Everything::Blog::Output::IndexTemplate do
     described_class.new(given_content_html, given_template_context)
   end
 
+  shared_context 'when templates_path is not set' do
+    before do
+      ENV.delete('TEMPLATES_PATH')
+    end
+  end
+
+  shared_context 'when templates_path is set' do
+    let(:fake_templates_path) do
+      '/some/fake/path'
+    end
+
+    before do
+      ENV['TEMPLATES_PATH'] = fake_templates_path
+    end
+  end
+
+
   describe '#initialize' do
     context 'when content_html is not given' do
       let(:index_template) do
@@ -72,11 +89,36 @@ describe Everything::Blog::Output::IndexTemplate do
     end
   end
 
+  it 'has a TEMPLATE_NAME constant' do
+    expect(described_class).to have_constant(:TEMPLATE_NAME)
+  end
+
+  describe '#template_path' do
+    context 'when templates_path is not set' do
+      include_context 'when templates_path is not set'
+
+      # TODO: Should this raise a better named error?
+      it 'raises an error that the env var is not set' do
+        expect{index_template.templates_path}.to raise_error(NameError)
+      end
+    end
+
+    context 'when templates_path is set' do
+      include_context 'when templates_path is set'
+
+      let(:expected_template_path) do
+        "/some/fake/path/#{described_class::TEMPLATE_NAME}"
+      end
+
+      it 'is the template under the templates_path' do
+        expect(index_template.template_path).to eq(expected_template_path)
+      end
+    end
+  end
+
   describe '#templates_path' do
     context 'when the env var is not set' do
-      before do
-        ENV.delete('TEMPLATES_PATH')
-      end
+      include_context 'when templates_path is not set'
 
       it 'raises an error that the env var is not set' do
         expect{index_template.templates_path}.to raise_error(NameError)
@@ -84,13 +126,7 @@ describe Everything::Blog::Output::IndexTemplate do
     end
 
     context 'when the env var is set' do
-      let(:fake_templates_path) do
-        '/some/fake/path'
-      end
-
-      before do
-        ENV['TEMPLATES_PATH'] = fake_templates_path
-      end
+      include_context 'when templates_path is set'
 
       it 'returns the environment var' do
         expect(index_template.templates_path).to eq(fake_templates_path)
