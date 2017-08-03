@@ -5,6 +5,8 @@ module Everything
   class Blog
     module Output
       class TemplateBase
+        attr_reader :content_html, :template_context
+
         def initialize(content_html, template_context=nil)
           @content_html = content_html
           @template_context = template_context
@@ -16,16 +18,14 @@ module Everything
           end
         end
 
-      private
+        def templates_path
+          Fastenv.templates_path
+        end
 
-        attr_reader :content_html, :template_context
+      private
 
         def template_path
           ::File.join(templates_path, template_name)
-        end
-
-        def templates_path
-          Fastenv.templates_path
         end
 
         def template_name
