@@ -62,22 +62,36 @@ describe Everything::Blog::Output::Index do
   end
 
   describe '#save_file' do
-    context 'when the blog output path does not already exist' do
-      it 'creates it'
+    context 'when a template does not exist' do
+      # TODO:
     end
 
-    context 'when the blog output path already exists' do
-      it 'does not clear the folder'
-    end
+    context 'when a template exists' do
+      # TODO: Need to set up a template here.
 
-    context 'when the file does not already exist' do
-      it 'creates it'
-      it 'writes the correct file data'
-    end
+      context 'when the blog output path does not already exist' do
+        it 'creates it' do
+          expect(Dir.exist?(fake_blog_output_path)).to eq(false)
 
-    context 'when the file already exists' do
-      it 'overwrites it'
-      it 'writes the correct file data'
+          index.save_file
+
+          expect(Dir.exist?(fake_blog_output_path)).to eq(true)
+        end
+      end
+
+      context 'when the blog output path already exists' do
+        it 'does not clear the folder'
+      end
+
+      context 'when the file does not already exist' do
+        it 'creates it'
+        it 'writes the correct file data'
+      end
+
+      context 'when the file already exists' do
+        it 'overwrites it'
+        it 'writes the correct file data'
+      end
     end
   end
 
