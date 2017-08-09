@@ -93,6 +93,12 @@ describe Everything::Blog::Output::IndexTemplate do
     expect(described_class).to have_constant(:TEMPLATE_NAME)
   end
 
+  describe '#template_name' do
+    it 'is the TEMPLATE_NAME constant' do
+      expect(index_template.template_name).to eq(described_class::TEMPLATE_NAME)
+    end
+  end
+
   describe '#template_path' do
     context 'when templates_path is not set' do
       include_context 'when templates_path is not set'

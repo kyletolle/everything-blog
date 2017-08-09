@@ -5,6 +5,10 @@ module Everything
     module Output
       class IndexTemplate < Everything::Blog::Output::TemplateBase
         TEMPLATE_NAME = 'index.html.erb'
+
+        def template_name
+          TEMPLATE_NAME
+        end
       end
     end
   end
