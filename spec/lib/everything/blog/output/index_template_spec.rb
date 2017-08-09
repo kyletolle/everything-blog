@@ -141,7 +141,21 @@ describe Everything::Blog::Output::IndexTemplate do
   end
 
   describe '#template_path' do
+    context 'when the templates_path is not set' do
+      include_context 'when templates_path is not set'
 
+      it 'raises a NameError' do
+        expect{ index_template.template_path }.to raise_error(NameError)
+      end
+    end
+
+    context 'when the templates_path is set' do
+    include_context 'when templates_path is set'
+
+      it 'is the path for the template' do
+        expect(index_template.template_path).to eq('/some/fake/path/index.html.erb')
+      end
+    end
   end
 end
 
