@@ -111,7 +111,7 @@ end
 
 shared_examples 'raises an error for index template not existing' do
   it 'raises an error for the index template not existing' do
-    expect{index.save_file}.to raise_error(Errno::ENOENT, /No such file/)
+    expect{action}.to raise_error(Errno::ENOENT, /No such file/)
   end
 end
 
