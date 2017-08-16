@@ -45,7 +45,8 @@ module Everything
           File.join(
             Everything::Blog::Output.absolute_path,
             relative_dir_path,
-            output_file_name)
+            output_file_name
+          )
         end
 
         def relative_dir_path
