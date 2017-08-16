@@ -63,11 +63,20 @@ describe Everything::Blog::Output::Index do
 
   describe '#save_file' do
     context 'when a template does not exist' do
-      # TODO:
+      it 'raises an error' do
+        expect{index.save_file}.to raise_error(Errno::ENOENT, /No such file/)
+      end
     end
 
     context 'when a template exists' do
-      # TODO: Need to set up a template here.
+      let(:expected_file_data_regex) do
+        /\<html.*\>/
+      end
+
+      before do
+        index_template_file = Everything::Blog::Output::IndexTemplate.new('').template_path
+        FakeFS::FileSystem.clone(index_template_file)
+      end
 
       context 'when the blog output path does not already exist' do
         it 'creates it' do
@@ -80,17 +89,81 @@ describe Everything::Blog::Output::Index do
       end
 
       context 'when the blog output path already exists' do
-        it 'does not clear the folder'
+        let(:fake_file_path) do
+          File.join(fake_blog_output_path, 'something.txt')
+        end
+
+        before do
+          FileUtils.mkdir_p(fake_blog_output_path)
+          File.write(fake_file_path, 'fake file')
+        end
+
+        after do
+          FileUtils.rm(fake_file_path)
+          FileUtils.rm(index.output_file_path)
+          FileUtils.rmdir(fake_blog_output_path)
+        end
+
+        it 'keeps the folder out there' do
+          expect(Dir.exist?(fake_blog_output_path)).to eq(true)
+
+          index.save_file
+
+          expect(Dir.exist?(fake_blog_output_path)).to eq(true)
+        end
+
+        it 'does not clear existing files in the folder' do
+          expect(File.exist?(fake_file_path)).to eq(true)
+
+          index.save_file
+
+          expect(File.exist?(fake_file_path)).to eq(true)
+        end
       end
 
       context 'when the file does not already exist' do
-        it 'creates it'
-        it 'writes the correct file data'
+        it 'creates it' do
+          expect(File.exist?(index.output_file_path)).to eq(false)
+
+          index.save_file
+
+          expect(File.exist?(index.output_file_path)).to eq(true)
+        end
+
+        it 'writes the HTML file data' do
+          # TODO: If we want to test this in finer detail, we might want to
+          # test the interaction with Tilt and all that, so we aren't hardcoding
+          # a lot of HTML into the spec file.
+          index.save_file
+
+          index_file_data = File.read(index.output_file_path)
+          expect(index_file_data).to match(expected_file_data_regex)
+        end
       end
 
       context 'when the file already exists' do
-        it 'overwrites it'
-        it 'writes the correct file data'
+        before do
+          FileUtils.mkdir_p(fake_blog_output_path)
+          File.write(index.output_file_path, 'random text')
+        end
+
+        it 'does not delete the file' do
+          expect(File.exist?(index.output_file_path)).to eq(true)
+
+          index.save_file
+
+          expect(File.exist?(index.output_file_path)).to eq(true)
+        end
+
+        it 'overwrites it with the correct file data' do
+          index_file_data = File.read(index.output_file_path)
+          expect(index_file_data).not_to match(expected_file_data_regex)
+
+          index.save_file
+
+          index_file_data = File.read(index.output_file_path)
+          expect(index_file_data).to match(expected_file_data_regex)
+        end
       end
     end
   end
