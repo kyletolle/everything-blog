@@ -99,3 +99,19 @@ shared_context 'stub out blog output path' do
   end
 end
 
+shared_context 'with an index template' do
+  let(:index_template_file_path) do
+    Everything::Blog::Output::IndexTemplate.new('').template_path
+  end
+
+  before do
+    FakeFS::FileSystem.clone(index_template_file_path)
+  end
+end
+
+shared_examples 'raises an error for index template not existing' do
+  it 'raises an error for the index template not existing' do
+    expect{index.save_file}.to raise_error(Errno::ENOENT, /No such file/)
+  end
+end
+

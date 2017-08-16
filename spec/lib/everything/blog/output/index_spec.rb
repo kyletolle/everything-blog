@@ -62,21 +62,16 @@ describe Everything::Blog::Output::Index do
   end
 
   describe '#save_file' do
-    context 'when a template does not exist' do
-      it 'raises an error' do
-        expect{index.save_file}.to raise_error(Errno::ENOENT, /No such file/)
-      end
+    context 'when an index template does not exist' do
+      include_examples 'raises an error for index template not existing'
     end
 
-    context 'when a template exists' do
+    context 'when an index template exists' do
       let(:expected_file_data_regex) do
         /\<html.*\>/
       end
 
-      before do
-        index_template_file = Everything::Blog::Output::IndexTemplate.new('').template_path
-        FakeFS::FileSystem.clone(index_template_file)
-      end
+      include_context 'with an index template'
 
       context 'when the blog output path does not already exist' do
         it 'creates it' do
