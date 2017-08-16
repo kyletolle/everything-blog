@@ -53,11 +53,8 @@ module Everything
         end
 
         def save_file
-          puts
-          puts "Output FileBase: Want to create path: #{output_dir_path}"
           FileUtils.mkdir_p(output_dir_path)
 
-          puts "Output FileBase: Want to create file: #{output_file_path}"
           File.open(output_file_path, file_mode) do |file|
             file.write(output_content)
           end
