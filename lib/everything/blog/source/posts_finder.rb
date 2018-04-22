@@ -43,10 +43,14 @@ module Everything
 
         def ordered_public_posts
           public_posts.sort do |a,b|
-            a_created_at = a.piece.metadata['created_at'] ||
-              a.piece.metadata['wordpress']['post_date']
-            b_created_at = b.piece.metadata['created_at'] ||
-              b.piece.metadata['wordpress']['post_date']
+            # a_created_at = a.piece.metadata['created_at'] ||
+            #   a.piece.metadata['wordpress']['post_date']
+            # b_created_at = b.piece.metadata['created_at'] ||
+            #   b.piece.metadata['wordpress']['post_date']
+
+            # TODO: This is what we want to move toward soon.
+            a_created_at = a.piece.metadata['created_on']
+            b_created_at = b.piece.metadata['created_on']
 
             b_created_at <=> a_created_at
           end
