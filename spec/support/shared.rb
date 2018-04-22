@@ -99,6 +99,8 @@ shared_context 'stub out blog output path' do
   end
 end
 
+# TODO: This isn't as reusable as I'd hoped. Need to also set the TEMPLATES_PATH
+# env var.
 shared_context 'with an index template' do
   let(:index_template_file_path) do
     Everything::Blog::Output::IndexTemplate.new('').template_path
