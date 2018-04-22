@@ -42,13 +42,12 @@ module Everything
         end
 
         def ordered_public_posts
+          # Note: According to this
+          # [post](http://www.virtuouscode.com/2009/10/25/iso8601-dates-in-ruby/)
+          # ISO 8601 dates are lexigraphically sortable, which is what we rely
+          # on here. It would be possible to get the actual Date objects by
+          # doing `require 'date'` and `Date.iso8601('2018-01-01')`
           public_posts.sort do |a,b|
-            # a_created_at = a.piece.metadata['created_at'] ||
-            #   a.piece.metadata['wordpress']['post_date']
-            # b_created_at = b.piece.metadata['created_at'] ||
-            #   b.piece.metadata['wordpress']['post_date']
-
-            # TODO: This is what we want to move toward soon.
             a_created_at = a.piece.metadata['created_on']
             b_created_at = b.piece.metadata['created_on']
 
