@@ -8,50 +8,6 @@ require 'fakefs/spec_helpers'
 describe Everything::Blog::Source::Media do
   include FakeFS::SpecHelpers
 
-  shared_context 'with fake png' do
-    include_context 'stub out everything path'
-
-    let(:test_png_file_path) do
-      File.join(
-        RSpec::Core::RubyProject.root,
-        'spec',
-        'data',
-        '1x1_black_square.png')
-    end
-    let(:test_png_data) do
-      FakeFS::FileSystem.clone(test_png_file_path)
-      File.binread(test_png_file_path)
-    end
-    let(:given_png_file_name) do
-      'image.png'
-    end
-    let(:given_png_dir_path) do
-      File.join(Everything::Blog::Source.absolute_path, given_post_name)
-    end
-    let(:given_png_file_path) do
-      File.join(given_png_dir_path, given_png_file_name)
-    end
-    let(:given_post_name) do
-      'not-a-real-post'
-    end
-
-    before do
-      FakeFS.activate!
-
-      FileUtils.mkdir_p(given_png_dir_path)
-
-      File.open(given_png_file_path, 'wb') do |f|
-        f.write(test_png_data)
-      end
-    end
-
-    after do
-      FileUtils.rm_rf(given_png_dir_path)
-
-      FakeFS.deactivate!
-    end
-  end
-
   include_context 'with fake png'
 
   let(:given_source_file_path) do
