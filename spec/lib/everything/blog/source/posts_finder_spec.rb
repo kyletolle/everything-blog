@@ -52,80 +52,27 @@ describe Everything::Blog::Source::PostsFinder do
           posts_finder.posts.map(&:name)
         end
 
-        let(:newer_timestamp) do
-          Time.now.to_i
+        let(:newer_date) do
+          '2018-04-21'
         end
-        let(:older_timestamp) do
-          newer_timestamp - 1
+        let(:older_date) do
+          '2018-01-01'
         end
 
-        context 'where one piece has an older created_at timestamp' do
+        context 'where one piece has an older created_on date' do
           before do
-            create_post('some-title', is_public: true, created_at: older_timestamp)
+            create_post('some-title', is_public: true, created_on: older_date)
           end
 
           after do
             delete_post('some-title')
           end
 
-          context 'and the other has a newer created_at timestamp' do
+          context 'and the other has a newer created_on date' do
             before do
               create_post('another-title',
                           is_public:     true,
-                          created_at: newer_timestamp)
-            end
-
-            after do
-              delete_post('another-title')
-            end
-
-            include_examples 'returns the most recent post first'
-          end
-
-          context 'and the other has a newer wordpress post_date timestamp' do
-            before do
-              create_post('another-title',
-                          is_public:     true,
-                          wordpress: { post_date: newer_timestamp })
-            end
-
-            after do
-              delete_post('another-title')
-            end
-
-            include_examples 'returns the most recent post first'
-          end
-        end
-
-        context 'where one piece has an older wordpress post_date timestamp' do
-          before do
-            create_post('some-title',
-                        is_public:    true,
-                        wordpress: { post_date: older_timestamp })
-          end
-
-          after do
-            delete_post('some-title')
-          end
-
-          context 'and the other has a newer created_at timestamp' do
-            before do
-              create_post('another-title',
-                          is_public: true, created_at: newer_timestamp)
-            end
-
-            after do
-              delete_post('another-title')
-            end
-
-            include_examples 'returns the most recent post first'
-          end
-
-          context 'and the other has a newer wordpress post_date timestamp' do
-            before do
-              create_post('another-title',
-                          is_public:    true,
-                          wordpress: { post_date: newer_timestamp })
+                          created_on: newer_date)
             end
 
             after do
@@ -152,9 +99,9 @@ describe Everything::Blog::Source::PostsFinder do
     context 'when there are public posts' do
       before do
         create_post('some-title',
-                    is_public: true, created_at: 111)
+                    is_public: true, created_on: '2018-01-01')
         create_post('another-title',
-                    is_public: true, created_at: 121)
+                    is_public: true, created_on: '2018-02-02')
       end
 
       after do
