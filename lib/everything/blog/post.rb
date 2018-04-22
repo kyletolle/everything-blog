@@ -10,6 +10,8 @@ module Everything
         @post_name = post_name
       end
 
+      # TODO: Need to move to the created_on metadata that now exists in the
+      # blog metadata. Move away from all this created_on junk.
       def created_at
         # TODO: If there is no timestamp, perhaps we want to say "Unknown" date?
         # Or should we raise an error if something doesn't have a timestamp?
