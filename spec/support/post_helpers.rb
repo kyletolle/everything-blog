@@ -1,9 +1,10 @@
+require 'date'
 require 'active_support'
 require 'active_support/core_ext/hash/keys'
 
 # Got this idea from: https://stackoverflow.com/questions/8126802/when-testing-with-rspec-where-to-put-common-test-utility-methods
 module PostHelpers
-  def create_post(post_name, title:'Blah', body:'Super blah, foo blah.', is_public: false, created_at: nil, wordpress: nil)
+  def create_post(post_name, title:'Blah', body:'Super blah, foo blah.', is_public: false, created_on: nil)
     piece_path = File.join(Everything::Blog::Source.absolute_path, post_name)
     piece = Everything::Piece.new(piece_path)
 
@@ -15,12 +16,11 @@ module PostHelpers
 
     metadata = {}.tap do |h|
       h['public'] = is_public || false
-      h['wordpress'] = wordpress.deep_stringify_keys if wordpress
-      h['created_at'] =
-        if created_at
-          created_at
-        elsif !wordpress
-          Time.now.to_i
+      h['created_on'] =
+        if created_on
+          created_on
+        else
+          Time.now.to_date.iso8601
         end
     end
 
