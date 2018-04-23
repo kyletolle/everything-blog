@@ -6,7 +6,7 @@ require 'fakefs/spec_helpers'
 require './spec/support/shared'
 require './spec/support/post_helpers'
 
-describe Everything::Blog::Output::Index do
+describe Everything::Blog::Output::Media do
   include FakeFS::SpecHelpers
   include PostHelpers
 
@@ -17,15 +17,12 @@ describe Everything::Blog::Output::Index do
   include_context 'with fake png'
 
   let(:source_media) do
-    # TODO: Need to create this with a source file... Which, remind me, is what
-    # again? Just a path? Yes, the Source::PostsFinder uses the media paths.
     Everything::Blog::Source::Media.new(test_png_file_path)
   end
   let(:media) do
     described_class.new(source_media)
   end
 
-  #TODO: This is giving me some trouble when I try to add this new spec.
   describe '#output_file_name' do
     it 'is the source file name' do
       expect(media.output_file_name).to eq('1x1_black_square.png')
