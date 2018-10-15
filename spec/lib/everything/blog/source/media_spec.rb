@@ -56,5 +56,27 @@ describe Everything::Blog::Source::Media do
       end
     end
   end
+
+  # TODO: Test the methods inherited from Source::FileBase too.
+  # include_context 'acts like a source file'
+
+  describe "#relative_dir_path" do
+    let(:expected_relative_dir_path) do
+      '/not-a-real-post'
+    end
+    it 'is the blah blah' do
+      expect(media.relative_dir_path).to eq(expected_relative_dir_path)
+    end
+  end
+
+  describe "#relative_file_path" do
+    let(:expected_relative_file_path) do
+      '/not-a-real-post/image.png'
+    end
+
+    it 'is the blah blah' do
+      expect(media.relative_file_path).to eq(expected_relative_file_path)
+    end
+  end
 end
 
