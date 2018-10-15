@@ -126,7 +126,7 @@ describe Everything::Blog::Post do
 
   describe '#created_on' do
     let(:given_created_at) do
-      1491886636
+      1539644464
     end
 
     before do
@@ -137,13 +137,13 @@ describe Everything::Blog::Post do
     end
 
     it 'is the human-friendly, American-style date' do
-      expect(post.created_on).to eq('April 10, 2017')
+      expect(post.created_on).to eq('October 15, 2018')
     end
   end
 
   describe '#created_on_iso8601' do
     let(:given_created_at) do
-      1491886636
+      1539644464
     end
 
     before do
@@ -154,7 +154,7 @@ describe Everything::Blog::Post do
     end
 
     it 'is the ISO 8601 format date' do
-      expect(post.created_on_iso8601).to eq('2017-04-10')
+      expect(post.created_on_iso8601).to eq('2018-10-15')
     end
   end
 
