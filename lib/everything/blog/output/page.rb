@@ -8,7 +8,10 @@ module Everything
         def should_generate_output?
           # TODO: Also need to know if the template changed, because we also
           # want to generate in that case too.
+          # TODO: Having a way to force regeneration of all pages would also be
+          # nice to have.
           markdown_newer_than_output? || metadata_newer_than_output?
+          # true
         end
 
         def template_context
