@@ -23,15 +23,15 @@ describe Everything::Blog::Output::Media do
     described_class.new(source_media)
   end
 
-  describe '#output_file_name' do
-    it 'is the source file name' do
-      expect(media.output_file_name).to eq(source_media.file_name)
-    end
-  end
-
   describe '#output_content' do
     it 'is the source content' do
       expect(media.output_content).to eq(source_media.content)
+    end
+  end
+
+  describe '#output_file_name' do
+    it 'is the source file name' do
+      expect(media.output_file_name).to eq(source_media.file_name)
     end
   end
 
