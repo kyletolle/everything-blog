@@ -193,5 +193,12 @@ describe Everything::Blog::Output::Media do
       expect(media.source_file).to eq(source_media)
     end
   end
+
+  describe '#should_generate_output?' do
+    # TODO: Add detection for whether the Media should generate or not.
+    it 'should be true' do
+      expect(media.should_generate_output?).to eq(true)
+    end
+  end
 end
 
