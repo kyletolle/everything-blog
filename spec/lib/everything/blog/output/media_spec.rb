@@ -91,6 +91,15 @@ describe Everything::Blog::Output::Media do
     end
   end
 
+  describe '#output_file_path' do
+    let(:expected_output_file_path) do
+      File.join(fake_blog_output_path, given_post_name, media.output_file_name)
+    end
+
+    it 'is the full path for the output file' do
+      expect(media.output_file_path).to eq(expected_output_file_path)
+    end
+  end
 
   describe "#relative_dir_path" do
     it "should be the same path as the source media" do
