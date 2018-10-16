@@ -187,5 +187,11 @@ describe Everything::Blog::Output::Media do
       end
     end
   end
+
+  describe '#source_file' do
+    it 'returns the source media it was created with' do
+      expect(media.source_file).to eq(source_media)
+    end
+  end
 end
 
