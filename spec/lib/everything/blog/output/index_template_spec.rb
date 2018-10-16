@@ -21,8 +21,15 @@ describe Everything::Blog::Output::IndexTemplate do
   end
 
   shared_context 'when templates_path is not set' do
+    # TODO: Is there a better way to test this stuff than actually setting and
+    # deleting env vars?
     before do
+      @original_templates_path = ENV['TEMPLATES_PATH']
       ENV.delete('TEMPLATES_PATH')
+    end
+
+    after do
+      ENV['TEMPLATES_PATH'] = @original_templates_path
     end
   end
 
@@ -31,8 +38,15 @@ describe Everything::Blog::Output::IndexTemplate do
       '/some/fake/path'
     end
 
+    # TODO: Is there a better way to test this stuff than actually setting and
+    # deleting env vars?
     before do
+      @original_templates_path = ENV['TEMPLATES_PATH']
       ENV['TEMPLATES_PATH'] = given_templates_path
+    end
+
+    after do
+      ENV['TEMPLATES_PATH'] = @original_templates_path
     end
   end
 
