@@ -1,7 +1,7 @@
 require 'pp' # Helps prevent an error like: 'superclass mismatch for class File'
 require 'bundler/setup'
 Bundler.require(:default)
-require './lib/everything/blog/output/index'
+require './lib/everything/blog/output/media'
 require 'fakefs/spec_helpers'
 require './spec/support/shared'
 require './spec/support/post_helpers'
