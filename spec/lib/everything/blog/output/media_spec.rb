@@ -4,11 +4,9 @@ Bundler.require(:default)
 require './lib/everything/blog/output/media'
 require 'fakefs/spec_helpers'
 require './spec/support/shared'
-require './spec/support/post_helpers'
 
 describe Everything::Blog::Output::Media do
   include FakeFS::SpecHelpers
-  include PostHelpers
 
   include_context 'with fakefs'
   include_context 'create blog path'
