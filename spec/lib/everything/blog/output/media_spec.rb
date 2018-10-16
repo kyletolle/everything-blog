@@ -17,7 +17,7 @@ describe Everything::Blog::Output::Media do
   include_context 'with fake png'
 
   let(:source_media) do
-    Everything::Blog::Source::Media.new(test_png_file_path)
+    Everything::Blog::Source::Media.new(given_png_file_path)
   end
   let(:media) do
     described_class.new(source_media)
@@ -78,6 +78,23 @@ describe Everything::Blog::Output::Media do
       it 'is the mpeg MIME type' do
         expect(media.content_type).to eq('audio/mpeg')
       end
+    end
+  end
+
+  describe '#output_dir_path' do
+    let(:expected_output_dir_path) do
+      File.join(fake_blog_output_path, given_post_name)
+    end
+
+    it 'is the full path for the output dir' do
+      expect(media.output_dir_path).to eq(expected_output_dir_path)
+    end
+  end
+
+
+  describe "#relative_dir_path" do
+    it "should be the same path as the source media" do
+      expect(media.relative_dir_path).to eq(source_media.relative_dir_path)
     end
   end
 end
