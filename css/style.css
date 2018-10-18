@@ -178,6 +178,19 @@ blockquote p {
   margin-bottom: 0;
 }
 
+dt {
+  font-weight: bold;
+  font-size: 1.2em;
+  line-height: 1.6em;
+  padding-bottom: .25em;
+}
+
+dd {
+  font-size: 1.0em;
+  line-height: 1.6em;
+  margin-bottom: 1em;
+}
+
 footer {
   margin: 1.0em;
 }
