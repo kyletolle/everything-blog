@@ -59,7 +59,10 @@ shared_context 'with fake piece' do
     end
 
     File.open(fake_piece.metadata.file_path, 'w') do |f|
-      f.write("---\npublic: #{post_options[:public?] || false}")
+      public_metadata = "public: #{post_options[:public?] || false}"
+      now_iso8601 = Time.now.strftime('%Y-%m-%d')
+      created_on_metadata = "created_on: #{post_options[:created_on] || now_iso8601}"
+      f.write("---\n#{public_metadata}\n#{created_on_metadata}")
     end
   end
 
@@ -113,6 +116,24 @@ end
 
 shared_examples 'raises an error for index template not existing' do
   it 'raises an error for the index template not existing' do
+    expect{action}.to raise_error(Errno::ENOENT, /No such file/)
+  end
+end
+
+# TODO: This isn't as reusable as I'd hoped. Need to also set the TEMPLATES_PATH
+# env var.
+shared_context 'with a post template' do
+  let(:post_template_file_path) do
+    Everything::Blog::Output::PostTemplate.new('').template_path
+  end
+
+  before do
+    FakeFS::FileSystem.clone(post_template_file_path)
+  end
+end
+
+shared_examples 'raises an error for post template not existing' do
+  it 'raises an error for the post template not existing' do
     expect{action}.to raise_error(Errno::ENOENT, /No such file/)
   end
 end
