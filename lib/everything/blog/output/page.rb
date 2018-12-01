@@ -10,8 +10,8 @@ module Everything
           # want to generate in that case too.
           # TODO: Having a way to force regeneration of all pages would also be
           # nice to have.
-          markdown_newer_than_output? || metadata_newer_than_output?
-          # true
+          # markdown_newer_than_output? || metadata_newer_than_output?
+          true
         end
 
         def template_context
