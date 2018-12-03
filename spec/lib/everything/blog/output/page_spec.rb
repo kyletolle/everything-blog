@@ -30,10 +30,47 @@ describe Everything::Blog::Output::Page do
   end
 
   describe '#should_generate_output?' do
-    # TODO: Want to make this smarter and use the conditionals in code, but need
-    # to have tests for that...
-    it 'is always true' do
-      expect(page.should_generate_output?).to eq(true)
+    # Assuming the post template exists.
+    include_context 'with a post template'
+
+    context 'when page has never been saved before' do
+      it 'is true' do
+        expect(page.should_generate_output?).to eq(true)
+      end
+    end
+
+    context 'when page has been saved before' do
+      before do
+        page.save_file
+      end
+
+      context 'when source markdown has not been modified since the page was saved' do
+        context 'when source metadata has not been modified since the page was saved' do
+          it 'is false' do
+            expect(page.should_generate_output?).to eq(false)
+          end
+        end
+
+        context 'when source metadata has been modified since the page was saved' do
+          before do
+            FileUtils.touch(given_post.piece.metadata.file_path)
+          end
+
+          it 'is true' do
+            expect(page.should_generate_output?).to eq(true)
+          end
+        end
+      end
+
+      context 'when the source markdown has been modified since the page was saved' do
+        before do
+          FileUtils.touch(given_post.piece.content.file_path)
+        end
+
+        it 'is true' do
+          expect(page.should_generate_output?).to eq(true)
+        end
+      end
     end
   end
 
