@@ -112,7 +112,7 @@ describe Everything::Blog::Output::Page do
         after do
           FileUtils.rm(fake_file_path)
           FileUtils.rm(page.output_file_path)
-          FileUtils.rm(page.output_dir_path)
+          FileUtils.rmdir(page.output_dir_path)
           FileUtils.rmdir(fake_blog_output_path)
         end
 
@@ -125,6 +125,40 @@ describe Everything::Blog::Output::Page do
         end
 
         it 'does not clear existing files in the folder' do
+          expect(File.exist?(fake_file_path)).to eq(true)
+
+          page.save_file
+
+          expect(File.exist?(fake_file_path)).to eq(true)
+        end
+      end
+
+      context 'when the blog post output path already exists' do
+        let(:fake_file_path) do
+          File.join(page.output_dir_path, 'something.txt')
+        end
+
+        before do
+          FileUtils.mkdir_p(page.output_dir_path)
+          File.write(fake_file_path, 'fake file')
+        end
+
+        after do
+          FileUtils.rm(fake_file_path)
+          FileUtils.rm(page.output_file_path)
+          FileUtils.rmdir(page.output_dir_path)
+          FileUtils.rmdir(fake_blog_output_path)
+        end
+
+        it 'keeps the folder out there' do
+          expect(Dir.exist?(page.output_dir_path)).to eq(true)
+
+          page.save_file
+
+          expect(Dir.exist?(page.output_dir_path)).to eq(true)
+        end
+
+        it 'does not clear files in the folder' do
           expect(File.exist?(fake_file_path)).to eq(true)
 
           page.save_file
