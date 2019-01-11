@@ -84,8 +84,16 @@ a:hover   { text-decoration: underline; }
 a:visited { color: #205caa; }
 
 ul {
+  margin-bottom: 1em;
+  padding-left: 2em;
+}
+
+ul ul {
+  margin-bottom: 0;
+}
+
+#all ul {
   list-style-position: outside;
-  margin-bottom: 1.0em;
 }
 
 li p {
