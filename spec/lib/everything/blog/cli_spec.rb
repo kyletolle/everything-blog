@@ -1,4 +1,5 @@
 require './lib/everything/blog/cli'
+
 describe Everything::Blog::CLI do
   describe '#generate' do
     let(:given_cli_arguments) do
