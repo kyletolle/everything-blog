@@ -4,10 +4,10 @@ module Everything
   class Blog
     module Output
       class PostTemplate < TemplateBase
-      private
+        TEMPLATE_NAME = 'post.html.erb'
 
         def template_name
-          'post.html.erb'
+          TEMPLATE_NAME
         end
       end
     end
