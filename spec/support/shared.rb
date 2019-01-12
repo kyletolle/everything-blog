@@ -113,10 +113,20 @@ shared_context 'with an index template' do
     FakeFS::FileSystem.clone(index_template_file_path)
   end
 end
+shared_context 'with a post template' do
+  let(:post_template_file_path) do
+    Everything::Blog::Output::PostTemplate.new('').template_path
+  end
 
-shared_examples 'raises an error for index template not existing' do
-  it 'raises an error for the index template not existing' do
-    expect{action}.to raise_error(Errno::ENOENT, /No such file/)
+  before do
+    FakeFS::FileSystem.clone(post_template_file_path)
+  end
+end
+
+shared_examples 'raises an error for template not existing' do
+  it 'raises an error for the template not existing' do
+    expect{given_template.merge_content_and_template}
+      .to raise_error(Errno::ENOENT, /No such file/)
   end
 end
 
@@ -129,12 +139,6 @@ shared_context 'with a post template' do
 
   before do
     FakeFS::FileSystem.clone(post_template_file_path)
-  end
-end
-
-shared_examples 'raises an error for post template not existing' do
-  it 'raises an error for the post template not existing' do
-    expect{action}.to raise_error(Errno::ENOENT, /No such file/)
   end
 end
 
@@ -182,3 +186,155 @@ shared_context 'with fake png' do
   end
 end
 
+shared_context 'when templates_path is not set' do
+  # TODO: Is there a better way to test this stuff than actually setting and
+  # deleting env vars?
+  before do
+    @original_templates_path = ENV['TEMPLATES_PATH']
+    ENV.delete('TEMPLATES_PATH')
+  end
+
+  after do
+    ENV['TEMPLATES_PATH'] = @original_templates_path
+  end
+end
+
+shared_context 'when templates_path is set' do
+  let(:given_templates_path) do
+    '/some/fake/path'
+  end
+
+  # TODO: Is there a better way to test this stuff than actually setting and
+  # deleting env vars?
+  before do
+    @original_templates_path = ENV['TEMPLATES_PATH']
+    ENV['TEMPLATES_PATH'] = given_templates_path
+  end
+
+  after do
+    ENV['TEMPLATES_PATH'] = @original_templates_path
+  end
+end
+
+shared_examples 'raises an error about the env var' do
+  it 'raises an error that the env var is not set' do
+    # TODO: Should this raise a better named error?
+    expect{action}.to raise_error(NameError)
+  end
+end
+
+shared_context 'with a fake template file' do
+  before do
+    FileUtils.mkdir_p(given_template.templates_path)
+    File.write(given_template.template_path, '')
+  end
+end
+
+shared_examples 'renders the template with Tilt' do
+  it 'passes the template_path to Tilt' do
+    allow(Tilt)
+      .to receive(:new)
+      .with(given_template.template_path)
+      .and_call_original
+
+    given_template.merge_content_and_template
+
+    expect(Tilt).to have_received(:new).with(given_template.template_path)
+  end
+
+  it 'renders using the given template_context' do
+    fake_erb_template = double(Tilt::ERBTemplate)
+
+    allow(Tilt)
+      .to receive(:new)
+      .and_return(fake_erb_template)
+    allow(fake_erb_template)
+      .to receive(:render)
+      .with(given_template_context)
+
+    given_template.merge_content_and_template
+
+    expect(fake_erb_template)
+      .to have_received(:render)
+      .with(given_template_context)
+  end
+
+  it 'renders using the given content_html' do
+    fake_erb_template = double(Tilt::ERBTemplate)
+
+    allow(Tilt)
+      .to receive(:new)
+      .and_return(fake_erb_template)
+
+    # Note: Found this helpful approach to verify the block value:
+    # https://stackoverflow.com/a/31996525/249218
+    expect(fake_erb_template)
+      .to receive(:render) do |&block|
+        expect(block.call).to eq(given_content_html)
+    end
+
+    given_template.merge_content_and_template
+  end
+end
+
+shared_examples 'behaves like a TemplateBase' do
+  describe '#content_html' do
+    it 'is a method' do
+      expect(given_template).to respond_to(:content_html)
+    end
+  end
+
+  describe '#template_context' do
+    it 'is a method' do
+      expect(given_template).to respond_to(:template_context)
+    end
+  end
+
+  it 'has a TEMPLATE_NAME constant' do
+    expect(described_class).to have_constant(:TEMPLATE_NAME)
+  end
+
+  describe '#template_name' do
+    it 'is the TEMPLATE_NAME constant' do
+      expect(given_template.template_name).to eq(described_class::TEMPLATE_NAME)
+    end
+  end
+
+  describe '#template_path' do
+    context 'when templates_path is not set' do
+      include_context 'when templates_path is not set'
+
+      include_examples 'raises an error about the env var'
+    end
+
+    context 'when templates_path is set' do
+      include_context 'when templates_path is set'
+
+      let(:expected_template_path) do
+        File.join('', 'some', 'fake', 'path', described_class::TEMPLATE_NAME)
+      end
+
+      it 'is the path for the template under the templates_path' do
+        expect(given_template.template_path).to eq(expected_template_path)
+      end
+    end
+  end
+
+  describe '#templates_path' do
+    context 'when the env var is not set' do
+      include_context 'when templates_path is not set'
+
+      it 'raises an error that the env var is not set' do
+        expect{given_template.templates_path}.to raise_error(NameError)
+      end
+    end
+
+    context 'when the env var is set' do
+      include_context 'when templates_path is set'
+
+      it 'returns the environment var' do
+        expect(given_template.templates_path).to eq(given_templates_path)
+      end
+    end
+  end
+end
