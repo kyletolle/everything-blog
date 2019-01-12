@@ -116,7 +116,7 @@ describe Everything::Blog::Output::Page do
         page.save_file
       end
 
-      include_examples 'raises an error for post template not existing'
+      include_examples 'raises an error for template not existing'
     end
 
     context 'when a post template exists' do

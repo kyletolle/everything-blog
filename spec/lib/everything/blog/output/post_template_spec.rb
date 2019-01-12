@@ -93,8 +93,8 @@ describe Everything::Blog::Output::PostTemplate do
       include_context 'when templates_path is set'
 
       context 'when a post template does not exist' do
-        let(:given_template) do
-          post_template
+        let(:action) do
+          post_template.merge_content_and_template
         end
 
         include_examples 'raises an error for template not existing'

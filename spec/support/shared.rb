@@ -125,7 +125,7 @@ end
 
 shared_examples 'raises an error for template not existing' do
   it 'raises an error for the template not existing' do
-    expect{given_template.merge_content_and_template}
+    expect{action}
       .to raise_error(Errno::ENOENT, /No such file/)
   end
 end

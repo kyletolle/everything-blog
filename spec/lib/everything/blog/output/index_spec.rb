@@ -68,7 +68,7 @@ describe Everything::Blog::Output::Index do
         index.save_file
       end
 
-      include_examples 'raises an error for index template not existing'
+      include_examples 'raises an error for template not existing'
     end
 
     context 'when an index template exists' do

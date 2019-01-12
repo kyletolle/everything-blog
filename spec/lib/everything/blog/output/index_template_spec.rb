@@ -93,8 +93,8 @@ describe Everything::Blog::Output::IndexTemplate do
       include_context 'when templates_path is set'
 
       context 'when an index template does not exist' do
-        let(:given_template) do
-          index_template
+        let(:action) do
+          index_template.merge_content_and_template
         end
 
         include_examples 'raises an error for template not existing'
