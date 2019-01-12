@@ -278,6 +278,56 @@ shared_examples 'renders the template with Tilt' do
 end
 
 shared_examples 'behaves like a TemplateBase' do
+  describe '#initialize' do
+    context 'when content_html is not given' do
+      let(:given_template) do
+        described_class.new
+      end
+
+      it 'raises an ArgumentError' do
+        expect{given_template}.to raise_error(ArgumentError)
+      end
+    end
+
+    context 'when content_html is given' do
+      context 'when template_context is not given' do
+        let(:given_template) do
+          described_class.new(given_content_html)
+        end
+
+        it 'raises no ArgumentError' do
+          expect{given_template}.not_to raise_error
+        end
+
+        it 'sets the content_html attr' do
+          expect(given_template.content_html).to eq(given_content_html)
+        end
+
+        it 'defaults the template_context attr to nil' do
+          expect(given_template.template_context).to eq(nil)
+        end
+      end
+
+      context 'when template_context is given' do
+        let(:given_template) do
+          described_class.new(given_content_html, given_template_context)
+        end
+
+        it 'raises no ArgumentError' do
+          expect{given_template}.not_to raise_error
+        end
+
+        it 'sets the content_html attr' do
+          expect(given_template.content_html).to eq(given_content_html)
+        end
+
+        it 'sets the template_context attr' do
+          expect(given_template.template_context).to eq(given_template_context)
+        end
+      end
+    end
+  end
+
   describe '#content_html' do
     it 'is a method' do
       expect(given_template).to respond_to(:content_html)
