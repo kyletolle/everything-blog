@@ -113,6 +113,9 @@ shared_context 'with an index template' do
     FakeFS::FileSystem.clone(index_template_file_path)
   end
 end
+
+# TODO: This isn't as reusable as I'd hoped. Need to also set the TEMPLATES_PATH
+# env var.
 shared_context 'with a post template' do
   let(:post_template_file_path) do
     Everything::Blog::Output::PostTemplate.new('').template_path
@@ -127,18 +130,6 @@ shared_examples 'raises an error for template not existing' do
   it 'raises an error for the template not existing' do
     expect{action}
       .to raise_error(Errno::ENOENT, /No such file/)
-  end
-end
-
-# TODO: This isn't as reusable as I'd hoped. Need to also set the TEMPLATES_PATH
-# env var.
-shared_context 'with a post template' do
-  let(:post_template_file_path) do
-    Everything::Blog::Output::PostTemplate.new('').template_path
-  end
-
-  before do
-    FakeFS::FileSystem.clone(post_template_file_path)
   end
 end
 
