@@ -83,3 +83,13 @@ shared_context 'with public posts' do
     delete_post('four-title')
   end
 end
+
+shared_context 'with one public post' do
+  before do
+    create_post('some-title', is_public: true)
+  end
+
+  after do
+    delete_post('some-title')
+  end
+end
