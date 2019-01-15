@@ -1,6 +1,8 @@
 require 'date'
 require 'active_support'
 require 'active_support/core_ext/hash/keys'
+require 'fakefs/spec_helpers'
+require './spec/support/shared'
 
 # Got this idea from: https://stackoverflow.com/questions/8126802/when-testing-with-rspec-where-to-put-common-test-utility-methods
 module PostHelpers
@@ -47,7 +49,7 @@ module PostHelpers
   end
 end
 
-shared_context 'with fake source files' do
+shared_context 'with fake blog path' do
   include FakeFS::SpecHelpers
 
   include_context 'with fakefs'
