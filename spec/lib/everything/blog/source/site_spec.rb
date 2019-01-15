@@ -2,8 +2,6 @@ require 'pp' # Helps prevent an error like: 'superclass mismatch for class File'
 require 'bundler/setup'
 Bundler.require(:default)
 require './lib/everything/blog/source/site'
-require 'fakefs/spec_helpers'
-require './spec/support/shared'
 require './spec/support/post_helpers'
 
 describe Everything::Blog::Source::Site do
@@ -12,7 +10,7 @@ describe Everything::Blog::Source::Site do
   end
 
   describe '#files' do
-    include_context 'with fake source files'
+    include_context 'with fake blog path'
 
     shared_examples 'includes the index and stylesheet' do
       it 'includes the index' do
