@@ -7,40 +7,12 @@ require './spec/support/shared'
 require './spec/support/post_helpers'
 
 describe Everything::Blog::Source::Site do
-  include FakeFS::SpecHelpers
-  include PostHelpers
-
   let(:site) do
     described_class.new
   end
 
   describe '#files' do
-    include_context 'with fakefs'
-    include_context 'create blog path'
-
-    shared_context 'with private posts' do
-      before do
-        create_post('one-title', is_public: false)
-        create_post('two-title', is_public: false)
-      end
-
-      after do
-        delete_post('one-title')
-        delete_post('two-title')
-      end
-    end
-
-    shared_context 'with public posts' do
-      before do
-        create_post('three-title', is_public: true)
-        create_post('four-title', is_public: true)
-      end
-
-      after do
-        delete_post('three-title')
-        delete_post('four-title')
-      end
-    end
+    include_context 'with fake source files'
 
     shared_examples 'includes the index and stylesheet' do
       it 'includes the index' do
