@@ -20,7 +20,7 @@ describe Everything::Blog::Output::Site do
   end
 
   describe '#initialize' do
-    it 'takes a source_files attr' do
+    it 'takes a source_files argument' do
       expect{ described_class.new(given_source_files) }
         .not_to raise_error
     end
