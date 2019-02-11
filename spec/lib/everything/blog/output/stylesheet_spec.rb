@@ -24,11 +24,16 @@ describe Everything::Blog::Output::Stylesheet do
     end
   end
 
-  describe '#source_file'
   describe '#output_file_name'
   describe '#output_dir_path'
   describe '#output_file_path'
   describe '#relative_dir_path'
   describe '#save_file'
   describe '#should_generate_output?'
+
+  describe '#source_file' do
+    it 'returns the source stylesheet it was created with' do
+      expect(stylesheet.source_file).to eq(given_source_stylesheet)
+    end
+  end
 end
