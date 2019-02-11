@@ -2,35 +2,24 @@ require 'pp' # Helps prevent an error like: 'superclass mismatch for class File'
 require 'bundler/setup'
 Bundler.require(:default)
 require './lib/everything/blog/source/stylesheet'
-require 'fakefs/spec_helpers'
+require './spec/support/shared'
 
 describe Everything::Blog::Source::Stylesheet do
-  include FakeFS::SpecHelpers
-
   let(:stylesheet) do
     described_class.new
   end
 
-  def create_fake_stylesheet(stylesheet_content)
-    FakeFS do
-      FileUtils.mkdir('css')
-      stylesheet_filename = File.join('css', 'style.css')
-      File.open(stylesheet_filename, 'w') do |f|
-        f.write stylesheet_content
-      end
-    end
-  end
-
   describe '#content' do
-    FakeFS do
-      it 'is the content of the stylesheet file' do
-        given_stylesheet_content = 'fake stylesheet content'
-        expected_stylesheet_content = given_stylesheet_content
+    let(:given_stylesheet_content) do
+      'fake stylesheet content'
+    end
+    let(:expected_stylesheet_content) do
+      given_stylesheet_content
+    end
+    include_context 'with fake stylesheet'
 
-        create_fake_stylesheet(given_stylesheet_content)
-
-        expect(stylesheet.content).to eq(expected_stylesheet_content)
-      end
+    it 'is the content of the stylesheet file' do
+      expect(stylesheet.content).to eq(expected_stylesheet_content)
     end
   end
 

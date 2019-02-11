@@ -379,3 +379,18 @@ shared_examples 'behaves like a TemplateBase' do
     end
   end
 end
+
+shared_context 'with fake stylesheet' do
+  require 'fakefs/spec_helpers'
+  include FakeFS::SpecHelpers
+
+  before do
+    FakeFS do
+      FileUtils.mkdir('css')
+      stylesheet_filename = File.join('css', 'style.css')
+      File.open(stylesheet_filename, 'w') do |f|
+        f.write given_stylesheet_content
+      end
+    end
+  end
+end
