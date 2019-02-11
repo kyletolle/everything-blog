@@ -24,7 +24,12 @@ describe Everything::Blog::Output::Stylesheet do
     end
   end
 
-  describe '#output_file_name'
+  describe '#output_file_name' do
+    it 'is a style css file' do
+      expect(stylesheet.output_file_name).to eq('style.css')
+    end
+  end
+
   describe '#output_dir_path'
   describe '#output_file_path'
   describe '#relative_dir_path'
