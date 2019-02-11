@@ -5,7 +5,6 @@ require './lib/everything/blog/output/index'
 require './spec/support/post_helpers'
 
 describe Everything::Blog::Output::Index do
-  include FakeFS::SpecHelpers
   include PostHelpers
 
   include_context 'with fake blog path'
