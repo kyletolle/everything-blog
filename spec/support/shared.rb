@@ -384,6 +384,10 @@ shared_context 'with fake stylesheet' do
   require 'fakefs/spec_helpers'
   include FakeFS::SpecHelpers
 
+  let(:given_stylesheet_content) do
+    'fake stylesheet content'
+  end
+
   before do
     FakeFS do
       FileUtils.mkdir('css')

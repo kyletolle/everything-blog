@@ -10,9 +10,6 @@ describe Everything::Blog::Source::Stylesheet do
   end
 
   describe '#content' do
-    let(:given_stylesheet_content) do
-      'fake stylesheet content'
-    end
     let(:expected_stylesheet_content) do
       given_stylesheet_content
     end
