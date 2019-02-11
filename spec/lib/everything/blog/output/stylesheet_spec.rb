@@ -52,7 +52,14 @@ describe Everything::Blog::Output::Stylesheet do
       expect(stylesheet.output_file_path).to eq(expected_output_file_path)
     end
   end
-  describe '#relative_dir_path'
+
+  describe '#relative_dir_path' do
+    it 'should be the same path as the source stylesheet' do
+      expect(stylesheet.relative_dir_path)
+        .to eq(given_source_stylesheet.relative_dir_path)
+    end
+  end
+
   describe '#save_file'
 
   describe '#should_generate_output?' do
