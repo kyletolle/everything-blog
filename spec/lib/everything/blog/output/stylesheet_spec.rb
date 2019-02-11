@@ -29,7 +29,13 @@ describe Everything::Blog::Output::Stylesheet do
   describe '#output_file_path'
   describe '#relative_dir_path'
   describe '#save_file'
-  describe '#should_generate_output?'
+
+  describe '#should_generate_output?' do
+    # TODO: Add detection for whether the Stylesheet should generate or not.
+    it 'should be true' do
+      expect(stylesheet.should_generate_output?).to eq(true)
+    end
+  end
 
   describe '#source_file' do
     it 'returns the source stylesheet it was created with' do
