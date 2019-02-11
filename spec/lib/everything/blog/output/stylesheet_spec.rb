@@ -3,8 +3,11 @@ require 'bundler/setup'
 Bundler.require(:default)
 require './lib/everything/blog/output/stylesheet'
 require './spec/support/shared'
+require './spec/support/post_helpers'
 
 describe Everything::Blog::Output::Stylesheet do
+  include_context 'with fake blog path'
+  include_context 'stub out blog output path'
   include_examples 'with fake stylesheet'
 
   let(:given_source_stylesheet) do
@@ -30,7 +33,16 @@ describe Everything::Blog::Output::Stylesheet do
     end
   end
 
-  describe '#output_dir_path'
+  describe '#output_dir_path' do
+    let(:expected_output_dir_path) do
+      File.join(fake_blog_output_path, 'css')
+    end
+
+    it 'is the full path for the output css dir' do
+      expect(stylesheet.output_dir_path).to eq(expected_output_dir_path)
+    end
+  end
+
   describe '#output_file_path'
   describe '#relative_dir_path'
   describe '#save_file'
