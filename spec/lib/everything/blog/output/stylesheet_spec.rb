@@ -8,7 +8,6 @@ require './spec/support/post_helpers'
 describe Everything::Blog::Output::Stylesheet do
   include_context 'with fake blog path'
   include_context 'stub out blog output path'
-  include_examples 'with fake stylesheet'
 
   let(:given_source_stylesheet) do
     Everything::Blog::Source::Stylesheet.new
@@ -64,13 +63,6 @@ describe Everything::Blog::Output::Stylesheet do
   describe '#save_file' do
     # TODO:
     context 'when a stylesheet does not exist' do
-      before do
-        FakeFS do
-          fake_stylesheet_file_path = Everything::Blog::Source::Stylesheet.new.relative_file_path
-          FileUtils.rm(fake_stylesheet_file_path)
-        end
-      end
-
       let(:action) do
         stylesheet.save_file
       end
@@ -92,6 +84,82 @@ describe Everything::Blog::Output::Stylesheet do
           stylesheet.save_file
 
           expect(Dir.exist?(fake_blog_output_path)).to eq(true)
+        end
+      end
+
+      context 'when the blog output path already exists' do
+        let(:fake_file_path) do
+          File.join(fake_blog_output_path, 'something.txt')
+        end
+
+        before do
+          FileUtils.mkdir_p(fake_blog_output_path)
+          File.write(fake_file_path, 'fake file')
+        end
+
+        after do
+          FileUtils.rm(fake_file_path)
+          FileUtils.rm(stylesheet.output_file_path)
+          FileUtils.rmdir(stylesheet.output_dir_path)
+          FileUtils.rmdir(fake_blog_output_path)
+        end
+
+        it 'keeps the folder out there' do
+          expect(Dir.exist?(fake_blog_output_path)).to eq(true)
+
+          stylesheet.save_file
+
+          expect(Dir.exist?(fake_blog_output_path)).to eq(true)
+        end
+
+        it 'does not clear existing files in the folder' do
+          expect(File.exist?(fake_file_path)).to eq(true)
+
+          stylesheet.save_file
+
+          expect(File.exist?(fake_file_path)).to eq(true)
+        end
+      end
+
+      context 'when the file does not already exist' do
+        it 'creates it' do
+          expect(File.exist?(stylesheet.output_file_path)).to eq(false)
+
+          stylesheet.save_file
+
+          expect(File.exist?(stylesheet.output_file_path)).to eq(true)
+        end
+
+        it 'write the CSS file data' do
+          stylesheet.save_file
+
+          stylesheet_file_data = File.read(stylesheet.output_file_path)
+          expect(stylesheet_file_data).to match(expected_file_data_regex)
+        end
+      end
+
+      context 'when the file already exists' do
+        before do
+          FileUtils.mkdir_p(stylesheet.output_dir_path)
+          File.write(stylesheet.output_file_path, 'not even css')
+        end
+
+        it 'does not delete the file' do
+          expect(File.exist?(stylesheet.output_file_path)).to eq(true)
+
+          stylesheet.save_file
+
+          expect(File.exist?(stylesheet.output_file_path)).to eq(true)
+        end
+
+        it 'overwrites it with the correct file data' do
+          stylesheet_file_data = File.read(stylesheet.output_file_path)
+          expect(stylesheet_file_data).not_to match(expected_file_data_regex)
+
+          stylesheet.save_file
+
+          stylesheet_file_data = File.read(stylesheet.output_file_path)
+          expect(stylesheet_file_data).to match(expected_file_data_regex)
         end
       end
     end
