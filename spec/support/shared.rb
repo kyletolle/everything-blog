@@ -385,7 +385,7 @@ shared_context 'with fake stylesheet' do
   include FakeFS::SpecHelpers
 
   let(:given_stylesheet_content) do
-    'fake stylesheet content'
+    'p { font-size: 1em; }'
   end
 
   before do
