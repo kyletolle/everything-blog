@@ -133,6 +133,13 @@ shared_examples 'raises an error for template not existing' do
   end
 end
 
+shared_examples 'raises an error for stylesheet not existing' do
+  it 'raises an error for the stylesheet not existing' do
+    expect{action}
+      .to raise_error(Errno::ENOENT, /No such file/)
+  end
+end
+
 shared_context 'with fake png' do
   include_context 'stub out everything path'
 

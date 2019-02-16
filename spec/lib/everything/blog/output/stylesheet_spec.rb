@@ -60,7 +60,24 @@ describe Everything::Blog::Output::Stylesheet do
     end
   end
 
-  describe '#save_file'
+  # TODO: Lots of overlap with blog/output/page_spec
+  describe '#save_file' do
+    # TODO:
+    context 'when a stylesheet does not exist' do
+      before do
+        FakeFS do
+          fake_stylesheet_file_path = Everything::Blog::Source::Stylesheet.new.relative_file_path
+          FileUtils.rm(fake_stylesheet_file_path)
+        end
+      end
+
+      let(:action) do
+        stylesheet.save_file
+      end
+
+      include_examples 'raises an error for stylesheet not existing'
+    end
+  end
 
   describe '#should_generate_output?' do
     # TODO: Add detection for whether the Stylesheet should generate or not.
