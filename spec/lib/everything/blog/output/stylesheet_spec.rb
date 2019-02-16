@@ -77,6 +77,24 @@ describe Everything::Blog::Output::Stylesheet do
 
       include_examples 'raises an error for stylesheet not existing'
     end
+
+    context 'when a stylesheet exists' do
+      let(:expected_file_data_regex) do
+        /p {.*}/
+      end
+
+      include_context 'with fake stylesheet'
+
+      context 'when the blog output path does not already exist' do
+        it 'creates it' do
+          expect(Dir.exist?(fake_blog_output_path)).to eq(false)
+
+          stylesheet.save_file
+
+          expect(Dir.exist?(fake_blog_output_path)).to eq(true)
+        end
+      end
+    end
   end
 
   describe '#should_generate_output?' do

@@ -397,7 +397,7 @@ shared_context 'with fake stylesheet' do
 
   before do
     FakeFS do
-      FileUtils.mkdir('css')
+      FileUtils.mkdir_p('css')
       stylesheet_filename = File.join('css', 'style.css')
       File.open(stylesheet_filename, 'w') do |f|
         f.write given_stylesheet_content
