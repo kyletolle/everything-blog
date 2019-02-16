@@ -26,8 +26,8 @@ module Everything
 
       # S3Site.new(output.output_files).send
 
-      # We may want to send the new media for a piece even though we didn't
-      # regenerate the HTML. How would we handle that?
+      # TODO: We may want to send the new media for a piece even though we
+      # didn't regenerate the HTML. How would we handle that?
 
       self
     end
