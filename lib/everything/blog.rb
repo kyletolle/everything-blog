@@ -32,11 +32,11 @@ module Everything
       self
     end
 
-  private
-
     def source_files
       @source_files ||= source_site.files.compact
     end
+
+  private
 
     def source_site
       @source_site ||= Source::Site.new
