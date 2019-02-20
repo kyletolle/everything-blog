@@ -12,11 +12,37 @@ describe Everything::Blog do
   end
 
   describe '#generate_site' do
-    it 'passes the source files to the output site'
-    it 'calls generate on the output site'
+    let(:fake_source_files) { [] }
+
+    before do
+      allow_any_instance_of(Everything::Blog)
+        .to receive(:source_files)
+        .and_return(fake_source_files)
+    end
+
+    it 'passes the source files to the output site' do
+      expect(Everything::Blog::Output::Site)
+        .to receive(:new)
+        .with(fake_source_files)
+        .and_call_original
+
+      blog.generate_site
+    end
+
+    it 'calls generate on the output site' do
+      expect_any_instance_of(Everything::Blog::Output::Site)
+        .to receive(:generate)
+        .once
+
+      blog.generate_site
+    end
+
     xit 'passes the output files to the s3 site'
     xit 'calls send on the s3 site'
-    it 'returns itself'
+
+    it 'returns itself' do
+      expect(blog.generate_site).to eq(blog)
+    end
   end
 
   describe '#source_files' do
