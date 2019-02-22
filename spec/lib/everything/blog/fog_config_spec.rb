@@ -1,35 +1,10 @@
 require 'spec_helper'
 require './lib/everything/blog/fog_config'
+require './spec/support/shared'
 
 describe Everything::Blog::FogConfig do
   let(:fog_config) do
     described_class.new
-  end
-
-  let(:fake_env_value) { 'fake_env_value' }
-
-  shared_context 'with fake aws_access_key_id env var' do
-    before do
-      ENV['AWS_ACCESS_KEY_ID'] = fake_env_value
-    end
-  end
-
-  shared_context 'with fake aws_secret_access_key env var' do
-    before do
-      ENV['AWS_SECRET_ACCESS_KEY'] = fake_env_value
-    end
-  end
-
-  shared_context 'with fake aws_storage_bucket env var' do
-    before do
-      ENV['AWS_STORAGE_BUCKET'] = fake_env_value
-    end
-  end
-
-  shared_context 'with fake aws_storage_region env var' do
-    before do
-      ENV['AWS_STORAGE_REGION'] = fake_env_value
-    end
   end
 
   describe '#to_h' do

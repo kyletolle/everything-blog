@@ -405,3 +405,35 @@ shared_context 'with fake stylesheet' do
     end
   end
 end
+
+shared_context 'with fake aws_access_key_id env var' do
+  let(:fake_env_value) { 'fake_env_value' }
+
+  before do
+    ENV['AWS_ACCESS_KEY_ID'] = fake_env_value
+  end
+end
+
+shared_context 'with fake aws_secret_access_key env var' do
+  let(:fake_env_value) { 'fake_env_value' }
+
+  before do
+    ENV['AWS_SECRET_ACCESS_KEY'] = fake_env_value
+  end
+end
+
+shared_context 'with fake aws_storage_bucket env var' do
+  let(:fake_env_value) { 'fake_env_value' }
+
+  before do
+    ENV['AWS_STORAGE_BUCKET'] = fake_env_value
+  end
+end
+
+shared_context 'with fake aws_storage_region env var' do
+  let(:fake_env_value) { 'fake_env_value' }
+
+  before do
+    ENV['AWS_STORAGE_REGION'] = fake_env_value
+  end
+end
