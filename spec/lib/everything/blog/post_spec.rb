@@ -8,9 +8,6 @@ describe Everything::Blog::Post do
   let(:post) do
     described_class.new(given_post_name)
   end
-  let(:post_options) do
-    {}
-  end
 
   include_context 'with fake piece'
 
