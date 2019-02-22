@@ -65,12 +65,12 @@ describe Everything::Blog::Post do
       end
 
       context 'when the piece metadata is missing the wordpress key' do
-        before do
-          allow_any_instance_of(Everything::Piece::Metadata)
-            .to receive(:[])
-            .with('wordpress')
-            .and_return(nil)
-        end
+        # before do
+        #   allow_any_instance_of(Everything::Piece::Metadata)
+        #     .to receive(:[])
+        #     .with('wordpress')
+        #     .and_return(nil)
+        # end
 
         # We aren't going to handle this right now.
       end
