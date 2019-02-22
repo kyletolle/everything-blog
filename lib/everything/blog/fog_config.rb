@@ -1,8 +1,3 @@
-require 'rubygems'
-require 'bundler/setup'
-Bundler.require(:default)
-Dotenv.load
-
 module Everything
   class Blog
     class FogConfig
