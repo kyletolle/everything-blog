@@ -10,7 +10,6 @@ describe Everything::Blog::FogConfig do
   describe '#to_h' do
     include_context 'with fake aws_access_key_id env var'
     include_context 'with fake aws_secret_access_key env var'
-    include_context 'with fake aws_storage_bucket env var'
     include_context 'with fake aws_storage_region env var'
 
     describe 'provider key' do
