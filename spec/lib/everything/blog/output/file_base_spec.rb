@@ -74,5 +74,20 @@ describe Everything::Blog::Output::FileBase do
       end
     end
   end
+
+  context 'when the class is used without going through a child class' do
+    let(:index_source_file_double) do
+      double(Everything::Blog::Source::Index.new({}))
+        .as_null_object
+    end
+    let(:file_base_instance) do
+      Everything::Blog::Output::FileBase.new(index_source_file_double)
+    end
+
+    it 'raises a NotImplementedError' do
+      expect { file_base_instance.save_file }
+        .to raise_error(NotImplementedError)
+    end
+  end
 end
 
