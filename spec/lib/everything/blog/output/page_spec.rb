@@ -250,5 +250,12 @@ describe Everything::Blog::Output::Page do
       end
     end
   end
+
+  describe '#template_klass' do
+    it 'is the output post template' do
+      expect(page.template_klass)
+        .to eq(Everything::Blog::Output::PostTemplate)
+    end
+  end
 end
 

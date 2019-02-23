@@ -17,6 +17,10 @@ module Everything
           source_file.post
         end
 
+        def template_klass
+          Everything::Blog::Output::PostTemplate
+        end
+
       private
 
         def markdown_newer_than_output?
@@ -46,10 +50,6 @@ module Everything
           @metadata_mtime ||= File.mtime(
             source_file.post.piece.metadata.file_path
           )
-        end
-
-        def template_klass
-          Everything::Blog::Output::PostTemplate
         end
       end
     end
