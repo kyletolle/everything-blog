@@ -177,4 +177,10 @@ describe Everything::Blog::Output::Stylesheet do
       expect(stylesheet.source_file).to eq(given_source_stylesheet)
     end
   end
+
+  describe '#template_klass' do
+    it 'is not implemented' do
+      expect{stylesheet.template_klass}.to raise_error(NotImplementedError)
+    end
+  end
 end
