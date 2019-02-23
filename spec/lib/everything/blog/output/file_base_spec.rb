@@ -2,8 +2,12 @@ require 'pp' # Helps prevent an error like: 'superclass mismatch for class File'
 require 'bundler/setup'
 Bundler.require(:default)
 require './lib/everything/blog/output/file_base'
+require 'fakefs/spec_helpers'
+require './spec/support/shared'
 
 describe Everything::Blog::Output::FileBase do
+  include FakeFS::SpecHelpers
+
   describe '.ToOutputFile' do
     let(:output_file) do
       described_class.ToOutputFile(given_source_file)
@@ -54,8 +58,12 @@ describe Everything::Blog::Output::FileBase do
       end
 
       context 'page' do
+        include_context 'with fake piece'
+
         let(:given_source_file) do
-          Everything::Blog::Source::Page.new(Everything::Blog::Post.new(''))
+          Everything::Blog::Source::Page.new(
+            Everything::Blog::Post.new(fake_post_name)
+          )
         end
         let(:expected_output_class) do
           Everything::Blog::Output::Page
@@ -75,18 +83,18 @@ describe Everything::Blog::Output::FileBase do
     end
   end
 
-  context 'when the class is used without going through a child class' do
-    let(:index_source_file_double) do
-      double(Everything::Blog::Source::Index.new({}))
-        .as_null_object
-    end
-    let(:file_base_instance) do
-      Everything::Blog::Output::FileBase.new(index_source_file_double)
-    end
+  context '#template_klass' do
+    context 'when the class is used without going through a child class' do
+      include_context 'with fakefs'
 
-    it 'raises a NotImplementedError' do
-      expect { file_base_instance.save_file }
-        .to raise_error(NotImplementedError)
+      let(:file_base_instance) do
+        Everything::Blog::Output::FileBase.new(nil)
+      end
+
+      it 'raises a NotImplementedError' do
+        expect { file_base_instance.template_klass }
+          .to raise_error(NotImplementedError)
+      end
     end
   end
 end

@@ -67,6 +67,10 @@ module Everything
           true
         end
 
+        def template_klass
+          raise NotImplementedError
+        end
+
       private
 
         def content_html
@@ -83,10 +87,6 @@ module Everything
 
         def template_context
           nil
-        end
-
-        def template_klass
-          raise NotImplementedError
         end
 
         def file_type
