@@ -169,5 +169,12 @@ describe Everything::Blog::Output::Index do
       expect(index.should_generate_output?).to eq(true)
     end
   end
+
+  describe '#template_klass' do
+    it 'is the output index template' do
+      expect(index.template_klass)
+        .to eq(Everything::Blog::Output::IndexTemplate)
+    end
+  end
 end
 

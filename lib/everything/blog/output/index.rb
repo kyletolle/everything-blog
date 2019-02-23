@@ -5,8 +5,6 @@ module Everything
   class Blog
     module Output
       class Index < Everything::Blog::Output::FileBase
-      private
-
         def template_klass
           Everything::Blog::Output::IndexTemplate
         end
