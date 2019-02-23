@@ -206,5 +206,11 @@ describe Everything::Blog::Output::Media do
       expect(media.should_generate_output?).to eq(true)
     end
   end
+
+  describe '#template_klass' do
+    it 'is not implemented' do
+      expect{media.template_klass}.to raise_error(NotImplementedError)
+    end
+  end
 end
 
