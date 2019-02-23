@@ -5,8 +5,6 @@ module Everything
         bucket.files
       end
 
-    private
-
       def bucket
         @bucket ||= s3_connection.directories.get(aws_storage_bucket)
       end
@@ -14,6 +12,8 @@ module Everything
       def s3_connection
         Fog::Storage.new(fog_config)
       end
+
+    private
 
       def fog_config
         {
