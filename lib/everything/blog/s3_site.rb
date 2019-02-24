@@ -1,29 +1,9 @@
-require 'digest'
 require_relative 'remote/html_file'
 require_relative 'remote/stylesheet_file'
+require_relative 'remote/binary_file'
 
 module Everything
   class Blog
-    class BinaryRemoteFile < RemoteFile
-      def initialize(file)
-        @file = file
-      end
-
-      def content
-        file.media_file
-      end
-
-      def content_type
-        file.content_type
-      end
-
-    private
-
-      def content_hash
-        md5.hexdigest(file.binary_file_data)
-      end
-    end
-
     class S3Site
       def self.ToRemoteFile(file)
         case file
@@ -32,7 +12,7 @@ module Everything
         when Output::Index
           Everything::Blog::Remote::HtmlFile.new(file)
         when Output::Media
-          BinaryRemoteFile.new(file)
+          Everything::Blog::Remote::BinaryFile.new(file)
         when Output::Page
           Everything::Blog::Remote::HtmlFile.new(file)
         end
