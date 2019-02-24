@@ -22,5 +22,27 @@ describe Everything::Blog::S3Site do
         )
       end
     end
+
+    context 'with an output file of type' do
+      shared_examples 'creates an instance of the proper remote class' do
+        it 'returns an instance of the proper remote class' do
+          expect(remote_file).to be_a(expected_remote_class)
+        end
+
+        it 'creates the remote object with the output file' do
+          expect(remote_file.output_file).to eq(given_output_file)
+        end
+      end
+
+      context 'stylesheet' do
+        let(:given_output_file) do
+          Everything::Blog::Output::Stylesheet.new(nil)
+        end
+        let(:expected_remote_class) do
+          Everything::Blog::Remote::StylesheetFile
+        end
+        include_examples 'creates an instance of the proper remote class'
+      end
+    end
   end
 end
