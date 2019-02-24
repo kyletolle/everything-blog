@@ -34,16 +34,6 @@ describe Everything::Blog::S3Site do
         end
       end
 
-      context 'stylesheet' do
-        let(:given_output_file) do
-          Everything::Blog::Output::Stylesheet.new('')
-        end
-        let(:expected_remote_class) do
-          Everything::Blog::Remote::StylesheetFile
-        end
-        include_examples 'creates an instance of the proper remote class'
-      end
-
       context 'index' do
         let(:given_output_file) do
           Everything::Blog::Output::Index.new({})
@@ -70,6 +60,16 @@ describe Everything::Blog::S3Site do
         end
         let(:expected_remote_class) do
           Everything::Blog::Remote::HtmlFile
+        end
+        include_examples 'creates an instance of the proper remote class'
+      end
+
+      context 'stylesheet' do
+        let(:given_output_file) do
+          Everything::Blog::Output::Stylesheet.new('')
+        end
+        let(:expected_remote_class) do
+          Everything::Blog::Remote::StylesheetFile
         end
         include_examples 'creates an instance of the proper remote class'
       end

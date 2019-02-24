@@ -11,14 +11,14 @@ module Everything
     class S3Site
       def self.ToRemoteFile(output_file)
         case output_file
-        when Everything::Blog::Output::Stylesheet
-          Everything::Blog::Remote::StylesheetFile.new(output_file)
         when Everything::Blog::Output::Index
           Everything::Blog::Remote::HtmlFile.new(output_file)
         when Everything::Blog::Output::Media
           Everything::Blog::Remote::BinaryFile.new(output_file)
         when Everything::Blog::Output::Page
           Everything::Blog::Remote::HtmlFile.new(output_file)
+        when Everything::Blog::Output::Stylesheet
+          Everything::Blog::Remote::StylesheetFile.new(output_file)
         else
           raise Everything::Blog::Remote::NoRemoteFileTypeFound,
             'No corresponding Remote class found for output file type ' \
