@@ -1,3 +1,5 @@
+require_relative '../remote'
+
 module Everything
   class Blog
     module Remote
