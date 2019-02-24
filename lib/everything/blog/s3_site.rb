@@ -1,21 +1,8 @@
 require 'digest'
+require_relative 'remote/html_file'
 
 module Everything
   class Blog
-    class HtmlRemoteFile < RemoteFile
-      def initialize(file)
-        @file = file
-      end
-
-      def content
-        file.content
-      end
-
-      def content_type
-        'text/html'
-      end
-    end
-
     class StylesheetRemoteFile < RemoteFile
       def initialize(file)
         @file = file
@@ -56,11 +43,11 @@ module Everything
         when Output::Stylesheet
           StylesheetRemoteFile.new(file)
         when Output::Index
-          HtmlRemoteFile.new(file)
+          Everything::Blog::Remote::HtmlFile.new(file)
         when Output::Media
           BinaryRemoteFile.new(file)
         when Output::Page
-          HtmlRemoteFile.new(file)
+          Everything::Blog::Remote::HtmlFile.new(file)
         end
       end
 
