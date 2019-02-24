@@ -1,4 +1,5 @@
 require_relative '../remote'
+require 'digest'
 
 module Everything
   class Blog

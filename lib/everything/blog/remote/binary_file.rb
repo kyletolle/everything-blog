@@ -1,5 +1,4 @@
 require_relative 'file_base'
-require 'digest'
 
 module Everything
   class Blog
