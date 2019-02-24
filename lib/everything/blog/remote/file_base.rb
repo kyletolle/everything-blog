@@ -5,6 +5,12 @@ module Everything
   class Blog
     module Remote
       class FileBase
+        attr_reader :output_file
+
+        def initialize(output_file)
+          @output_file = output_file
+        end
+
         def content
           raise NotImplementedError
         end
@@ -21,8 +27,6 @@ module Everything
         end
 
       private
-
-        attr_reader :file
 
         def file_does_not_exist
           remote_file.nil?
@@ -41,8 +45,8 @@ module Everything
         end
 
         def remote_key
-          file.relative_path
-            .tap {|o| puts "FILE RELATIVE PATH: #{o}"}
+          output_file.relative_path
+            .tap {|o| puts "OUTPUT FILE RELATIVE PATH: #{o}"}
         end
 
         def content_hash
