@@ -36,10 +36,40 @@ describe Everything::Blog::S3Site do
 
       context 'stylesheet' do
         let(:given_output_file) do
-          Everything::Blog::Output::Stylesheet.new(nil)
+          Everything::Blog::Output::Stylesheet.new('')
         end
         let(:expected_remote_class) do
           Everything::Blog::Remote::StylesheetFile
+        end
+        include_examples 'creates an instance of the proper remote class'
+      end
+
+      context 'index' do
+        let(:given_output_file) do
+          Everything::Blog::Output::Index.new({})
+        end
+        let(:expected_remote_class) do
+          Everything::Blog::Remote::HtmlFile
+        end
+        include_examples 'creates an instance of the proper remote class'
+      end
+
+      context 'media' do
+        let(:given_output_file) do
+          Everything::Blog::Output::Media.new('')
+        end
+        let(:expected_remote_class) do
+          Everything::Blog::Remote::BinaryFile
+        end
+        include_examples 'creates an instance of the proper remote class'
+      end
+
+      context 'page' do
+        let(:given_output_file) do
+          Everything::Blog::Output::Page.new('')
+        end
+        let(:expected_remote_class) do
+          Everything::Blog::Remote::HtmlFile
         end
         include_examples 'creates an instance of the proper remote class'
       end
