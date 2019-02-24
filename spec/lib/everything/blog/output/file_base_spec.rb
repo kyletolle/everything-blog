@@ -47,12 +47,12 @@ describe Everything::Blog::Output::FileBase do
         include_examples 'creates an instance of the proper output class'
       end
 
-      context 'stylesheet' do
+      context 'media' do
         let(:given_source_file) do
-          Everything::Blog::Source::Stylesheet.new
+          Everything::Blog::Source::Media.new('')
         end
         let(:expected_output_class) do
-          Everything::Blog::Output::Stylesheet
+          Everything::Blog::Output::Media
         end
         include_examples 'creates an instance of the proper output class'
       end
@@ -71,12 +71,12 @@ describe Everything::Blog::Output::FileBase do
         include_examples 'creates an instance of the proper output class'
       end
 
-      context 'media' do
+      context 'stylesheet' do
         let(:given_source_file) do
-          Everything::Blog::Source::Media.new('')
+          Everything::Blog::Source::Stylesheet.new
         end
         let(:expected_output_class) do
-          Everything::Blog::Output::Media
+          Everything::Blog::Output::Stylesheet
         end
         include_examples 'creates an instance of the proper output class'
       end

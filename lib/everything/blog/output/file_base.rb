@@ -14,12 +14,12 @@ module Everything
           case source_file
           when Everything::Blog::Source::Index
             Everything::Blog::Output::Index.new(source_file)
-          when Everything::Blog::Source::Stylesheet
-            Everything::Blog::Output::Stylesheet.new(source_file)
-          when Everything::Blog::Source::Page
-            Everything::Blog::Output::Page.new(source_file)
           when Everything::Blog::Source::Media
             Everything::Blog::Output::Media.new(source_file)
+          when Everything::Blog::Source::Page
+            Everything::Blog::Output::Page.new(source_file)
+          when Everything::Blog::Source::Stylesheet
+            Everything::Blog::Output::Stylesheet.new(source_file)
           else
             raise Everything::Blog::Output::NoOutputFileTypeFound,
               'No corresponding Output class found for source file type ' \
