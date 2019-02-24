@@ -27,12 +27,12 @@ describe Everything::Blog::Output::FileBase do
     end
 
     context 'with a source file of type' do
-      shared_examples 'creates the proper output class' do
-        it 'returns the proper output class' do
+      shared_examples 'creates the proper output instance' do
+        it 'returns the proper output instance' do
           expect(output_file).to be_a(expected_output_class)
         end
 
-        it 'creates the output class with the source file' do
+        it 'creates the output instance with the source file' do
           expect(output_file.source_file).to eq(given_source_file)
         end
       end
@@ -44,7 +44,7 @@ describe Everything::Blog::Output::FileBase do
         let(:expected_output_class) do
           Everything::Blog::Output::Index
         end
-        include_examples 'creates the proper output class'
+        include_examples 'creates the proper output instance'
       end
 
       context 'stylesheet' do
@@ -54,7 +54,7 @@ describe Everything::Blog::Output::FileBase do
         let(:expected_output_class) do
           Everything::Blog::Output::Stylesheet
         end
-        include_examples 'creates the proper output class'
+        include_examples 'creates the proper output instance'
       end
 
       context 'page' do
@@ -68,7 +68,7 @@ describe Everything::Blog::Output::FileBase do
         let(:expected_output_class) do
           Everything::Blog::Output::Page
         end
-        include_examples 'creates the proper output class'
+        include_examples 'creates the proper output instance'
       end
 
       context 'media' do
@@ -78,7 +78,7 @@ describe Everything::Blog::Output::FileBase do
         let(:expected_output_class) do
           Everything::Blog::Output::Media
         end
-        include_examples 'creates the proper output class'
+        include_examples 'creates the proper output instance'
       end
     end
   end
