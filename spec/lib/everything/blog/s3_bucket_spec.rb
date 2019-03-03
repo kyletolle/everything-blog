@@ -13,24 +13,6 @@ describe Everything::Blog::S3Bucket do
     described_class.new
   end
 
-  before :all do
-    Fog.mock!
-  end
-
-  after :all do
-    Fog.unmock!
-  end
-
-  shared_context 'with mock bucket in s3' do
-    let(:expected_bucket_name) do
-      Fastenv.aws_storage_bucket
-    end
-
-    before do
-      s3_bucket.s3_connection.directories.create(key: expected_bucket_name)
-    end
-  end
-
   describe '#bucket' do
     include_context 'with mock bucket in s3'
 

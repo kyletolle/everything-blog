@@ -437,3 +437,32 @@ shared_context 'with fake aws_storage_region env var' do
     ENV['AWS_STORAGE_REGION'] = fake_env_value
   end
 end
+
+shared_context 'with mock bucket in s3' do
+  let(:expected_bucket_name) do
+    Fastenv.aws_storage_bucket
+  end
+
+  before :all do
+    Fog.mock!
+  end
+
+  after :all do
+    Fog.unmock!
+  end
+
+  before do
+    Everything::Blog::S3Bucket.new
+      .s3_connection
+      .directories
+      .create(key: expected_bucket_name)
+  end
+
+  after do
+    Everything::Blog::S3Bucket.new
+      .s3_connection
+      .directories
+      .get(expected_bucket_name)
+      .destroy
+  end
+end
