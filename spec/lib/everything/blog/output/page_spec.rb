@@ -13,17 +13,17 @@ describe Everything::Blog::Output::Page do
 
   # Create a post so we can make a page from it
   # Note: Borrowed some of this from blog/source/page_spec
-  include_context 'with fake piece'
+  include_context 'with fake source page'
+
   let(:given_piece_path) do
     # We want to create our fake posts in the blog directory.
     File.join(Everything::Blog::Source.absolute_path, given_post_name)
   end
   let(:given_post) do
-    Everything::Blog::Post.new(given_post_name)
+    fake_post
   end
-
   let(:given_source_page) do
-    Everything::Blog::Source::Page.new(given_post)
+    fake_source_page
   end
   let(:page) do
     described_class.new(given_source_page)

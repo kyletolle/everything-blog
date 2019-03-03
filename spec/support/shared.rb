@@ -473,6 +473,22 @@ shared_context 'with fake source index' do
   end
 end
 
+
+shared_context 'with fake post' do
+  include_context 'with fake piece'
+
+  let(:fake_post) do
+    Everything::Blog::Post.new(given_post_name)
+  end
+end
+
+shared_context 'with fake source page' do
+  include_context 'with fake post'
+
+  let(:fake_source_page) do
+    Everything::Blog::Source::Page.new(fake_post)
+  end
+end
 shared_context 'with fake source stylesheet' do
   let(:fake_source_stylesheet) do
     Everything::Blog::Source::Stylesheet.new
