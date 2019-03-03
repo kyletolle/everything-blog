@@ -466,3 +466,9 @@ shared_context 'with mock bucket in s3' do
       .destroy
   end
 end
+
+shared_context 'with fake source index' do
+  let(:fake_source_index) do
+    Everything::Blog::Source::Index.new({'some-title' => 'Blah'})
+  end
+end

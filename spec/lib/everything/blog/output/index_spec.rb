@@ -10,9 +10,10 @@ describe Everything::Blog::Output::Index do
   include_context 'with fake blog path'
   include_context 'stub out blog output path'
   include_context 'with one public post'
+  include_context 'with fake source index'
 
   let(:source_index) do
-    Everything::Blog::Source::Index.new({'some-title' => 'Blah'})
+    fake_source_index
   end
   let(:index) do
     described_class.new(source_index)
