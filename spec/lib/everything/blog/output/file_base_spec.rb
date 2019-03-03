@@ -87,13 +87,14 @@ describe Everything::Blog::Output::FileBase do
     context 'when the class is used without going through a child class' do
       include_context 'with fakefs'
 
+      subject { file_base_instance.template_klass }
+
       let(:file_base_instance) do
-        Everything::Blog::Output::FileBase.new(nil)
+        described_class.new(nil)
       end
 
       it 'raises a NotImplementedError' do
-        expect { file_base_instance.template_klass }
-          .to raise_error(NotImplementedError)
+        expect { subject }.to raise_error(NotImplementedError)
       end
     end
   end
