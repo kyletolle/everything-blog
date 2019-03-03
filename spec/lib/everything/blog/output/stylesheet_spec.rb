@@ -8,9 +8,10 @@ require './spec/support/post_helpers'
 describe Everything::Blog::Output::Stylesheet do
   include_context 'with fake blog path'
   include_context 'stub out blog output path'
+  include_context 'with fake source stylesheet'
 
   let(:given_source_stylesheet) do
-    Everything::Blog::Source::Stylesheet.new
+    fake_source_stylesheet
   end
   let(:stylesheet) do
     described_class.new(given_source_stylesheet)

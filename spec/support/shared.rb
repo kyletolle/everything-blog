@@ -472,3 +472,9 @@ shared_context 'with fake source index' do
     Everything::Blog::Source::Index.new({'some-title' => 'Blah'})
   end
 end
+
+shared_context 'with fake source stylesheet' do
+  let(:fake_source_stylesheet) do
+    Everything::Blog::Source::Stylesheet.new
+  end
+end
