@@ -1,4 +1,5 @@
-require 'pp' # Helps prevent an error like: 'superclass mismatch for class File'
+# TODO: Should the requiring that's almost all specs be in a spec_helper file?
+require 'pp' # helps prevent an error like: 'superclass mismatch for class file'
 require 'bundler/setup'
 Bundler.require(:default)
 require './lib/everything/blog/output/index'
@@ -12,9 +13,7 @@ describe Everything::Blog::Output::Index do
   include_context 'with one public post'
   include_context 'with fake source index'
 
-  let(:source_index) do
-    fake_source_index
-  end
+  let(:source_index) { fake_source_index }
   let(:index) do
     described_class.new(source_index)
   end
