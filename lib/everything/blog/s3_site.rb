@@ -26,11 +26,20 @@ module Everything
         end
       end
 
+      attr_reader :output_files
+
       def initialize(output_files)
-        # TODO: Separate the generating from the sending.
-        output_files.each do |output_file|
-            self.class.ToRemoteFile(output_file).send
-          end
+        @output_files = output_files
+      end
+
+      def remote_files
+        @remote_files ||= output_files.map do |output_file|
+          self.class.ToRemoteFile(output_file)
+        end
+      end
+
+      def send_remote_files
+        remote_files.each(&:send)
       end
     end
   end

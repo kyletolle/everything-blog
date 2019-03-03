@@ -473,6 +473,13 @@ shared_context 'with fake source index' do
   end
 end
 
+shared_context 'with fake output index' do
+  include_context 'with fake source index'
+
+  let(:fake_output_index) do
+    Everything::Blog::Output::Index.new(fake_source_index)
+  end
+end
 
 shared_context 'with fake post' do
   include_context 'with fake piece'
@@ -489,8 +496,26 @@ shared_context 'with fake source page' do
     Everything::Blog::Source::Page.new(fake_post)
   end
 end
+
+shared_context 'with fake output page' do
+  include_context 'with fake source page'
+
+  let(:fake_output_page) do
+    Everything::Blog::Output::Page.new(fake_source_page)
+  end
+end
+
 shared_context 'with fake source stylesheet' do
   let(:fake_source_stylesheet) do
     Everything::Blog::Source::Stylesheet.new
   end
 end
+
+shared_context 'with fake output stylesheet' do
+  include_context 'with fake source stylesheet'
+
+  let(:fake_output_stylesheet) do
+    Everything::Blog::Output::Stylesheet.new(fake_source_stylesheet)
+  end
+end
+

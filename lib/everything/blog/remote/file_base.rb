@@ -1,4 +1,5 @@
 require_relative '../remote'
+require_relative '../s3_bucket'
 require 'digest'
 
 module Everything
@@ -45,7 +46,7 @@ module Everything
         end
 
         def remote_key
-          output_file.relative_path
+          output_file.relative_dir_path
             .tap {|o| puts "OUTPUT FILE RELATIVE PATH: #{o}"}
         end
 
@@ -58,7 +59,7 @@ module Everything
         end
 
         def s3_bucket
-          @s3_bucket ||= S3Bucket.new
+          @s3_bucket ||= Everything::Blog::S3Bucket.new
         end
 
         def md5
