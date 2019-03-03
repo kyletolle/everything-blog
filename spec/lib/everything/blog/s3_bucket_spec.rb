@@ -37,7 +37,6 @@ describe Everything::Blog::S3Bucket do
 
     after do
       s3_bucket.files.each(&:destroy)
-      s3_bucket.bucket.destroy
     end
 
     it 'returns the expected number of files in the bucket' do
