@@ -18,6 +18,12 @@ describe Everything::Blog::Output::Index do
     described_class.new(source_index)
   end
 
+  describe '#initialize' do
+    it 'sets the source_file attr to the given source file' do
+      expect(index.source_file).to eq(source_index)
+    end
+  end
+
   describe '#output_file_name' do
     it 'is an index html file' do
       expect(index.output_file_name).to eq('index.html')
