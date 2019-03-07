@@ -24,6 +24,29 @@ describe Everything::Blog::Output::Index do
     end
   end
 
+  describe '#output_content' do
+    let(:template_double) { instance_double(index.template_klass) }
+    let(:fake_content_and_template) { '<p>Faked out, yo!</p>' }
+
+    before do
+      allow(index.template_klass)
+        .to receive(:new)
+        .and_return(template_double)
+      allow(template_double)
+        .to receive(:merge_content_and_template)
+        .and_return(fake_content_and_template, 'Some other')
+    end
+
+    it 'returns merged template and content' do
+      expect(index.output_content).to eq(fake_content_and_template)
+    end
+
+    it 'memoizes the return value' do
+      expect(index.output_content.object_id)
+        .to eq(index.output_content.object_id)
+    end
+  end
+
   describe '#output_dir_path' do
     let(:expected_output_dir_path) do
       fake_blog_output_path

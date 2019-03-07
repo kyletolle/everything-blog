@@ -33,12 +33,18 @@ module Everything
           @source_file = source_file
         end
 
-        def output_file_name
-          'index.html'
+        def output_content
+          @output_content ||= template_klass
+            .new(content_html, template_context)
+            .merge_content_and_template
         end
 
         def output_dir_path
           File.dirname output_file_path
+        end
+
+        def output_file_name
+          'index.html'
         end
 
         def output_file_path
@@ -77,12 +83,6 @@ module Everything
           Kramdown::Document
             .new(source_file.content)
             .to_html
-        end
-
-        def output_content
-          @output_content ||= template_klass
-            .new(content_html, template_context)
-            .merge_content_and_template
         end
 
         def template_context
