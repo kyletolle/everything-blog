@@ -28,6 +28,8 @@ describe Everything::Blog::Output::Stylesheet do
   end
 
   describe '#output_content' do
+    include_context 'with fake stylesheet'
+
     it 'is the source content' do
       expect(stylesheet.output_content).to eq(given_source_stylesheet.content)
     end
