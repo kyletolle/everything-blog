@@ -4,10 +4,6 @@ module Everything
   class Blog
     module Output
       class Media < Everything::Blog::Output::FileBase
-        def output_content
-          source_file.content
-        end
-
         def output_file_name
           source_file.file_name
         end

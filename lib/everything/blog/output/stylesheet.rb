@@ -7,12 +7,6 @@ module Everything
         def output_file_name
           source_file.file_name
         end
-
-      private
-
-        def output_content
-          source_file.content
-        end
       end
     end
   end

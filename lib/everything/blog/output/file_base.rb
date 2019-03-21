@@ -33,6 +33,10 @@ module Everything
           @source_file = source_file
         end
 
+        def output_content
+          source_file.content
+        end
+
         def output_dir_path
           File.dirname output_file_path
         end

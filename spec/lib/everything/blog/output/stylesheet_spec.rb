@@ -27,6 +27,12 @@ describe Everything::Blog::Output::Stylesheet do
     end
   end
 
+  describe '#output_content' do
+    it 'is the source content' do
+      expect(stylesheet.output_content).to eq(given_source_stylesheet.content)
+    end
+  end
+
   describe '#output_file_name' do
     it 'is a style css file' do
       expect(stylesheet.output_file_name).to eq('style.css')
