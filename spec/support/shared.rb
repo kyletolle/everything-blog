@@ -447,7 +447,7 @@ shared_context 'with fake aws_storage_bucket env var' do
 end
 
 shared_context 'with fake aws_storage_region env var' do
-  let(:fake_env_value) { 'fake_env_value' }
+  let(:fake_env_value) { 'us-east-1' }
 
   before do
     ENV['AWS_STORAGE_REGION'] = fake_env_value
