@@ -73,9 +73,29 @@ describe Everything::Blog::Remote::HtmlFile do
         include_context 'with fake output index'
         include_context 'with fake html file in s3'
 
-        it 'is the head info for the file' do
-          expected_remote_file = mock_html_file
-          expect(subject).to eq(expected_remote_file)
+        it 'returns an AWS file' do
+          expect(subject).to be_a(Fog::AWS::Storage::File)
+        end
+
+        it 'returns a file with matching remote_key' do
+          expect(subject.key).to eq(html_file.remote_key)
+        end
+
+        it 'calls head to get the file' do
+          bucket_double = instance_double(Everything::Blog::S3Bucket)
+          allow(html_file)
+            .to receive(:s3_bucket)
+            .and_return(bucket_double)
+          files_double = instance_double(Fog::AWS::Storage::Files)
+          allow(bucket_double)
+            .to receive(:files)
+            .and_return(files_double)
+          allow(files_double)
+            .to receive(:head)
+          subject
+          expect(files_double)
+            .to have_received(:head)
+            .with(html_file.remote_key)
         end
       end
     end
