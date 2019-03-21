@@ -47,5 +47,6 @@ describe Everything::Blog::Remote::HtmlFile do
     end
   end
 
+  # TODO: Add specs for this.
   describe '#send'
 end

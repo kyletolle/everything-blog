@@ -38,7 +38,6 @@ describe Everything::Blog::Remote::StylesheetFile do
     end
   end
 
-  # TODO: Add specs for these
   describe '#content_type' do
     it 'is equal to STYLESHEET_CONTENT_TYPE' do
       expect(stylesheet_file.content_type)
@@ -46,5 +45,6 @@ describe Everything::Blog::Remote::StylesheetFile do
     end
   end
 
+  # TODO: Add specs for this.
   describe '#send'
 end
