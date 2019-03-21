@@ -1,3 +1,4 @@
+require_relative 'file_base'
 require_relative 'with_template_base'
 require_relative 'index_template'
 
