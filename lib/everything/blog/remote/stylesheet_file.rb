@@ -5,7 +5,7 @@ module Everything
     module Remote
       class StylesheetFile < Everything::Blog::Remote::FileBase
         def content
-          output_file.content
+          output_file.output_content
         end
 
         def content_type
