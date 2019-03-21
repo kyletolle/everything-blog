@@ -11,12 +11,6 @@ module Everything
         def content_type
           output_file.content_type
         end
-
-      private
-
-        def content_hash
-          md5.hexdigest(output_file.binary_file_data)
-        end
       end
     end
   end
