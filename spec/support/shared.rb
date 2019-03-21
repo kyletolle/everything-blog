@@ -184,6 +184,22 @@ shared_context 'with fake png' do
   end
 end
 
+shared_context 'with fake source media' do
+  include_context 'with fake png'
+
+  let(:fake_source_media) do
+    Everything::Blog::Source::Media.new(given_png_file_path)
+  end
+end
+
+shared_context 'with fake output media' do
+  include_context 'with fake source media'
+
+  let(:fake_output_media) do
+    Everything::Blog::Output::Media.new(fake_source_media)
+  end
+end
+
 shared_context 'when templates_path is not set' do
   # TODO: Is there a better way to test this stuff than actually setting and
   # deleting env vars?

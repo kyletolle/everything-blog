@@ -5,7 +5,7 @@ module Everything
     module Remote
       class BinaryFile < Everything::Blog::Remote::FileBase
         def content
-          output_file.media_file
+          output_file.output_content
         end
 
         def content_type
