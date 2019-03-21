@@ -68,6 +68,13 @@ describe Everything::Blog::Output::Stylesheet do
     end
   end
 
+  describe '#relative_file_path' do
+    it 'should be the same path as the source index' do
+      expect(stylesheet.relative_file_path)
+        .to eq(given_source_stylesheet.relative_file_path)
+    end
+  end
+
   # TODO: Lots of overlap with blog/output/page_spec
   describe '#save_file' do
     # TODO:

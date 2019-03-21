@@ -104,6 +104,13 @@ describe Everything::Blog::Output::Media do
     end
   end
 
+  describe '#relative_file_path' do
+    it 'should be the same path as the source index' do
+      expect(media.relative_file_path)
+        .to eq(source_media.relative_file_path)
+    end
+  end
+
   describe '#save_file' do
     context 'when the media output dir path does not already exist' do
       it 'creates it' do

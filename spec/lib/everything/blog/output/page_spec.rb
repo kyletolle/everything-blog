@@ -133,6 +133,13 @@ describe Everything::Blog::Output::Page do
     end
   end
 
+  describe '#relative_file_path' do
+    it 'should be the same path as the source index' do
+      expect(page.relative_file_path)
+        .to eq(given_source_page.relative_file_path)
+    end
+  end
+
   describe '#save_file' do
     context 'when a post template does not exist' do
       let(:action) do

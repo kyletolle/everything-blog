@@ -57,6 +57,10 @@ module Everything
           source_file.relative_dir_path
         end
 
+        def relative_file_path
+          source_file.relative_file_path
+        end
+
         def save_file
           FileUtils.mkdir_p(output_dir_path)
 

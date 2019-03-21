@@ -79,6 +79,12 @@ describe Everything::Blog::Output::Index do
     end
   end
 
+  describe '#relative_file_path' do
+    it 'should be the same path as the source index' do
+      expect(index.relative_file_path).to eq(source_index.relative_file_path)
+    end
+  end
+
   # TODO: Lots of overlap with blog/output/page_spec
   describe '#save_file' do
     context 'when an index template does not exist' do
