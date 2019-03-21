@@ -38,9 +38,10 @@ module Everything
           Everything.path
         end
 
-        def base_source_pathname
-          @base_source_pathname ||= Pathname.new base_source_dir_path
-        end
+        # TODO: Do we want to add and use a method like this?
+        # def base_source_pathname
+        #   @base_source_pathname ||= Pathname.new base_source_dir_path
+        # end
 
         def source_file_path
           File.join(base_source_dir_path, file_name)
