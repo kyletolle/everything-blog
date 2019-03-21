@@ -13,7 +13,7 @@ module Everything
         end
 
         def file_name
-          ''
+          'index.html'
         end
 
         def ==(other)

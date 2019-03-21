@@ -42,8 +42,8 @@ describe Everything::Blog::Source::Index do
   end
 
   describe '#file_name' do
-    it 'is an empty string' do
-      expect(index.file_name).to eq('')
+    it 'is index.html' do
+      expect(index.file_name).to eq('index.html')
     end
   end
 
@@ -59,8 +59,8 @@ describe Everything::Blog::Source::Index do
 
   # TODO: Should this actually be an empty string?
   describe '#relative_file_path' do
-    it 'is the root path' do
-      expect(index.relative_file_path).to eq('/')
+    it 'is the index file in the root path' do
+      expect(index.relative_file_path).to eq('/index.html')
     end
   end
 
