@@ -14,6 +14,12 @@ describe Everything::Blog::Remote::StylesheetFile do
     fake_output_stylesheet
   end
 
+  describe '::STYLESHEET_CONTENT_TYPE' do
+    it 'is text/css' do
+      expect(described_class::STYLESHEET_CONTENT_TYPE).to eq('text/css')
+    end
+  end
+
   describe '#initialize' do
     it 'sets the output_file to the given output file' do
       expect(stylesheet_file.output_file).to eq(given_output_file)
@@ -33,6 +39,12 @@ describe Everything::Blog::Remote::StylesheetFile do
   end
 
   # TODO: Add specs for these
-  describe '#content_type'
+  describe '#content_type' do
+    it 'is equal to STYLESHEET_CONTENT_TYPE' do
+      expect(stylesheet_file.content_type)
+        .to eq(described_class::STYLESHEET_CONTENT_TYPE)
+    end
+  end
+
   describe '#send'
 end
