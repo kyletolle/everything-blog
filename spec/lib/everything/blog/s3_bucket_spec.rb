@@ -55,19 +55,7 @@ describe Everything::Blog::S3Bucket do
       end
 
       context 'when contains files' do
-        let(:expected_file_name) { 'index.html' }
-        before do
-          s3_bucket.files.create(
-            {
-              key: expected_file_name,
-              body: '<html></html>'
-            }
-          )
-        end
-
-        after do
-          s3_bucket.files.each(&:destroy)
-        end
+        include_context 'with fake html file in s3'
 
         it 'returns the expected number of files in the bucket' do
           expect(s3_bucket.files.reload.count).to eq(1)

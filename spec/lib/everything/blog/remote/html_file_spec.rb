@@ -9,6 +9,7 @@ describe Everything::Blog::Remote::HtmlFile do
   # TODO: Add specs for these
   # include_context 'behaves like a Remote::FileBase'
   include_context 'with fake output index'
+  include_context 'with mock fog'
 
   let(:html_file) do
     described_class.new(given_output_file)
@@ -49,4 +50,41 @@ describe Everything::Blog::Remote::HtmlFile do
 
   # TODO: Add specs for this.
   describe '#send'
+
+  describe '#remote_file' do
+    subject { html_file.remote_file }
+
+    context 'when the bucket does not exist' do
+      it 'is nil' do
+        expect(subject).to be_nil
+      end
+    end
+
+    context 'when the bucket does exist' do
+      include_context 'with mock bucket in s3'
+
+      context 'when the remote file does not exist' do
+        it 'is nil' do
+          expect(subject).to be_nil
+        end
+      end
+
+      context 'when the remote file exists' do
+        include_context 'with fake output index'
+        include_context 'with fake html file in s3'
+
+        it 'is the head info for the file' do
+          expected_remote_file = mock_html_file
+          expect(subject).to eq(expected_remote_file)
+        end
+      end
+    end
+  end
+
+  describe '#remote_key' do
+    it "is the output file's relative_file_path without the leading slash" do
+      expected_file_key = given_output_file.output_file_name
+      expect(html_file.remote_key).to eq(expected_file_key)
+    end
+  end
 end

@@ -27,6 +27,15 @@ module Everything
         #   end
         # end
 
+        def remote_file
+          s3_bucket&.files&.head(remote_key)
+        end
+
+        def remote_key
+          output_file.relative_file_path
+            .tap{|o| o[0] = '' }
+        end
+
       private
 
         # def file_does_not_exist
@@ -45,22 +54,13 @@ module Everything
         #   )
         # end
 
-        # def remote_key
-        #   output_file.relative_dir_path
-        #     .tap {|o| puts "OUTPUT FILE RELATIVE PATH: #{o}"}
-        # end
-
         # def content_hash
         #   md5.hexdigest(content)
         # end
 
-        # def remote_file
-        #   s3_bucket.files.head(remote_key)
-        # end
-
-        # def s3_bucket
-        #   @s3_bucket ||= Everything::Blog::S3Bucket.new
-        # end
+        def s3_bucket
+          @s3_bucket ||= Everything::Blog::S3Bucket.new
+        end
 
         # def md5
         #   @md5 ||= Digest::MD5.new

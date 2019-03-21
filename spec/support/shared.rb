@@ -455,7 +455,7 @@ shared_context 'with fake aws_storage_region env var' do
 end
 
 shared_context 'with mock fog' do
-  before :all do
+  before do
     Fog.mock!
   end
 end
@@ -467,19 +467,41 @@ shared_context 'with mock bucket in s3' do
     Fastenv.aws_storage_bucket
   end
 
-  before do
+  let(:mock_s3_bucket) do
     Everything::Blog::S3Bucket.new
+  end
+
+  before do
+    mock_s3_bucket
       .s3_connection
       .directories
       .create(key: expected_bucket_name)
   end
 
   after do
-    Everything::Blog::S3Bucket.new
+    mock_s3_bucket
       .s3_connection
       .directories
       .get(expected_bucket_name)
-      .destroy
+      &.destroy
+  end
+end
+
+shared_context 'with fake html file in s3' do
+  include_context 'with mock bucket in s3'
+
+  let(:expected_file_name) { 'index.html' }
+  let!(:mock_html_file) do
+    mock_s3_bucket.files.create(
+      {
+        key: expected_file_name,
+        body: '<html></html>'
+      }
+    )
+  end
+
+  after do
+    mock_s3_bucket.files.each(&:destroy)
   end
 end
 
