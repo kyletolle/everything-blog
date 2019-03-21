@@ -34,7 +34,11 @@ describe Everything::Blog::Remote::BinaryFile do
   end
 
   # TODO: Add specs for these
-  describe '#content_type'
+  describe '#content_type' do
+    it "is equal to the output file's content_type" do
+      expect(binary_file.content_type).to eq(given_output_file.content_type)
+    end
+  end
   describe '#send'
 end
 
