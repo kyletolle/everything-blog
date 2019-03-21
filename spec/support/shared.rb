@@ -454,17 +454,17 @@ shared_context 'with fake aws_storage_region env var' do
   end
 end
 
-shared_context 'with mock bucket in s3' do
-  let(:expected_bucket_name) do
-    Fastenv.aws_storage_bucket
-  end
-
+shared_context 'with mock fog' do
   before :all do
     Fog.mock!
   end
+end
 
-  after :all do
-    Fog.unmock!
+shared_context 'with mock bucket in s3' do
+  include_context 'with mock fog'
+
+  let(:expected_bucket_name) do
+    Fastenv.aws_storage_bucket
   end
 
   before do

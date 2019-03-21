@@ -4,7 +4,7 @@ module Everything
   class Blog
     class S3Bucket
       def files
-        bucket.files
+        bucket&.files
       end
 
       def bucket
