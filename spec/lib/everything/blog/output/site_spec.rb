@@ -32,18 +32,19 @@ describe Everything::Blog::Output::Site do
     it 'asks each output file if it should generate output'
 
     context 'when no files should generate output' do
-      before do
-        allow_any_instance_of(Everything::Blog::Output::Page)
-          .to receive(:should_generate_output?)
-          .and_return(false)
-      end
+      # before do
+      #   allow_any_instance_of(Everything::Blog::Output::Page)
+      #     .to receive(:should_generate_output?)
+      #     .and_return(false)
+      # end
 
-      xit 'does not save any files' do
-        expect_any_instance_of(Everything::Blog::Output::Page)
-          .not_to receive(:save_file)
+      xit 'does not save any files'
+      # xit 'does not save any files' do
+        # expect_any_instance_of(Everything::Blog::Output::Page)
+        #   .not_to receive(:save_file)
 
-        output_site.generate
-      end
+        # output_site.generate
+      # end
     end
 
     context 'when some files should generate output' do
