@@ -27,6 +27,10 @@ module Everything
         #   end
         # end
 
+        def remote_file_does_not_exist?
+          remote_file.nil?
+        end
+
         def remote_file
           s3_bucket&.files&.head(remote_key)
         end
@@ -37,10 +41,6 @@ module Everything
         end
 
       private
-
-        # def file_does_not_exist
-        #   remote_file.nil?
-        # end
 
         # def local_file_is_newer
         #   remote_file&.etag != content_hash

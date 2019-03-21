@@ -101,6 +101,36 @@ describe Everything::Blog::Remote::HtmlFile do
     end
   end
 
+  describe '#remote_file_does_not_exist?' do
+    subject { html_file.remote_file_does_not_exist? }
+
+    context 'when remote_file is nil' do
+      before do
+        allow(html_file)
+          .to receive(:remote_file)
+          .and_return(nil)
+      end
+
+      it 'is true' do
+        expect(subject).to eq(true)
+      end
+    end
+
+    context 'when remote_file is not nil' do
+      include_context 'with fake html file in s3'
+
+      before do
+        allow(html_file)
+          .to receive(:remote_file)
+          .and_return(mock_html_file)
+      end
+
+      it 'is false' do
+        expect(subject).to eq(false)
+      end
+    end
+  end
+
   describe '#remote_key' do
     it "is the output file's relative_file_path without the leading slash" do
       expected_file_key = given_output_file.output_file_name
