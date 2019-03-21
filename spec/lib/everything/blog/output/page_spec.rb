@@ -86,6 +86,29 @@ describe Everything::Blog::Output::Page do
     end
   end
 
+  describe '#output_content' do
+    let(:template_double) { instance_double(page.template_klass) }
+    let(:fake_content_and_template) { '<p>Faked out, yo!</p>' }
+
+    before do
+      allow(page.template_klass)
+        .to receive(:new)
+        .and_return(template_double)
+      allow(template_double)
+        .to receive(:merge_content_and_template)
+        .and_return(fake_content_and_template, 'Some other')
+    end
+
+    it 'returns merged template and content' do
+      expect(page.output_content).to eq(fake_content_and_template)
+    end
+
+    it 'memoizes the return value' do
+      expect(page.output_content.object_id)
+        .to eq(page.output_content.object_id)
+    end
+  end
+
   describe '#output_file_name' do
     it 'is index.html' do
       expect(page.output_file_name).to eq('index.html')
