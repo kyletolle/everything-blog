@@ -36,7 +36,7 @@ describe Everything::Blog::Remote::HtmlFile do
         .and_return("This content's completely fake and should not be trusted.")
     end
 
-    it "is the output file's content" do
+    it "is the output file's output_content" do
       expect(html_file.content).to eq(given_output_file.output_content)
     end
   end
