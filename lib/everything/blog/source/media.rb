@@ -25,10 +25,6 @@ module Everything
 
       private
 
-        def file_type
-          :binary
-        end
-
         def base_source_dir_path
           Everything::Blog::Source.absolute_path
         end
