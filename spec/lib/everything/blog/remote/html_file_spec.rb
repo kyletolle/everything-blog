@@ -42,6 +42,28 @@ describe Everything::Blog::Remote::HtmlFile do
     end
   end
 
+  describe '#content_hash' do
+    subject { html_file.content_hash }
+
+    let(:md5_double) { instance_double(Digest::MD5) }
+
+    before do
+      allow(Digest::MD5)
+        .to receive(:new)
+        .and_return(md5_double)
+      allow(md5_double)
+        .to receive(:hexdigest)
+    end
+
+    it 'uses the md5 library to do a hexdigest' do
+      subject
+
+      expect(md5_double)
+        .to have_received(:hexdigest)
+        .with(html_file.content)
+    end
+  end
+
   describe '#content_type' do
     it 'is equal to HTML_CONTENT_TYPE' do
       expect(html_file.content_type).to eq(described_class::HTML_CONTENT_TYPE)

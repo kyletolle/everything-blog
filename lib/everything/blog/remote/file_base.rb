@@ -16,6 +16,10 @@ module Everything
           raise NotImplementedError
         end
 
+        def content_hash
+          md5.hexdigest(content)
+        end
+
         def content_type
           raise NotImplementedError
         end
@@ -54,17 +58,13 @@ module Everything
         #   )
         # end
 
-        # def content_hash
-        #   md5.hexdigest(content)
-        # end
-
         def s3_bucket
           @s3_bucket ||= Everything::Blog::S3Bucket.new
         end
 
-        # def md5
-        #   @md5 ||= Digest::MD5.new
-        # end
+        def md5
+          @md5 ||= Digest::MD5.new
+        end
       end
     end
   end
