@@ -14,3 +14,4 @@ gem 'fakefs',                require: 'fakefs/safe'
 gem 'guard-rspec',           require: false
 gem 'activesupport',         '5.1.2'
 gem 'simplecov',             require: false, group: :test
+gem 'timecop'

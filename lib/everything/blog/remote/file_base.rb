@@ -28,12 +28,13 @@ module Everything
           remote_file&.etag != content_hash
         end
 
-        # def send
-        #   if remote_file_does_not_exist? || local_file_is_different?
-        #     puts "SENDING TO S3 IS FAKED OUT RIGHT NOW"
-        #     # create_remote_file
-        #   end
-        # end
+        def send
+          if remote_file_does_not_exist?
+            create_remote_file
+          elsif local_file_is_different?
+            update_remote_file
+          end
+        end
 
         def remote_file_does_not_exist?
           remote_file.nil?
@@ -50,13 +51,19 @@ module Everything
 
       private
 
-        # def create_remote_file
-        #   s3_bucket.files.create(
-        #     key: remote_key,
-        #     body: content,
-        #     content_type: content_type
-        #   )
-        # end
+        def create_remote_file
+          s3_bucket&.files&.create(
+            key: remote_key,
+            body: content,
+            content_type: content_type
+          )
+        end
+
+        def update_remote_file
+          existing_file = s3_bucket.files.get(remote_key)
+          existing_file.body = content
+          existing_file.save
+        end
 
         def s3_bucket
           @s3_bucket ||= Everything::Blog::S3Bucket.new
