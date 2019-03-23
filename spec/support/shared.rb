@@ -491,11 +491,12 @@ shared_context 'with fake html file in s3' do
   include_context 'with mock bucket in s3'
 
   let(:expected_file_name) { 'index.html' }
+  let(:mock_html_body) { '<html></html>' }
   let!(:mock_html_file) do
     mock_s3_bucket.files.create(
       {
         key: expected_file_name,
-        body: '<html></html>'
+        body: mock_html_body
       }
     )
   end

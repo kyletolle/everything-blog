@@ -24,8 +24,12 @@ module Everything
           raise NotImplementedError
         end
 
+        def local_file_is_different?
+          remote_file&.etag != content_hash
+        end
+
         # def send
-        #   if file_does_not_exist || local_file_is_newer
+        #   if remote_file_does_not_exist? || local_file_is_different?
         #     puts "SENDING TO S3 IS FAKED OUT RIGHT NOW"
         #     # create_remote_file
         #   end
@@ -45,10 +49,6 @@ module Everything
         end
 
       private
-
-        # def local_file_is_newer
-        #   remote_file&.etag != content_hash
-        # end
 
         # def create_remote_file
         #   s3_bucket.files.create(

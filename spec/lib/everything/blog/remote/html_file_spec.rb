@@ -70,6 +70,45 @@ describe Everything::Blog::Remote::HtmlFile do
     end
   end
 
+  describe '#local_file_is_different?' do
+    subject { html_file.local_file_is_different? }
+
+    context 'when remote file does not exist' do
+      it 'is true' do
+        expect(subject).to eq(true)
+      end
+    end
+
+    context 'when remote file does exist' do
+      include_context 'with fake output index'
+      include_context 'with fake html file in s3'
+
+      context 'and has a different hash than the current conent' do
+        before do
+          allow(html_file)
+            .to receive(:content_hash)
+            .and_return(mock_html_file.etag.reverse)
+        end
+
+        it 'is true' do
+          expect(subject).to eq(true)
+        end
+      end
+
+      context 'and has the same has as the current content' do
+        before do
+          allow(html_file)
+            .to receive(:content_hash)
+            .and_return(mock_html_file.etag)
+        end
+
+        it 'is false' do
+          expect(subject).to eq(false)
+        end
+      end
+    end
+  end
+
   # TODO: Add specs for this.
   describe '#send'
 
