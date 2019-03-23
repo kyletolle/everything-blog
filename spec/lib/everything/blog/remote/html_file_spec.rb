@@ -193,9 +193,26 @@ describe Everything::Blog::Remote::HtmlFile do
   end
 
   describe '#remote_key' do
+    subject { html_file.remote_key }
+
+    before do
+      @initial_remote_key = subject.dup
+      html_file.remote_key
+      html_file.remote_key
+      html_file.remote_key
+    end
+
     it "is the output file's relative_file_path without the leading slash" do
       expected_file_key = given_output_file.output_file_name
-      expect(html_file.remote_key).to eq(expected_file_key)
+      expect(subject).to eq(expected_file_key)
+    end
+
+    it 'returns the same result when called multiple times' do
+      expect(html_file.remote_key).to eq(@initial_remote_key)
+    end
+
+    it 'memoizes the result' do
+      expect(subject.object_id).to eq(html_file.remote_key.object_id)
     end
   end
 end
