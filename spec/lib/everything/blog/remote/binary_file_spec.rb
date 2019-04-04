@@ -322,5 +322,29 @@ describe Everything::Blog::Remote::BinaryFile do
       end
     end
   end
+
+  describe '#remote_key' do
+    subject { binary_file.remote_key }
+
+    before do
+      @initial_remote_key = subject.dup
+      binary_file.remote_key
+      binary_file.remote_key
+      binary_file.remote_key
+    end
+
+    it "is the output file's relative_file_path with a leading slash" do
+      expected_file_key = given_output_file.relative_file_path
+      expect(subject).to eq(expected_file_key)
+    end
+
+    it 'returns the same result when called multiple times' do
+      expect(binary_file.remote_key).to eq(@initial_remote_key)
+    end
+
+    it 'memoizes the result' do
+      expect(subject.object_id).to eq(binary_file.remote_key.object_id)
+    end
+  end
 end
 
