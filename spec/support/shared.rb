@@ -501,11 +501,20 @@ shared_context 'with mock bucket in s3' do
   end
 
   after do
-    mock_s3_bucket
+    bucket = mock_s3_bucket
       .s3_connection
       .directories
       .get(expected_bucket_name)
-      &.destroy
+
+    if bucket&.files&.any?
+      puts "##################################################"
+      puts "##################################################"
+      puts "##################################################"
+      puts "WARNING: File(s) exist in bucket:"
+      puts bucket.files.map(&:key)
+    end
+
+    bucket&.destroy
   end
 end
 
