@@ -54,6 +54,15 @@ describe Everything::Blog::Remote::BinaryFile do
         .to have_received(:hexdigest)
         .with(binary_file.content)
     end
+
+    it 'returns the md5 hash' do
+      fake_hash = 'defn0tah4sh'
+
+      allow(md5_double)
+        .to receive(:hexdigest)
+        .and_return(fake_hash)
+      expect(subject).to eq(fake_hash)
+    end
   end
 
   describe '#content_type' do
