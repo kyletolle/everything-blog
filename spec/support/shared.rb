@@ -200,6 +200,28 @@ shared_context 'with fake output media' do
   end
 end
 
+shared_context 'with fake binary file in s3' do
+  include_context 'with mock bucket in s3'
+  include_context 'with fake output media'
+
+  let(:expected_file_name) {
+    fake_output_media.relative_file_path
+  }
+  let(:mock_binary_data) { test_png_data }
+  let!(:mock_binary_file) do
+    mock_s3_bucket.files.create(
+      {
+        key: expected_file_name,
+        body: mock_binary_data
+      }
+    )
+  end
+
+  after do
+    mock_s3_bucket.files.each(&:destroy)
+  end
+end
+
 shared_context 'when templates_path is not set' do
   # TODO: Is there a better way to test this stuff than actually setting and
   # deleting env vars?

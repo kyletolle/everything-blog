@@ -7,6 +7,7 @@ require './spec/support/shared'
 
 describe Everything::Blog::Remote::BinaryFile do
   include_context 'with fake output media'
+  include_context 'with mock fog'
 
   let(:binary_file) do
     described_class.new(given_output_file)
@@ -61,7 +62,54 @@ describe Everything::Blog::Remote::BinaryFile do
     end
   end
 
-  # TODO: Add specs for this
+  describe '#local_file_is_different?' do
+    subject { binary_file.local_file_is_different? }
+
+    context 'when the bucket does not exist' do
+      it 'returns true' do
+        expect(subject).to eq(true)
+      end
+    end
+
+    context 'when the bucket does exist' do
+      include_context 'with mock bucket in s3'
+
+      context 'when remote file does not exist' do
+        it 'is true' do
+          expect(subject).to eq(true)
+        end
+      end
+
+      context 'when remote file does exist' do
+        include_context 'with fake binary file in s3'
+
+        context 'and has a different hash than the current content' do
+          before do
+            allow(binary_file)
+              .to receive(:content_hash)
+              .and_return(mock_binary_file.etag.reverse)
+          end
+
+          it 'is true' do
+            expect(subject).to eq(true)
+          end
+        end
+
+        context 'and has the same hash as the current content' do
+          before do
+            allow(binary_file)
+              .to receive(:content_hash)
+              .and_return(mock_binary_file.etag)
+          end
+
+          it 'is false' do
+            expect(subject).to eq(false)
+          end
+        end
+      end
+    end
+  end
+
   describe '#send'
 end
 
