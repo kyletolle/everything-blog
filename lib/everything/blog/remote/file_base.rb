@@ -46,7 +46,6 @@ module Everything
 
         def remote_key
           @remote_key ||= output_file.relative_file_path
-            .tap{|o| o[0] = '' } # Remove leading slash
         end
 
       private
