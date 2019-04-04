@@ -93,7 +93,7 @@ describe Everything::Blog::Remote::HtmlFile do
         include_context 'with fake output index'
         include_context 'with fake html file in s3'
 
-        context 'and has a different hash than the current conent' do
+        context 'and has a different hash than the current content' do
           before do
             allow(html_file)
               .to receive(:content_hash)
@@ -105,7 +105,7 @@ describe Everything::Blog::Remote::HtmlFile do
           end
         end
 
-        context 'and has the same has as the current content' do
+        context 'and has the same hash as the current content' do
           before do
             allow(html_file)
               .to receive(:content_hash)
