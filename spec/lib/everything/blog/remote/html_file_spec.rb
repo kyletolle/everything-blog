@@ -148,7 +148,7 @@ describe Everything::Blog::Remote::HtmlFile do
           .get(html_file.remote_key)
       end
 
-      context 'when remote file does not exist' do
+      context 'when the remote file does not exist' do
         # Note: Files from the list don't return all info that getting a
         # particular file will, as noted here:
         # https://stackoverflow.com/questions/17579118/set-content-type-of-fog-storage-files-on-s3#comment25803126_17657441

@@ -119,6 +119,129 @@ describe Everything::Blog::Remote::BinaryFile do
     end
   end
 
-  describe '#send'
+  describe '#send' do
+    subject { binary_file.send }
+
+    context 'when the bucket does not exist' do
+      it 'returns nil' do
+        expect(subject).to be_nil
+      end
+    end
+
+    context 'when the bucket does exist' do
+      include_context 'with mock bucket in s3'
+
+      let(:s3_bucket) { Everything::Blog::S3Bucket.new }
+      let(:actual_file) do
+        s3_bucket
+          .files
+          .get(binary_file.remote_key)
+      end
+
+      context 'when the remote file does not exist' do
+        # Note: Files from the list don't return all info that getting a
+        # particular file will, as noted here:
+        # https://stackoverflow.com/questions/17579118/set-content-type-of-fog-storage-files-on-s3#comment25803126_17657441
+        # If we want to check the file's content_type, then we need to get that
+        # file individually.
+        let(:first_file) { s3_bucket.files.first }
+
+        after do
+          actual_file.destroy
+        end
+
+        it 'creates a file in the s3 bucket' do
+          expect(s3_bucket.files).to be_empty
+          subject
+          expect(s3_bucket.files.reload).not_to be_empty
+        end
+
+        it 'creates the file with the right body' do
+          subject
+
+          expect(actual_file.body).to eq(binary_file.content)
+        end
+
+        it 'creates the file with the right content_type' do
+          subject
+
+          expect(actual_file.content_type).to eq(binary_file.content_type)
+        end
+      end
+
+      context 'when the remote file does exist' do
+        let(:midnight_utc) { Time.parse("2019-03-24 00:00:00 UTC") }
+        let(:noon_utc) { Time.parse("2019-03-24 12:00:00 UTC") }
+        before do
+          Timecop.freeze(midnight_utc)
+
+          mock_binary_file
+        end
+
+        # Note: Include the fake file after faking the time.
+        include_context 'with fake binary file in s3'
+
+        after do
+          Timecop.return
+        end
+
+        context 'when the local file is the same' do
+          before do
+            allow(binary_file)
+              .to receive(:content)
+              .and_return(mock_binary_data)
+
+            Timecop.freeze(noon_utc)
+          end
+
+          it "does not change the remote file's last modified time" do
+            expect(actual_file.last_modified).to eq(midnight_utc)
+
+            subject
+
+            expect(actual_file.reload.last_modified).to eq(midnight_utc)
+          end
+        end
+
+        context 'when the local file is different' do
+          let(:updated_content) { mock_binary_data.reverse }
+          let(:modified_file) do
+            s3_bucket
+              .files
+              .reload
+              .get(binary_file.remote_key)
+          end
+
+          before do
+            allow(binary_file)
+              .to receive(:content)
+              .and_return(updated_content)
+            allow(binary_file)
+              .to receive(:local_file_is_different?)
+              .and_return(true)
+
+            Timecop.freeze(noon_utc)
+          end
+
+          it "changes the remote file's last modified time" do
+            expect(actual_file.last_modified).to eq(midnight_utc)
+
+            subject
+
+            expect(modified_file.last_modified).to eq(noon_utc)
+          end
+
+          it "changes the remote file's body" do
+            expect(actual_file.body).to eq(mock_binary_data)
+
+            subject
+
+            expect(modified_file.body).to eq(updated_content)
+          end
+        end
+      end
+    end
+  end
+
 end
 
