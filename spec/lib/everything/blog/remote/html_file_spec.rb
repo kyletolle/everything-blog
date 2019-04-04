@@ -63,6 +63,8 @@ describe Everything::Blog::Remote::HtmlFile do
         .to have_received(:hexdigest)
         .with(html_file.content)
     end
+
+    it 'returns the md5 hash'
   end
 
   describe '#content_type' do
