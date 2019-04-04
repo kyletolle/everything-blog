@@ -4,7 +4,6 @@ Bundler.require(:default)
 require './lib/everything/blog/remote/html_file'
 require './lib/everything/blog/output/index'
 require './spec/support/shared'
-require 'time'
 
 describe Everything::Blog::Remote::HtmlFile do
   # TODO: Add specs for these
