@@ -292,5 +292,35 @@ describe Everything::Blog::Remote::BinaryFile do
       end
     end
   end
+
+  describe '#remote_file_does_not_exist?' do
+    subject { binary_file.remote_file_does_not_exist? }
+
+    context 'when remote_file is nil' do
+      before do
+        allow(binary_file)
+          .to receive(:remote_file)
+          .and_return(nil)
+      end
+
+      it 'is true' do
+        expect(subject).to eq(true)
+      end
+    end
+
+    context 'when remote_file is not nil' do
+      include_context 'with fake binary file in s3'
+
+      before do
+        allow(binary_file)
+          .to receive(:remote_file)
+          .and_return(mock_binary_file)
+      end
+
+      it 'is false' do
+        expect(subject).to eq(false)
+      end
+    end
+  end
 end
 
