@@ -342,8 +342,8 @@ describe Everything::Blog::Remote::HtmlFile do
       html_file.remote_key
     end
 
-    it "is the output file's relative_file_path without the leading slash" do
-      expected_file_key = given_output_file.output_file_name
+    it "is the output file's relative_file_name with a leading slash" do
+      expected_file_key = "/"+given_output_file.output_file_name
       expect(subject).to eq(expected_file_key)
     end
 
