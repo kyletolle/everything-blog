@@ -80,4 +80,28 @@ describe Everything::Blog::Remote::StylesheetFile do
 
   # TODO: Add specs for this.
   describe '#send'
+
+  describe '#remote_key' do
+    subject { stylesheet_file.remote_key }
+
+    before do
+      @initial_remote_key = subject.dup
+      stylesheet_file.remote_key
+      stylesheet_file.remote_key
+      stylesheet_file.remote_key
+    end
+
+    it "is the output file's relative_file_path with a leading slash" do
+      expected_file_key = given_output_file.relative_file_path
+      expect(subject).to eq(expected_file_key)
+    end
+
+    it 'returns the same result when called multiple times' do
+      expect(stylesheet_file.remote_key).to eq(@initial_remote_key)
+    end
+
+    it 'memoizes the result' do
+      expect(subject.object_id).to eq(stylesheet_file.remote_key.object_id)
+    end
+  end
 end
