@@ -59,7 +59,7 @@ describe Everything::Blog::Source::Index do
 
   # TODO: Should this actually be an empty string?
   describe '#relative_file_path' do
-    it 'is the index file in the root path' do
+    it 'is the index file in the root path, with a leading slash' do
       expect(index.relative_file_path).to eq('/index.html')
     end
   end
