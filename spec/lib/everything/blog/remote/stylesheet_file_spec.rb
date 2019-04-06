@@ -78,7 +78,55 @@ describe Everything::Blog::Remote::StylesheetFile do
     end
   end
 
-  # TODO: Add specs for this.
+  describe '#local_file_is_different?' do
+    subject { stylesheet_file.local_file_is_different? }
+
+    context 'when the bucket does not exist' do
+      it 'returns true' do
+        expect(subject).to eq(true)
+      end
+    end
+
+    context 'when the bucket does exist' do
+      include_context 'with mock bucket in s3'
+
+      context 'when remote file does not exist' do
+        it 'is true' do
+          expect(subject).to eq(true)
+        end
+      end
+
+      context 'when remote file does exist' do
+        include_context 'with fake output index'
+        include_context 'with fake stylesheet file in s3'
+
+        context 'and has a different hash than the current content' do
+          before do
+            allow(stylesheet_file)
+              .to receive(:content_hash)
+              .and_return(mock_stylesheet_file.etag.reverse)
+          end
+
+          it 'is true' do
+            expect(subject).to eq(true)
+          end
+        end
+
+        context 'and has the same hash as the current content' do
+          before do
+            allow(stylesheet_file)
+              .to receive(:content_hash)
+              .and_return(mock_stylesheet_file.etag)
+          end
+
+          it 'is false' do
+            expect(subject).to eq(false)
+          end
+        end
+      end
+    end
+  end
+
   describe '#send'
 
   describe '#remote_file' do
