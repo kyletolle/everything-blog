@@ -589,3 +589,22 @@ shared_context 'with fake output stylesheet' do
   end
 end
 
+shared_context 'with fake stylesheet file in s3' do
+  include_context 'with mock bucket in s3'
+
+  let(:expected_file_name) { '/style.css' }
+  let(:mock_stylesheet_body) { 'html { font-size: 1em; }' }
+  let!(:mock_stylesheet_file) do
+    mock_s3_bucket.files.create(
+      {
+        key: expected_file_name,
+        body: mock_stylesheet_body
+      }
+    )
+  end
+
+  after do
+    mock_s3_bucket.files.each(&:destroy)
+  end
+end
+

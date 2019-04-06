@@ -81,6 +81,36 @@ describe Everything::Blog::Remote::StylesheetFile do
   # TODO: Add specs for this.
   describe '#send'
 
+  describe '#remote_file_does_not_exist?' do
+    subject { stylesheet_file.remote_file_does_not_exist? }
+
+    context 'when remote_file is nil' do
+      before do
+        allow(stylesheet_file)
+          .to receive(:remote_file)
+          .and_return(nil)
+      end
+
+      it 'is true' do
+        expect(subject).to eq(true)
+      end
+    end
+
+    context 'when remote_file is not nil' do
+      include_context 'with fake stylesheet file in s3'
+
+      before do
+        allow(stylesheet_file)
+          .to receive(:remote_file)
+          .and_return(mock_stylesheet_file)
+      end
+
+      it 'is false' do
+        expect(subject).to eq(false)
+      end
+    end
+  end
+
   describe '#remote_key' do
     subject { stylesheet_file.remote_key }
 
