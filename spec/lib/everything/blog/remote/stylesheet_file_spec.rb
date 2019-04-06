@@ -81,6 +81,57 @@ describe Everything::Blog::Remote::StylesheetFile do
   # TODO: Add specs for this.
   describe '#send'
 
+  describe '#remote_file' do
+    subject { stylesheet_file.remote_file }
+
+    context 'when the bucket does not exist' do
+      it 'is nil' do
+        expect(subject).to be_nil
+      end
+    end
+
+    context 'when the bucket does exist' do
+      include_context 'with mock bucket in s3'
+
+      context 'when the remote file does not exist' do
+        it 'is nil' do
+          expect(subject).to be_nil
+        end
+      end
+
+      context 'when the remote file exists' do
+        include_context 'with fake output stylesheet'
+        include_context 'with fake stylesheet file in s3'
+
+        it 'returns an AWS file' do
+          expect(subject).to be_a(Fog::AWS::Storage::File)
+        end
+
+        it 'returns a file with matching remote_key' do
+          given_output_file.relative_file_path
+          expect(subject.key).to eq(stylesheet_file.remote_key)
+        end
+
+        it 'calls head to get the file' do
+          bucket_double = instance_double(Everything::Blog::S3Bucket)
+          allow(stylesheet_file)
+            .to receive(:s3_bucket)
+            .and_return(bucket_double)
+          files_double = instance_double(Fog::AWS::Storage::Files)
+          allow(bucket_double)
+            .to receive(:files)
+            .and_return(files_double)
+          allow(files_double)
+            .to receive(:head)
+          subject
+          expect(files_double)
+            .to have_received(:head)
+            .with(stylesheet_file.remote_key)
+        end
+      end
+    end
+  end
+
   describe '#remote_file_does_not_exist?' do
     subject { stylesheet_file.remote_file_does_not_exist? }
 
