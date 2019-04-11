@@ -69,8 +69,14 @@ describe Everything::Blog::S3Bucket do
   end
 
   describe '#s3_connection' do
+    subject { s3_bucket.s3_connection }
+
     it 'is a connection to s3' do
-      expect(s3_bucket.s3_connection).to respond_to(:get_bucket)
+      expect(subject).to respond_to(:get_bucket)
+    end
+
+    it 'memoizes the result' do
+      expect(subject.object_id).to eq(s3_bucket.s3_connection.object_id)
     end
   end
 end

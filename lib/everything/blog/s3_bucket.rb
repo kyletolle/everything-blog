@@ -13,7 +13,7 @@ module Everything
       end
 
       def s3_connection
-        Fog::Storage.new(fog_config.to_h)
+        @s3_connection ||= Fog::Storage.new(fog_config.to_h)
       end
 
     private
