@@ -37,7 +37,7 @@ describe Everything::Blog::S3Bucket do
   end
 
   describe '#files' do
-    subject { s3_bucket.files}
+    subject { s3_bucket.files }
 
     context 'when the bucket does not exist' do
       it 'is nil' do
@@ -58,11 +58,15 @@ describe Everything::Blog::S3Bucket do
         include_context 'with fake html file in s3'
 
         it 'returns the expected number of files in the bucket' do
-          expect(s3_bucket.files.reload.count).to eq(1)
+          expect(subject.reload.count).to eq(1)
         end
 
         it 'includes the files existing in the bucket' do
-          expect(s3_bucket.files.reload.map(&:key)).to include(expected_file_name)
+          expect(subject.reload.map(&:key)).to include(expected_file_name)
+        end
+
+        it 'memoizes the result' do
+          expect(subject.object_id).to eq(s3_bucket.files.object_id)
         end
       end
     end
