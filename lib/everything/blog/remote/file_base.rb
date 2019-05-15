@@ -30,9 +30,15 @@ module Everything
 
         def send
           if remote_file_does_not_exist?
+            # puts "CREATING REMOTE FILE IS DISABLED"
+            puts "CREATING REMOTE FILE"
             create_remote_file
           elsif local_file_is_different?
+            # puts "UPDATING REMOTE FILE IS DISABLED"
+            puts "UPDATING REMOTE FILE"
             update_remote_file
+          else
+            puts "DOING NOTHING WITH REMOTE FILE"
           end
         end
 
@@ -42,10 +48,12 @@ module Everything
 
         def remote_file
           s3_bucket&.files&.head(remote_key)
+            .tap{|rf| puts "Remote File: "; pp rf}
         end
 
         def remote_key
           @remote_key ||= output_file.relative_file_path
+            .tap {|o| puts "OUTPUT RELATIVE FILE PATH: #{o}"}
         end
 
       private
