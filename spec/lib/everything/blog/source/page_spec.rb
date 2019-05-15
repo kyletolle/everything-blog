@@ -47,18 +47,18 @@ describe Everything::Blog::Source::Page do
 
   describe '#relative_dir_path' do
     let(:expected_relative_dir_path) do
-      File.join('', fake_post_name)
+      fake_post_name
     end
-    it 'is a relative path to the dir' do
+    it 'is a relative path to the dir, without a leading slash' do
       expect(page.relative_dir_path).to eq(expected_relative_dir_path)
     end
   end
 
   describe '#relative_file_path' do
     let(:expected_relative_file_path) do
-      File.join('', fake_post_name, expected_markdown_file_name)
+      File.join(fake_post_name, expected_markdown_file_name)
     end
-    it 'is a relative path to the file' do
+    it 'is a relative path to the file, without a leading slash' do
       expect(page.relative_file_path).to eq(expected_relative_file_path)
     end
   end

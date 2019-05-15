@@ -521,7 +521,7 @@ end
 shared_context 'with fake html file in s3' do
   include_context 'with mock bucket in s3'
 
-  let(:expected_file_name) { '/index.html' }
+  let(:expected_file_name) { 'index.html' }
   let(:mock_html_body) { '<html></html>' }
   let!(:mock_html_file) do
     mock_s3_bucket.files.create(
@@ -592,7 +592,7 @@ end
 shared_context 'with fake stylesheet file in s3' do
   include_context 'with mock bucket in s3'
 
-  let(:expected_file_name) { '/css/style.css' }
+  let(:expected_file_name) { 'css/style.css' }
   let(:mock_stylesheet_body) { 'html { font-size: 1em; }' }
   let!(:mock_stylesheet_file) do
     mock_s3_bucket.files.create(

@@ -28,14 +28,14 @@ describe Everything::Blog::Source::Stylesheet do
   end
 
   describe '#relative_dir_path' do
-    it 'is a relative path to the dir' do
-      expect(stylesheet.relative_dir_path).to eq('/css')
+    it 'is a relative path to the dir, without a leading slash' do
+      expect(stylesheet.relative_dir_path).to eq('css')
     end
   end
 
   describe '#relative_file_path' do
-    it 'is a relative path to the file, with a leading slash' do
-      expect(stylesheet.relative_file_path).to eq('/css/style.css')
+    it 'is a relative path to the file, without a leading slash' do
+      expect(stylesheet.relative_file_path).to eq('css/style.css')
     end
   end
 

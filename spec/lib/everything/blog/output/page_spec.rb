@@ -128,8 +128,8 @@ describe Everything::Blog::Output::Page do
   end
 
   describe '#relative_dir_path' do
-    it 'is the relative path of the post dir' do
-      expect(page.relative_dir_path).to eq('/grond-crawled-on')
+    it 'is the relative path of the post dir, without a leading slash' do
+      expect(page.relative_dir_path).to eq('grond-crawled-on')
     end
   end
 

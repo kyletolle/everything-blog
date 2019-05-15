@@ -20,6 +20,10 @@ module Everything
           self.content == other.content
         end
 
+        def relative_dir_path
+          ''
+        end
+
       private
 
         # TODO: It would be nice to have this Markdown link and list generation

@@ -20,7 +20,8 @@ module Everything
           @relative_file_path ||= Pathname.new(source_file_path)
             .sub(base_source_dir_path, '')
             .to_s
-            .tap{|fp| fp.insert(0, '/') unless fp.start_with?('/') }
+            .delete_prefix('/')
+            .tap{|fp| puts "SOURCE RELATIVE FILE PATH: #{fp}"}
         end
 
         def content

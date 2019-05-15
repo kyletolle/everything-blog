@@ -62,19 +62,20 @@ describe Everything::Blog::Source::Media do
 
   describe "#relative_dir_path" do
     let(:expected_relative_dir_path) do
-      '/not-a-real-post'
+      'not-a-real-post'
     end
-    it 'is the blah blah' do
+
+    it 'is a relative path to the dir, without a leading slash' do
       expect(media.relative_dir_path).to eq(expected_relative_dir_path)
     end
   end
 
   describe "#relative_file_path" do
     let(:expected_relative_file_path) do
-      '/not-a-real-post/image.png'
+      'not-a-real-post/image.png'
     end
 
-    it 'is the blah blah' do
+    it 'is a relative path to the file, without a leading slash' do
       expect(media.relative_file_path).to eq(expected_relative_file_path)
     end
   end
