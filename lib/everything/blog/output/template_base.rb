@@ -3,21 +3,20 @@ require 'tilt'
 
 module Everything
   class Blog
-    class Site
-      class IndexTemplate
-        def initialize(page_content_html)
-          @page_content_html = page_content_html
+    module Output
+      class TemplateBase
+        attr_reader :content_html, :template_context
+
+        def initialize(content_html, template_context=nil)
+          @content_html = content_html
+          @template_context = template_context
         end
 
         def merge_content_and_template
-          Tilt.new(template_path).render do
-            page_content_html
+          Tilt.new(template_path).render(template_context) do
+            content_html
           end
         end
-
-      private
-
-        attr_reader :page_content_html
 
         def template_path
           ::File.join(templates_path, template_name)
@@ -25,10 +24,6 @@ module Everything
 
         def templates_path
           Fastenv.templates_path
-        end
-
-        def template_name
-          'index.html.erb'
         end
       end
     end

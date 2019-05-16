@@ -84,8 +84,16 @@ a:hover   { text-decoration: underline; }
 a:visited { color: #205caa; }
 
 ul {
-  list-style-position: inside;
-  margin-bottom: 1.0em;
+  margin-bottom: 1em;
+  padding-left: 2em;
+}
+
+ul ul {
+  margin-bottom: 0;
+}
+
+#all ul {
+  list-style-position: outside;
 }
 
 li p {
@@ -176,6 +184,19 @@ blockquote {
 
 blockquote p {
   margin-bottom: 0;
+}
+
+dt {
+  font-weight: bold;
+  font-size: 1.2em;
+  line-height: 1.6em;
+  padding-bottom: .25em;
+}
+
+dd {
+  font-size: 1.0em;
+  line-height: 1.6em;
+  margin-bottom: 1em;
 }
 
 footer {
