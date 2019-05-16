@@ -58,7 +58,9 @@ module Everything
         end
 
         def relative_file_path
-          source_file.relative_file_path
+          source_file
+            .relative_file_path
+            .gsub('md', 'html')
         end
 
         def save_file

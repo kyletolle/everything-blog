@@ -1,3 +1,4 @@
+require 'pp' # helps prevent an error like: 'superclass mismatch for class file'
 require 'bundler/setup'
 Bundler.require(:default)
 require './lib/everything/blog/output/page'
@@ -134,9 +135,15 @@ describe Everything::Blog::Output::Page do
   end
 
   describe '#relative_file_path' do
-    it 'should be the same path as the source index' do
+    let(:expected_relative_file_path) do
+      given_source_page
+        .relative_file_path
+        .gsub('md', 'html')
+    end
+
+    it 'should be the same path as the source index, except an html file' do
       expect(page.relative_file_path)
-        .to eq(given_source_page.relative_file_path)
+        .to eq(expected_relative_file_path)
     end
   end
 
