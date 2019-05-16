@@ -304,6 +304,10 @@ describe Everything::Blog::Remote::HtmlFile do
             .to have_received(:head)
             .with(html_file.remote_key)
         end
+
+        it 'memoizes the result' do
+          expect(subject.object_id).to eq(html_file.remote_file.object_id)
+        end
       end
     end
   end

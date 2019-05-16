@@ -47,7 +47,7 @@ module Everything
         end
 
         def remote_file
-          s3_bucket&.files&.head(remote_key)
+          @remote_file ||= s3_bucket&.files&.head(remote_key)
             .tap{|rf| puts "Remote File: "; pp rf}
         end
 
