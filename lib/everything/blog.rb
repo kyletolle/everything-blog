@@ -14,12 +14,18 @@ require_relative 'blog/s3_site'
 
 module Everything
   class Blog
+    attr_accessor :logger
+
+    def initialize(logger:)
+      @logger = logger
+    end
+
     def generate_site
-      puts
-      puts 'Blog: Generating entire site'
+      # puts
+      # puts 'Blog: Generating entire site'
       source_files
-        .tap{|o| puts "Blog: Number of source files: #{o.count}" }
-        .tap{|o| puts 'Blog: Source files'; puts o}
+        # .tap{|o| puts "Blog: Number of source files: #{o.count}" }
+        # .tap{|o| puts 'Blog: Source files'; puts o}
 
       output = Output::Site.new(source_files)
       output.generate
