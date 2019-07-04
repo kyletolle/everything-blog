@@ -42,6 +42,18 @@ If you want to use a different env file, you can do so like:
 bundle exec dotenv -f "test.env" bin/eb generate
 ```
 
+## Options
+
+### Verbose Mode
+
+```
+bin/eb generate --verbose
+```
+or
+```
+bin/eb generate -v
+```
+
 ## Viewing
 
 To see the html output in the browser, from the root of this project do:
