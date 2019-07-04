@@ -54,7 +54,7 @@ describe Everything::Blog::CLI do
         include_context "calls blog's generate_site"
 
         it 'accepts a verbose flag and logs' do
-          expect_any_instance_of(Logger)
+          expect(fake_logger)
             .to receive(:info)
             .twice
 
@@ -70,7 +70,7 @@ describe Everything::Blog::CLI do
         include_context "calls blog's generate_site"
 
         it 'accepts a short verbose flag and logs' do
-          expect_any_instance_of(Logger)
+          expect(fake_logger)
             .to receive(:info)
             .twice
 
