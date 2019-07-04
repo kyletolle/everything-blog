@@ -37,6 +37,11 @@ If you move time zones but want to keep generating dates the same way, you can o
 TZ='US/Mountain' bin/eb generate
 ```
 
+If you want to use a different env file, you can do so like:
+```
+bundle exec dotenv -f "test.env" bin/eb generate
+```
+
 ## Viewing
 
 To see the html output in the browser, from the root of this project do:
