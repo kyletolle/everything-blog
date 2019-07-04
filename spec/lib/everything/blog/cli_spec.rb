@@ -64,6 +64,13 @@ describe Everything::Blog::CLI do
           expect{ cli }.not_to raise_error
         end
 
+        it 'sets the logger level to info' do
+          cli
+
+          expect(fake_logger.level)
+            .to eq(Logger::INFO)
+        end
+
         it 'logs message when starting' do
           allow(fake_logger)
             .to receive(:info)
@@ -84,13 +91,6 @@ describe Everything::Blog::CLI do
           expect(fake_logger)
             .to have_received(:info)
             .with(described_class::LOGGER_INFO_COMPLETE)
-        end
-
-        it 'sets the logger level to info' do
-          cli
-
-          expect(fake_logger.level)
-            .to eq(Logger::INFO)
         end
       end
 
@@ -105,6 +105,13 @@ describe Everything::Blog::CLI do
           expect{ cli }.not_to raise_error
         end
 
+        it 'sets the logger level to info' do
+          cli
+
+          expect(fake_logger.level)
+            .to eq(Logger::INFO)
+        end
+
         it 'logs message when starting' do
           allow(fake_logger)
             .to receive(:info)
@@ -125,13 +132,6 @@ describe Everything::Blog::CLI do
           expect(fake_logger)
             .to have_received(:info)
             .with(described_class::LOGGER_INFO_COMPLETE)
-        end
-
-        it 'sets the logger level to info' do
-          cli
-
-          expect(fake_logger.level)
-            .to eq(Logger::INFO)
         end
       end
     end
