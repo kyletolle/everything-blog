@@ -65,11 +65,14 @@ describe Everything::Blog::CLI do
         end
 
         it 'logs two info messages' do
-          expect(fake_logger)
+          allow(fake_logger)
             .to receive(:info)
-            .twice
 
           cli
+
+          expect(fake_logger)
+            .to have_received(:info)
+            .twice
         end
 
         it 'sets the logger level to info' do
@@ -93,11 +96,14 @@ describe Everything::Blog::CLI do
 
 
         it 'logs two info messages' do
-          expect(fake_logger)
+          allow(fake_logger)
             .to receive(:info)
-            .twice
 
           cli
+
+          expect(fake_logger)
+            .to have_received(:info)
+            .twice
         end
 
         it 'sets the logger level to info' do
