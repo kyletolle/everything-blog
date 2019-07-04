@@ -6,16 +6,24 @@ module Everything
     class CLI < Thor
       LOGGER_INFO_STARTING = "Generation of blog starting..."
       LOGGER_INFO_COMPLETE = "Generation of blog complete."
+
       class_option :verbose, type: :boolean, aliases: :v
 
       desc 'generate', 'generate an HTML site for the blog directory in your everything repo'
       def generate
         logger.info(LOGGER_INFO_STARTING)
-        Everything::Blog.new.generate_site
+
+        blog.generate_site
+
         logger.info(LOGGER_INFO_COMPLETE)
       end
 
     private
+
+      def blog
+        Everything::Blog
+          .new(logger: logger)
+      end
 
       def logger
         @logger ||= Logger.new($stdout)

@@ -33,6 +33,14 @@ describe Everything::Blog::CLI do
     end
 
     shared_context "calls blog's generate_site" do
+      it 'passes the logger to the blog' do
+        cli
+
+        expect(Everything::Blog)
+          .to have_received(:new)
+          .with(logger: fake_logger)
+      end
+
       it "calls blog's generate_site" do
         cli
 
