@@ -53,17 +53,7 @@ describe Everything::Blog::CLI do
     end
 
     context 'with an option of the' do
-      context 'short verbose flag' do
-        let(:given_cli_arguments) do
-          ['generate', '-v']
-        end
-
-        include_context "calls blog's generate_site"
-
-        it 'accepts a short verbose flag' do
-          expect{ cli }.not_to raise_error
-        end
-
+      shared_context 'handles logging' do
         it 'sets the logger level to info' do
           cli
 
@@ -94,6 +84,20 @@ describe Everything::Blog::CLI do
         end
       end
 
+      context 'short verbose flag' do
+        let(:given_cli_arguments) do
+          ['generate', '-v']
+        end
+
+        include_context "calls blog's generate_site"
+
+        it 'accepts a short verbose flag' do
+          expect{ cli }.not_to raise_error
+        end
+
+        include_examples 'handles logging'
+      end
+
       context 'long verbose flag' do
         let(:given_cli_arguments) do
           ['generate', '--verbose']
@@ -105,34 +109,7 @@ describe Everything::Blog::CLI do
           expect{ cli }.not_to raise_error
         end
 
-        it 'sets the logger level to info' do
-          cli
-
-          expect(fake_logger.level)
-            .to eq(Logger::INFO)
-        end
-
-        it 'logs message when starting' do
-          allow(fake_logger)
-            .to receive(:info)
-
-          cli
-
-          expect(fake_logger)
-            .to have_received(:info)
-            .with(described_class::LOGGER_INFO_STARTING)
-        end
-
-        it 'logs message when complete' do
-          allow(fake_logger)
-            .to receive(:info)
-
-          cli
-
-          expect(fake_logger)
-            .to have_received(:info)
-            .with(described_class::LOGGER_INFO_COMPLETE)
-        end
+        include_examples 'handles logging'
       end
     end
   end
