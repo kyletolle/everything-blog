@@ -43,6 +43,13 @@ describe Everything::Blog::CLI do
 
     context 'with no options' do
       include_context "calls blog's generate_site"
+
+      it 'sets the logger level to error' do
+        cli
+
+        expect(fake_logger.level)
+          .to eq(Logger::ERROR)
+      end
     end
 
     context 'with an option of the' do
@@ -60,6 +67,13 @@ describe Everything::Blog::CLI do
 
           cli
         end
+
+        it 'sets the logger level to info' do
+          cli
+
+          expect(fake_logger.level)
+            .to eq(Logger::INFO)
+        end
       end
 
       context 'long verbose flag' do
@@ -75,6 +89,13 @@ describe Everything::Blog::CLI do
             .twice
 
           cli
+        end
+
+        it 'sets the logger level to info' do
+          cli
+
+          expect(fake_logger.level)
+            .to eq(Logger::INFO)
         end
       end
     end

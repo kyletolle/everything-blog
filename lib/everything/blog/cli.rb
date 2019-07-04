@@ -17,6 +17,14 @@ module Everything
 
       def logger
         @logger ||= Logger.new($stdout)
+          .tap do |l|
+            l.level =
+              if options[:verbose]
+                Logger::INFO
+              else
+                Logger::ERROR
+              end
+          end
       end
     end
   end
