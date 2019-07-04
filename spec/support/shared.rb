@@ -608,3 +608,13 @@ shared_context 'with fake stylesheet file in s3' do
   end
 end
 
+shared_context 'with fake logger' do
+  let(:fake_logger) do
+    Logger.new(fake_output)
+  end
+
+  let(:fake_output) do
+    StringIO.new
+  end
+end
+

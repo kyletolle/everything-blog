@@ -2,21 +2,17 @@ require 'pp' # Helps prevent an error like: 'superclass mismatch for class File'
 require 'bundler/setup'
 Bundler.require(:default)
 require './lib/everything/blog'
+require './spec/support/shared'
 require './spec/support/post_helpers'
 
 describe Everything::Blog do
   include_context 'with fake blog path'
+  include_context 'with fake logger'
 
   let(:blog) do
     described_class.new(logger: fake_logger)
   end
 
-  let(:fake_logger) do
-    Logger.new(fake_output)
-  end
-  let(:fake_output) do
-    StringIO.new
-  end
 
   describe '#initialize' do
     it "sets the logger attr to what's passed in" do

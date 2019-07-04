@@ -1,7 +1,10 @@
+require './spec/support/shared'
 require './lib/everything/blog/cli'
 
 describe Everything::Blog::CLI do
   describe '#generate' do
+    include_context 'with fake logger'
+
     let(:given_cli_arguments) do
       ['generate']
     end
@@ -13,12 +16,6 @@ describe Everything::Blog::CLI do
 
     let(:fake_blog) do
       double(Everything::Blog)
-    end
-    let(:fake_logger) do
-      Logger.new(fake_output)
-    end
-    let(:fake_output) do
-      StringIO.new
     end
 
     before do
