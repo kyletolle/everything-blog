@@ -21,7 +21,7 @@ module Everything
             .sub(base_source_dir_path, '')
             .to_s
             .delete_prefix('/')
-            .tap{|fp| puts "SOURCE RELATIVE FILE PATH: #{fp}"}
+            # .tap{|fp| puts "SOURCE RELATIVE FILE PATH: #{fp}"}
         end
 
         def content
