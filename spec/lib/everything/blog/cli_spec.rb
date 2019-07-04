@@ -10,10 +10,10 @@ describe Everything::Blog::CLI do
       described_class
         .start(given_cli_arguments)
     end
+
     let(:fake_blog) do
       double(Everything::Blog)
     end
-
     let(:fake_logger) do
       Logger.new(fake_output)
     end
@@ -60,7 +60,11 @@ describe Everything::Blog::CLI do
 
         include_context "calls blog's generate_site"
 
-        it 'accepts a short verbose flag and logs' do
+        it 'accepts a short verbose flag' do
+          expect{ cli }.not_to raise_error
+        end
+
+        it 'logs two info messages' do
           expect(fake_logger)
             .to receive(:info)
             .twice
@@ -83,7 +87,12 @@ describe Everything::Blog::CLI do
 
         include_context "calls blog's generate_site"
 
-        it 'accepts a long verbose flag and logs' do
+        it 'accepts a short verbose flag' do
+          expect{ cli }.not_to raise_error
+        end
+
+
+        it 'logs two info messages' do
           expect(fake_logger)
             .to receive(:info)
             .twice
