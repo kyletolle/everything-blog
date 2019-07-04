@@ -64,7 +64,7 @@ describe Everything::Blog::CLI do
           expect{ cli }.not_to raise_error
         end
 
-        it 'logs two info messages' do
+        it 'logs message when starting' do
           allow(fake_logger)
             .to receive(:info)
 
@@ -72,7 +72,18 @@ describe Everything::Blog::CLI do
 
           expect(fake_logger)
             .to have_received(:info)
-            .twice
+            .with(described_class::LOGGER_INFO_STARTING)
+        end
+
+        it 'logs message when complete' do
+          allow(fake_logger)
+            .to receive(:info)
+
+          cli
+
+          expect(fake_logger)
+            .to have_received(:info)
+            .with(described_class::LOGGER_INFO_COMPLETE)
         end
 
         it 'sets the logger level to info' do
@@ -94,8 +105,7 @@ describe Everything::Blog::CLI do
           expect{ cli }.not_to raise_error
         end
 
-
-        it 'logs two info messages' do
+        it 'logs message when starting' do
           allow(fake_logger)
             .to receive(:info)
 
@@ -103,7 +113,18 @@ describe Everything::Blog::CLI do
 
           expect(fake_logger)
             .to have_received(:info)
-            .twice
+            .with(described_class::LOGGER_INFO_STARTING)
+        end
+
+        it 'logs message when complete' do
+          allow(fake_logger)
+            .to receive(:info)
+
+          cli
+
+          expect(fake_logger)
+            .to have_received(:info)
+            .with(described_class::LOGGER_INFO_COMPLETE)
         end
 
         it 'sets the logger level to info' do
