@@ -28,6 +28,17 @@ describe Everything::Blog do
         .and_return(fake_source_files)
     end
 
+    it 'logs message when starting' do
+      allow(fake_logger)
+        .to receive(:info)
+
+      blog.generate_site
+
+      expect(fake_logger)
+        .to have_received(:info)
+        .with(described_class::LOGGER_INFO_STARTING)
+    end
+
     it 'passes the source files to the output site' do
       expect(Everything::Blog::Output::Site)
         .to receive(:new)
@@ -43,6 +54,17 @@ describe Everything::Blog do
         .once
 
       blog.generate_site
+    end
+
+    it 'logs message when complete' do
+      allow(fake_logger)
+        .to receive(:info)
+
+      blog.generate_site
+
+      expect(fake_logger)
+        .to have_received(:info)
+        .with(described_class::LOGGER_INFO_COMPLETE)
     end
 
     xit 'passes the output files to the s3 site'

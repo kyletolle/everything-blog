@@ -66,27 +66,6 @@ describe Everything::Blog::CLI do
             .to eq(Logger::INFO)
         end
 
-        it 'logs message when starting' do
-          allow(fake_logger)
-            .to receive(:info)
-
-          cli
-
-          expect(fake_logger)
-            .to have_received(:info)
-            .with(described_class::LOGGER_INFO_STARTING)
-        end
-
-        it 'logs message when complete' do
-          allow(fake_logger)
-            .to receive(:info)
-
-          cli
-
-          expect(fake_logger)
-            .to have_received(:info)
-            .with(described_class::LOGGER_INFO_COMPLETE)
-        end
       end
 
       context 'short verbose flag' do

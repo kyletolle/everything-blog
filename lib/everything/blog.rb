@@ -14,6 +14,9 @@ require_relative 'blog/s3_site'
 
 module Everything
   class Blog
+    LOGGER_INFO_STARTING = "Generation of blog starting..."
+    LOGGER_INFO_COMPLETE = "Generation of blog complete."
+
     attr_accessor :logger
 
     def initialize(logger:)
@@ -21,6 +24,7 @@ module Everything
     end
 
     def generate_site
+      logger.info(LOGGER_INFO_STARTING)
       # puts
       # puts 'Blog: Generating entire site'
       source_files
@@ -34,6 +38,8 @@ module Everything
 
       # TODO: We may want to send the new media for a piece even though we
       # didn't regenerate the HTML. How would we handle that?
+
+      logger.info(LOGGER_INFO_COMPLETE)
 
       self
     end

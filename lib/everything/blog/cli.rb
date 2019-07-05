@@ -4,21 +4,11 @@ require 'logger'
 module Everything
   class Blog
     class CLI < Thor
-      # TODO: Perhaps this should be in the blog class itself?
-      LOGGER_INFO_STARTING = "Generation of blog starting..."
-      LOGGER_INFO_COMPLETE = "Generation of blog complete."
-
       class_option :verbose, type: :boolean, aliases: :v
 
       desc 'generate', 'generate an HTML site for the blog directory in your everything repo'
       def generate
-        # TODO: Perhaps this logging should be in the blog class itself?
-        logger.info(LOGGER_INFO_STARTING)
-
         blog.generate_site
-
-        # TODO: Perhaps this logging should be in the blog class itself?
-        logger.info(LOGGER_INFO_COMPLETE)
       end
 
     private
