@@ -5,6 +5,7 @@ module Everything
   class Blog
     class CLI < Thor
       class_option :verbose, type: :boolean, aliases: :v
+      class_option :debug, type: :boolean, aliases: :d
 
       desc 'generate', 'generate an HTML site for the blog directory in your everything repo'
       def generate
@@ -38,7 +39,9 @@ module Everything
         @logger ||= Logger.new($stdout)
           .tap do |l|
             l.level =
-              if options[:verbose]
+              if options[:debug]
+                Logger::DEBUG
+              elsif options[:verbose]
                 Logger::INFO
               else
                 Logger::ERROR

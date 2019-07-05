@@ -58,14 +58,22 @@ describe Everything::Blog::CLI do
     end
 
     context 'with an option of the' do
-      shared_context 'handles logging' do
+      shared_context 'handles verbose logging' do
         it 'sets the logger level to info' do
           cli
 
           expect(fake_logger.level)
             .to eq(Logger::INFO)
         end
+      end
 
+      shared_context 'handles debug logging' do
+        it 'sets the logger level to debug' do
+          cli
+
+          expect(fake_logger.level)
+            .to eq(Logger::DEBUG)
+        end
       end
 
       context 'short verbose flag' do
@@ -79,7 +87,7 @@ describe Everything::Blog::CLI do
           expect{ cli }.not_to raise_error
         end
 
-        include_examples 'handles logging'
+        include_examples 'handles verbose logging'
       end
 
       context 'long verbose flag' do
@@ -93,7 +101,63 @@ describe Everything::Blog::CLI do
           expect{ cli }.not_to raise_error
         end
 
-        include_examples 'handles logging'
+        include_examples 'handles verbose logging'
+      end
+
+      context 'short debug flag' do
+        let(:given_cli_arguments) do
+          ['generate', '-d']
+        end
+
+        include_context "calls blog's generate_site"
+
+        it 'accepts a short debug flag' do
+          expect{ cli }.not_to raise_error
+        end
+
+        include_examples 'handles debug logging'
+      end
+
+      context 'long debug flag' do
+        let(:given_cli_arguments) do
+          ['generate', '--debug']
+        end
+
+        include_context "calls blog's generate_site"
+
+        it 'accepts a long debug flag' do
+          expect{ cli }.not_to raise_error
+        end
+
+        include_examples 'handles debug logging'
+      end
+
+      context 'long verbose flag and the long debug flag' do
+        let(:given_cli_arguments) do
+          ['generate', '--verbose', '--debug']
+        end
+
+        include_context "calls blog's generate_site"
+
+        it 'accepts both flags' do
+          expect{ cli }.not_to raise_error
+        end
+
+        include_examples 'handles debug logging'
+      end
+
+      context 'long debug flag and the long verbose flag' do
+        let(:given_cli_arguments) do
+          ['generate', '--debug', '--verbose']
+        end
+
+        include_context "calls blog's generate_site"
+
+        it 'accepts both flags' do
+          expect{ cli }.not_to raise_error
+        end
+
+        include_examples 'handles debug logging'
       end
     end
   end
