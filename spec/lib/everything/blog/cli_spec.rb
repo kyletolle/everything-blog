@@ -58,6 +58,15 @@ describe Everything::Blog::CLI do
     end
 
     context 'with an option of the' do
+      shared_context 'uses the custom logger formatter' do
+        it 'uses the custom logger formatter' do
+          cli
+
+          expect(fake_logger.formatter)
+            .to eq(described_class::LOGGER_FORMATTER)
+        end
+      end
+
       shared_context 'handles verbose logging' do
         it 'sets the logger level to info' do
           cli
@@ -65,6 +74,8 @@ describe Everything::Blog::CLI do
           expect(fake_logger.level)
             .to eq(Logger::INFO)
         end
+
+        include_context 'uses the custom logger formatter'
       end
 
       shared_context 'handles debug logging' do
@@ -74,6 +85,8 @@ describe Everything::Blog::CLI do
           expect(fake_logger.level)
             .to eq(Logger::DEBUG)
         end
+
+        include_context 'uses the custom logger formatter'
       end
 
       context 'short verbose flag' do
