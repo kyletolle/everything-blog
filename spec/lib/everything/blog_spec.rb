@@ -60,6 +60,11 @@ describe Everything::Blog do
         expect(actual_logger.level)
           .to eq(Logger::ERROR)
       end
+
+      it 'sets the logger progname to the class name' do
+        expect(actual_logger.progname)
+          .to eq(described_class.to_s)
+      end
     end
 
     context 'when options are present and include' do
@@ -74,6 +79,11 @@ describe Everything::Blog do
           expect(actual_logger)
             .to be_a_kind_of(Everything::Blog::VerboseLogger)
         end
+
+        it 'sets the logger progname to the class name' do
+          expect(actual_logger.progname)
+            .to eq(described_class.to_s)
+        end
       end
 
       context 'only debug' do
@@ -86,6 +96,11 @@ describe Everything::Blog do
         it 'uses the debug logger' do
           expect(actual_logger)
             .to be_a_kind_of(Everything::Blog::DebugLogger)
+        end
+
+        it 'sets the logger progname to the class name' do
+          expect(actual_logger.progname)
+            .to eq(described_class.to_s)
         end
       end
 
@@ -100,6 +115,11 @@ describe Everything::Blog do
         it 'uses the debug logger' do
           expect(actual_logger)
             .to be_a_kind_of(Everything::Blog::DebugLogger)
+        end
+
+        it 'sets the logger progname to the class name' do
+          expect(actual_logger.progname)
+            .to eq(described_class.to_s)
         end
       end
     end
@@ -117,15 +137,64 @@ describe Everything::Blog do
         .and_return(fake_logger)
     end
 
-    it 'logs message when starting' do
-      allow(fake_logger)
-        .to receive(:info)
+    context 'when using the verbose logger' do
+      let(:given_options) do
+        {
+          'verbose' => true
+        }
+      end
 
-      blog.generate_site
+      it 'logs message when starting' do
+        allow(fake_logger)
+          .to receive(:info)
 
-      expect(fake_logger)
-        .to have_received(:info)
-        .with(described_class::LOGGER_INFO_STARTING)
+        blog.generate_site
+
+        expect(fake_logger)
+          .to have_received(:info)
+          .with(described_class::LOGGER_INFO_STARTING)
+      end
+
+      it 'logs message when complete' do
+        allow(fake_logger)
+          .to receive(:info)
+
+        blog.generate_site
+
+        expect(fake_logger)
+          .to have_received(:info)
+          .with(described_class::LOGGER_INFO_COMPLETE)
+      end
+    end
+
+    context 'when using the debug logger' do
+      let(:given_options) do
+        {
+          'debug' => true
+        }
+      end
+
+      it 'logs message when starting' do
+        allow(fake_logger)
+          .to receive(:info)
+
+        blog.generate_site
+
+        expect(fake_logger)
+          .to have_received(:info)
+          .with(described_class::LOGGER_INFO_STARTING)
+      end
+
+      it 'logs message when complete' do
+        allow(fake_logger)
+          .to receive(:info)
+
+        blog.generate_site
+
+        expect(fake_logger)
+          .to have_received(:info)
+          .with(described_class::LOGGER_INFO_COMPLETE)
+      end
     end
 
     it 'passes the source files to the output site' do
@@ -143,17 +212,6 @@ describe Everything::Blog do
         .once
 
       blog.generate_site
-    end
-
-    it 'logs message when complete' do
-      allow(fake_logger)
-        .to receive(:info)
-
-      blog.generate_site
-
-      expect(fake_logger)
-        .to have_received(:info)
-        .with(described_class::LOGGER_INFO_COMPLETE)
     end
 
     xit 'passes the output files to the s3 site'
