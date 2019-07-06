@@ -6,8 +6,8 @@ module Everything
           "#{datetime}: #{progname}: #{msg}\n"
         }
 
-      def initialize(logdev)
-        super(logdev)
+      def initialize(logdev, progname: nil)
+        super
         self.formatter = DATETIME_PROGNAME_MESSAGE_FORMATTER
       end
     end

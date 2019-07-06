@@ -13,12 +13,49 @@ describe Everything::Blog::DebugLogger do
   end
 
   describe '#initialize' do
-    it 'returns a logger' do
-      expect(logger).to be_a_kind_of(Logger)
+    context 'with no logdev param given' do
+      subject(:logger) do
+        described_class.new
+      end
+
+      it 'raises an error' do
+        expect { logger }.to raise_error(ArgumentError)
+      end
     end
 
-    it 'sets the log level to debug' do
-      expect(logger.level).to eq(Logger::DEBUG)
+    context 'with a logdev param given' do
+      context 'with no progname param given' do
+        it 'returns a logger' do
+          expect(logger).to be_a_kind_of(Logger)
+        end
+
+        it 'sets the log level to debug' do
+          expect(logger.level).to eq(Logger::DEBUG)
+        end
+
+        it 'sets the progname to nil' do
+          expect(logger.progname).to be_nil
+        end
+      end
+
+      context 'with a progname param given' do
+        let(:given_progname) { 'Specs' }
+        subject(:logger) do
+          described_class.new(fake_output, progname: given_progname)
+        end
+
+        it 'returns a logger' do
+          expect(logger).to be_a_kind_of(Logger)
+        end
+
+        it 'sets the log level to debug' do
+          expect(logger.level).to eq(Logger::DEBUG)
+        end
+
+        it 'sets the progname to the given value' do
+          expect(logger.progname).to eq(given_progname)
+        end
+      end
     end
   end
 
