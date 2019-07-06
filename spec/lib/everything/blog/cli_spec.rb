@@ -18,6 +18,27 @@ describe Everything::Blog::CLI do
       double(Everything::Blog)
     end
 
+    let(:empty_options) do
+      {}
+    end
+
+    let(:verbose_options) do
+      {
+        'verbose' => true
+      }
+    end
+    let(:debug_options) do
+      {
+        'debug' => true
+      }
+    end
+    let(:debug_and_verbose_options) do
+      {
+        'debug' => true,
+        'verbose' => true
+      }
+    end
+
     before do
       allow(Everything::Blog)
         .to receive(:new)
@@ -29,14 +50,17 @@ describe Everything::Blog::CLI do
         .and_return(fake_logger)
     end
 
-    shared_context "calls blog's generate_site" do
-      it 'passes the logger to the blog' do
+    shared_context 'passes the correct options to the blog' do
+      it 'passes the correct options to the blog' do
         cli
 
         expect(Everything::Blog)
           .to have_received(:new)
-          .with(logger: fake_logger)
+          .with(expected_options)
       end
+    end
+
+    shared_context "calls blog's generate_site" do
 
       it "calls blog's generate_site" do
         cli
@@ -47,46 +71,21 @@ describe Everything::Blog::CLI do
     end
 
     context 'with no options' do
+      let(:expected_options) { empty_options }
+      include_context 'passes the correct options to the blog'
+
       include_context "calls blog's generate_site"
-
-      it 'sets the logger level to error' do
-        cli
-
-        expect(fake_logger.level)
-          .to eq(Logger::ERROR)
-      end
     end
 
     context 'with an option of the' do
-      shared_context 'uses the custom logger formatter' do
-        it 'uses the custom logger formatter' do
-          cli
-
-          expect(fake_logger.formatter)
-            .to eq(described_class::LOGGER_FORMATTER)
-        end
-      end
-
       shared_context 'handles verbose logging' do
-        it 'sets the logger level to info' do
-          cli
-
-          expect(fake_logger.level)
-            .to eq(Logger::INFO)
-        end
-
-        include_context 'uses the custom logger formatter'
+        let(:expected_options) { verbose_options }
+        include_context 'passes the correct options to the blog'
       end
 
       shared_context 'handles debug logging' do
-        it 'sets the logger level to debug' do
-          cli
-
-          expect(fake_logger.level)
-            .to eq(Logger::DEBUG)
-        end
-
-        include_context 'uses the custom logger formatter'
+        let(:expected_options) { debug_options }
+        include_context 'passes the correct options to the blog'
       end
 
       context 'short verbose flag' do
@@ -94,13 +93,13 @@ describe Everything::Blog::CLI do
           ['generate', '-v']
         end
 
-        include_context "calls blog's generate_site"
-
         it 'accepts a short verbose flag' do
           expect{ cli }.not_to raise_error
         end
 
         include_examples 'handles verbose logging'
+
+        include_context "calls blog's generate_site"
       end
 
       context 'long verbose flag' do
@@ -108,13 +107,13 @@ describe Everything::Blog::CLI do
           ['generate', '--verbose']
         end
 
-        include_context "calls blog's generate_site"
-
-        it 'accepts a short verbose flag' do
+        it 'accepts a long verbose flag' do
           expect{ cli }.not_to raise_error
         end
 
         include_examples 'handles verbose logging'
+
+        include_context "calls blog's generate_site"
       end
 
       context 'short debug flag' do
@@ -122,13 +121,13 @@ describe Everything::Blog::CLI do
           ['generate', '-d']
         end
 
-        include_context "calls blog's generate_site"
-
         it 'accepts a short debug flag' do
           expect{ cli }.not_to raise_error
         end
 
         include_examples 'handles debug logging'
+
+        include_context "calls blog's generate_site"
       end
 
       context 'long debug flag' do
@@ -136,13 +135,13 @@ describe Everything::Blog::CLI do
           ['generate', '--debug']
         end
 
-        include_context "calls blog's generate_site"
-
         it 'accepts a long debug flag' do
           expect{ cli }.not_to raise_error
         end
 
         include_examples 'handles debug logging'
+
+        include_context "calls blog's generate_site"
       end
 
       context 'long verbose flag and the long debug flag' do
@@ -150,13 +149,13 @@ describe Everything::Blog::CLI do
           ['generate', '--verbose', '--debug']
         end
 
-        include_context "calls blog's generate_site"
-
         it 'accepts both flags' do
           expect{ cli }.not_to raise_error
         end
 
         include_examples 'handles debug logging'
+
+        include_context "calls blog's generate_site"
       end
 
       context 'long debug flag and the long verbose flag' do
@@ -164,13 +163,13 @@ describe Everything::Blog::CLI do
           ['generate', '--debug', '--verbose']
         end
 
-        include_context "calls blog's generate_site"
-
         it 'accepts both flags' do
           expect{ cli }.not_to raise_error
         end
 
         include_examples 'handles debug logging'
+
+        include_context "calls blog's generate_site"
       end
     end
   end
