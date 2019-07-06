@@ -68,7 +68,7 @@ describe Everything::Blog do
       context 'only verbose' do
         let(:given_options) do
           {
-            verbose: true
+            'verbose' => true
           }
         end
 
@@ -86,7 +86,7 @@ describe Everything::Blog do
       context 'only debug' do
         let(:given_options) do
           {
-            debug: true
+            'debug' => true
           }
         end
 
@@ -104,8 +104,8 @@ describe Everything::Blog do
       context 'verbose and debug' do
         let(:given_options) do
           {
-            verbose: true,
-            debug: true
+            'verbose' => true,
+            'debug' => true
           }
         end
 

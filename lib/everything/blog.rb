@@ -48,12 +48,12 @@ module Everything
 
     def logger
       @logger ||=
-          if options[:debug]
+          if options['debug']
             Everything::Blog::DebugLogger.new(
               $stdout,
               progname: self.class.to_s
             )
-          elsif options[:verbose]
+          elsif options['verbose']
             Everything::Blog::VerboseLogger.new(
               $stdout,
               progname: self.class.to_s
