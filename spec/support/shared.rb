@@ -610,7 +610,7 @@ end
 
 shared_context 'with fake logger' do
   let(:fake_logger) do
-    Logger.new(fake_output)
+    Everything::Blog::DebugLogger.new(fake_output, progname: described_class.to_s)
   end
 
   let(:fake_output) do
