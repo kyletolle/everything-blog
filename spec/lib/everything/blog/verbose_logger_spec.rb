@@ -13,12 +13,37 @@ describe Everything::Blog::VerboseLogger do
   end
 
   describe '#initialize' do
-    it 'returns a logger' do
-      expect(logger).to be_a_kind_of(Logger)
+    context 'with no progname param given' do
+      it 'returns a logger' do
+        expect(logger).to be_a_kind_of(Logger)
+      end
+
+      it 'sets the log level to info' do
+        expect(logger.level).to eq(Logger::INFO)
+      end
+
+      it 'sets the progname to nil' do
+        expect(logger.progname).to be_nil
+      end
     end
 
-    it 'sets the log level to info' do
-      expect(logger.level).to eq(Logger::INFO)
+    context 'with a progname param given' do
+      let(:given_progname) { 'Specs' }
+      subject(:logger) do
+        described_class.new(fake_output, progname: given_progname)
+      end
+
+      it 'returns a logger' do
+        expect(logger).to be_a_kind_of(Logger)
+      end
+
+      it 'sets the log level to info' do
+        expect(logger.level).to eq(Logger::INFO)
+      end
+
+      it 'sets the progname to the given value' do
+        expect(logger.progname).to eq(given_progname)
+      end
     end
   end
 
