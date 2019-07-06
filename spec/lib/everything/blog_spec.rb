@@ -8,14 +8,100 @@ describe Everything::Blog do
   include_context 'with fake blog path'
   include_context 'with fake logger'
 
-  let(:blog) do
-    described_class.new(logger: fake_logger)
+  let(:given_options) do
+    {}
   end
 
+  let(:blog) do
+    described_class.new(given_options)
+  end
 
   describe '#initialize' do
-    it "sets the logger attr to what's passed in" do
-      expect(blog.logger).to eq(fake_logger)
+    context 'with no params given' do
+      let(:blog) do
+        described_class.new
+      end
+
+      it 'does not raise an error' do
+        expect{ blog }.not_to raise_error
+      end
+
+      it 'sets options attr to an empty hash' do
+        expect(blog.options).to eq({})
+      end
+    end
+
+    context 'with an options param given' do
+      let(:given_options) do
+        {
+          testing_out: :these_options
+        }
+      end
+
+      it 'does not raise an error' do
+        expect{ blog }.not_to raise_error
+      end
+
+      it 'sets options attr to the given options' do
+        expect(blog.options).to eq(given_options)
+      end
+    end
+  end
+
+  describe '#logger' do
+    subject(:actual_logger) { blog.logger }
+
+    context 'when options are empty' do
+      it 'is a logger' do
+        expect(actual_logger).to be_a_kind_of(Logger)
+      end
+
+      it 'has a log level of error' do
+        expect(actual_logger.level)
+          .to eq(Logger::ERROR)
+      end
+    end
+
+    context 'when options are present and include' do
+      context 'only verbose' do
+        let(:given_options) do
+          {
+            verbose: true
+          }
+        end
+
+        it 'uses the verbose logger' do
+          expect(actual_logger)
+            .to be_a_kind_of(Everything::Blog::VerboseLogger)
+        end
+      end
+
+      context 'only debug' do
+        let(:given_options) do
+          {
+            debug: true
+          }
+        end
+
+        it 'uses the debug logger' do
+          expect(actual_logger)
+            .to be_a_kind_of(Everything::Blog::DebugLogger)
+        end
+      end
+
+      context 'verbose and debug' do
+        let(:given_options) do
+          {
+            verbose: true,
+            debug: true
+          }
+        end
+
+        it 'uses the debug logger' do
+          expect(actual_logger)
+            .to be_a_kind_of(Everything::Blog::DebugLogger)
+        end
+      end
     end
   end
 
@@ -26,6 +112,9 @@ describe Everything::Blog do
       allow_any_instance_of(Everything::Blog)
         .to receive(:source_files)
         .and_return(fake_source_files)
+      allow(blog)
+        .to receive(:logger)
+        .and_return(fake_logger)
     end
 
     it 'logs message when starting' do

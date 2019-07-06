@@ -6,6 +6,8 @@ Dotenv.load
 
 require_relative 'add_pathname_to_everything_refinement'
 
+require_relative 'blog/verbose_logger'
+require_relative 'blog/debug_logger'
 require_relative 'blog/source'
 require_relative 'blog/source/site'
 require_relative 'blog/output/site'
@@ -17,10 +19,10 @@ module Everything
     LOGGER_INFO_STARTING = "Generation of blog starting..."
     LOGGER_INFO_COMPLETE = "Generation of blog complete."
 
-    attr_accessor :logger
+    attr_reader :options
 
-    def initialize(logger:)
-      @logger = logger
+    def initialize(options = {})
+      @options = options
     end
 
     def generate_site
@@ -42,6 +44,17 @@ module Everything
       logger.info(LOGGER_INFO_COMPLETE)
 
       self
+    end
+
+    def logger
+      @logger ||=
+          if options[:debug]
+            Everything::Blog::DebugLogger.new($stdout)
+          elsif options[:verbose]
+            Everything::Blog::VerboseLogger.new($stdout)
+          else
+            Logger.new($stdout, level: Logger::ERROR)
+          end
     end
 
     def source_files
