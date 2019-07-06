@@ -1,8 +1,4 @@
-require 'pp' # Helps prevent an error like: 'superclass mismatch for class File'
-require 'bundler/setup'
-Bundler.require(:default)
-require './spec/support/shared'
-require './lib/everything/blog/output'
+require 'spec_helper'
 
 describe Everything::Blog::Output do
   describe '.absolute_path' do

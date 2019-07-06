@@ -1,9 +1,4 @@
-require 'pp' # Helps prevent an error like: 'superclass mismatch for class File'
-require 'bundler/setup'
-Bundler.require(:default)
 require 'spec_helper'
-require './lib/everything/blog/s3_bucket'
-require './spec/support/shared'
 
 describe Everything::Blog::S3Bucket do
   include_context 'with fake aws_access_key_id env var'

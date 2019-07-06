@@ -1,9 +1,4 @@
-require 'pp' # helps prevent an error like: 'superclass mismatch for class file'
-require 'bundler/setup'
-Bundler.require(:default)
-require './lib/everything/blog/remote/stylesheet_file'
-require './lib/everything/blog/output/stylesheet'
-require './spec/support/shared'
+require 'spec_helper'
 
 describe Everything::Blog::Remote::StylesheetFile do
   include_context 'with fake output stylesheet'

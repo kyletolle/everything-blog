@@ -1,8 +1,5 @@
-require 'bundler/setup'
-Bundler.require(:default)
-require './lib/everything/blog/output/media'
+require 'spec_helper'
 require 'fakefs/spec_helpers'
-require './spec/support/shared'
 
 describe Everything::Blog::Output::Media do
   include FakeFS::SpecHelpers

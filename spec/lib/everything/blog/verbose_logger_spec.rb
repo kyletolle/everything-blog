@@ -1,7 +1,4 @@
-require 'pp' # Helps prevent an error like: 'superclass mismatch for class File'
-require 'bundler/setup'
-Bundler.require(:default)
-require './lib/everything/blog/verbose_logger'
+require 'spec_helper'
 
 describe Everything::Blog::VerboseLogger do
   let(:fake_output) do

@@ -1,9 +1,4 @@
-require 'pp' # helps prevent an error like: 'superclass mismatch for class file'
-require 'bundler/setup'
-Bundler.require(:default)
-require './lib/everything/blog/remote/binary_file'
-require './lib/everything/blog/output/media'
-require './spec/support/shared'
+require 'spec_helper'
 
 describe Everything::Blog::Remote::BinaryFile do
   include_context 'with fake output media'

@@ -1,9 +1,5 @@
-require 'pp' # helps prevent an error like: 'superclass mismatch for class file'
-require 'bundler/setup'
-Bundler.require(:default)
-require './lib/everything/blog/output/page'
+require 'spec_helper'
 require 'fakefs/spec_helpers'
-require './spec/support/shared'
 
 describe Everything::Blog::Output::Page do
   include FakeFS::SpecHelpers

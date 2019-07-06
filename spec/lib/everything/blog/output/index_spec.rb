@@ -1,8 +1,4 @@
-# TODO: Should the requiring that's almost all specs be in a spec_helper file?
-require 'pp' # helps prevent an error like: 'superclass mismatch for class file'
-require 'bundler/setup'
-Bundler.require(:default)
-require './lib/everything/blog/output/index'
+require 'spec_helper'
 require './spec/support/post_helpers'
 
 describe Everything::Blog::Output::Index do

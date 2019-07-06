@@ -1,8 +1,4 @@
-require 'pp' # Helps prevent an error like: 'superclass mismatch for class File'
-require 'bundler/setup'
-Bundler.require(:default)
-require './lib/everything/blog/source/site'
-require './lib/everything/blog/output/site'
+require 'spec_helper'
 require './spec/support/post_helpers'
 
 describe Everything::Blog::Output::Site do

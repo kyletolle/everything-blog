@@ -1,5 +1,4 @@
-require './spec/support/shared'
-require './lib/everything/blog/cli'
+require 'spec_helper'
 
 describe Everything::Blog::CLI do
   describe '#generate' do

@@ -1,8 +1,4 @@
-require 'pp'
-require 'bundler/setup'
-Bundler.require(:default)
-require './spec/support/shared'
-require './lib/everything/blog/post'
+require 'spec_helper'
 
 describe Everything::Blog::Post do
   let(:post) do

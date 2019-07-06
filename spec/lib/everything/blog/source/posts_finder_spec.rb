@@ -1,9 +1,5 @@
-require 'pp' # Helps prevent an error like: 'superclass mismatch for class File'
-require 'bundler/setup'
-Bundler.require(:default)
-require './lib/everything/blog/source/posts_finder'
+require 'spec_helper'
 require 'fakefs/spec_helpers'
-require './spec/support/shared'
 require './spec/support/post_helpers'
 
 describe Everything::Blog::Source::PostsFinder do

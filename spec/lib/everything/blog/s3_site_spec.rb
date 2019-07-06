@@ -1,9 +1,4 @@
-require 'pp' # Helps prevent an error like: 'superclass mismatch for class File'
-require 'bundler/setup'
-Bundler.require(:default)
 require 'spec_helper'
-require './lib/everything/blog/s3_site'
-require './spec/support/shared'
 
 describe Everything::Blog::S3Site do
   include_context 'with fake output index'

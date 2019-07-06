@@ -1,8 +1,4 @@
-require 'pp' # Helps prevent an error like: 'superclass mismatch for class File'
-require 'bundler/setup'
-Bundler.require(:default)
-require './lib/everything/blog/source/media'
-require './spec/support/shared'
+require 'spec_helper'
 require 'fakefs/spec_helpers'
 
 describe Everything::Blog::Source::Media do
