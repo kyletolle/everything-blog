@@ -27,11 +27,7 @@ module Everything
 
     def generate_site
       logger.info(LOGGER_INFO_STARTING)
-      # puts
-      # puts 'Blog: Generating entire site'
       source_files
-        # .tap{|o| puts "Blog: Number of source files: #{o.count}" }
-        # .tap{|o| puts 'Blog: Source files'; puts o}
 
       output = Everything::Blog::Output::Site.new(source_files)
       output.generate
