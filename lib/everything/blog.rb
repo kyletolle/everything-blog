@@ -33,7 +33,7 @@ module Everything
         # .tap{|o| puts "Blog: Number of source files: #{o.count}" }
         # .tap{|o| puts 'Blog: Source files'; puts o}
 
-      output = Output::Site.new(source_files)
+      output = Everything::Blog::Output::Site.new(source_files)
       output.generate
 
       Everything::Blog::S3Site.new(output.output_files).send_remote_files
