@@ -14,7 +14,7 @@ describe Everything::Blog do
   end
 
   describe '#initialize' do
-    context 'with no params given' do
+    context 'with no arguments given' do
       let(:blog) do
         described_class.new
       end
@@ -28,7 +28,7 @@ describe Everything::Blog do
       end
     end
 
-    context 'with an options param given' do
+    context 'with an options arguments given' do
       let(:given_options) do
         {
           testing_out: :these_options
