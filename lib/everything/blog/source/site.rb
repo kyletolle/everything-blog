@@ -9,15 +9,26 @@ module Everything
   class Blog
     module Source
       class Site
-        def initialize
-          # TODO: We could update this to only include the index and stylesheet if
-          # those pages have changed and need to be regenerated?
-          @files = [ blog_index, stylesheet ]
-          @files += pages
-          @files += media_for_posts
+        attr_accessor :logger
+
+        def initialize(logger)
+          @logger = logger
         end
 
-        attr_reader :files
+        def files
+          #TODO: Also test memoization, and running compact
+          # TODO: Want to only include the index and stylesheet if those pages
+          # have changed and need to be regenerated?
+          @files ||=
+            [ blog_index, stylesheet ]
+            .concat(pages)
+            .concat(media_for_posts)
+            # .compact
+          # TODO: Add a tap for logging how many files there are and each of
+          # their paths?
+          # .tap{|o| puts "Blog: Number of source files: #{o.count}" }
+          # .tap{|o| puts 'Blog: Source files'; puts o}
+        end
 
       private
 
