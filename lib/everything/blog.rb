@@ -71,10 +71,8 @@ module Everything
       @source_files ||= source_site.files.compact
     end
 
-  private
-
     def source_site
-      @source_site ||= Source::Site.new
+      @source_site ||= Everything::Blog::Source::Site.new(logger)
     end
   end
 end

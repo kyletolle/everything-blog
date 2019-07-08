@@ -253,4 +253,36 @@ describe Everything::Blog do
       expect(actual_blog_post_names).to match(expected_blog_post_names)
     end
   end
+
+  describe '#source_site' do
+    subject(:source_site) do
+      blog.source_site
+    end
+
+    before do
+      allow(blog)
+        .to receive(:logger)
+        .and_return(fake_logger)
+    end
+
+    it 'is a source site object' do
+      expect(source_site)
+        .to be_a_kind_of(Everything::Blog::Source::Site)
+    end
+
+    it 'passes the logger to the source site' do
+      allow(Everything::Blog::Source::Site)
+        .to receive(:new)
+
+      source_site
+
+      expect(Everything::Blog::Source::Site)
+        .to have_received(:new)
+        .with(fake_logger)
+    end
+
+    it 'memoizes the results' do
+      expect(blog.source_site).to eq(source_site)
+    end
+  end
 end
