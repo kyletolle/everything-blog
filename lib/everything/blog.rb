@@ -30,6 +30,13 @@ module Everything
       )
     end
 
+    def self.error_logger
+      Everything::Blog::ErrorLogger.new(
+        $stdout,
+        progname: self.to_s
+      )
+    end
+
     def self.verbose_logger
       Everything::Blog::VerboseLogger.new(
         $stdout,

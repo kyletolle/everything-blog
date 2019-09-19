@@ -37,6 +37,30 @@ describe Everything::Blog do
     end
   end
 
+  describe '::error_logger' do
+    let(:error_logger) { described_class.error_logger }
+
+    it 'is an instance of the error logger class' do
+      expect(error_logger).to be_a(Everything::Blog::ErrorLogger)
+    end
+
+    it 'uses a log device of $stdout' do
+      expect(Everything::Blog::ErrorLogger)
+        .to receive(:new)
+        .with($stdout, anything)
+
+      error_logger
+    end
+
+    it 'passes a progname of the blog class' do
+      expect(Everything::Blog::ErrorLogger)
+        .to receive(:new)
+        .with(anything, progname: described_class.to_s)
+
+      error_logger
+    end
+  end
+
   describe '::verbose_logger' do
     let(:verbose_logger) { described_class.verbose_logger }
 
