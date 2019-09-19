@@ -122,12 +122,7 @@ describe Everything::Blog do
 
     context 'when options are empty' do
       it 'is a logger' do
-        expect(actual_logger).to be_a_kind_of(Logger)
-      end
-
-      it 'has a log level of error' do
-        expect(actual_logger.level)
-          .to eq(Logger::ERROR)
+        expect(actual_logger).to be_a_kind_of(Everything::Blog::ErrorLogger)
       end
 
       it 'sets the logger progname to the class name' do
@@ -137,6 +132,7 @@ describe Everything::Blog do
     end
 
     context 'when options are present and include' do
+      # TODO: What about when verbose is equal to false?
       context 'only verbose' do
         let(:given_options) do
           {
@@ -148,14 +144,10 @@ describe Everything::Blog do
           expect(actual_logger)
             .to be_a_kind_of(Everything::Blog::VerboseLogger)
         end
-
-        it 'sets the logger progname to the class name' do
-          expect(actual_logger.progname)
-            .to eq(described_class.to_s)
-        end
       end
 
       context 'only debug' do
+      # TODO: What about when debug is equal to false?
         let(:given_options) do
           {
             'debug' => true
@@ -165,11 +157,6 @@ describe Everything::Blog do
         it 'uses the debug logger' do
           expect(actual_logger)
             .to be_a_kind_of(Everything::Blog::DebugLogger)
-        end
-
-        it 'sets the logger progname to the class name' do
-          expect(actual_logger.progname)
-            .to eq(described_class.to_s)
         end
       end
 
@@ -184,11 +171,6 @@ describe Everything::Blog do
         it 'uses the debug logger' do
           expect(actual_logger)
             .to be_a_kind_of(Everything::Blog::DebugLogger)
-        end
-
-        it 'sets the logger progname to the class name' do
-          expect(actual_logger.progname)
-            .to eq(described_class.to_s)
         end
       end
     end

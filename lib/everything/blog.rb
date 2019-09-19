@@ -68,21 +68,11 @@ module Everything
     def logger
       @logger ||=
           if options['debug']
-            Everything::Blog::DebugLogger.new(
-              $stdout,
-              progname: self.class.to_s
-            )
+            self.class.debug_logger
           elsif options['verbose']
-            Everything::Blog::VerboseLogger.new(
-              $stdout,
-              progname: self.class.to_s
-            )
+            self.class.verbose_logger
           else
-            Logger.new(
-              $stdout,
-              level: Logger::ERROR,
-              progname: self.class.to_s
-            )
+            self.class.error_logger
           end
     end
 
