@@ -253,12 +253,11 @@ describe Everything::Blog do
     let(:fake_source_files) { [] }
 
     before do
+      blog
+
       allow_any_instance_of(Everything::Blog)
         .to receive(:source_files)
         .and_return(fake_source_files)
-      allow(blog)
-        .to receive(:logger)
-        .and_return(fake_logger)
     end
 
     context 'when using the verbose logger' do
@@ -269,23 +268,23 @@ describe Everything::Blog do
       end
 
       it 'logs message when starting' do
-        allow(fake_logger)
+        allow(Everything.logger)
           .to receive(:info)
 
         blog.generate_site
 
-        expect(fake_logger)
+        expect(Everything.logger)
           .to have_received(:info)
           .with(described_class::LOGGER_INFO_STARTING)
       end
 
       it 'logs message when complete' do
-        allow(fake_logger)
+        allow(Everything.logger)
           .to receive(:info)
 
         blog.generate_site
 
-        expect(fake_logger)
+        expect(Everything.logger)
           .to have_received(:info)
           .with(described_class::LOGGER_INFO_COMPLETE)
       end
@@ -299,23 +298,23 @@ describe Everything::Blog do
       end
 
       it 'logs message when starting' do
-        allow(fake_logger)
+        allow(Everything.logger)
           .to receive(:info)
 
         blog.generate_site
 
-        expect(fake_logger)
+        expect(Everything.logger)
           .to have_received(:info)
           .with(described_class::LOGGER_INFO_STARTING)
       end
 
       it 'logs message when complete' do
-        allow(fake_logger)
+        allow(Everything.logger)
           .to receive(:info)
 
         blog.generate_site
 
-        expect(fake_logger)
+        expect(Everything.logger)
           .to have_received(:info)
           .with(described_class::LOGGER_INFO_COMPLETE)
       end
@@ -384,12 +383,6 @@ describe Everything::Blog do
   describe '#source_site' do
     subject(:source_site) do
       blog.source_site
-    end
-
-    before do
-      allow(blog)
-        .to receive(:logger)
-        .and_return(fake_logger)
     end
 
     it 'is a source site object' do

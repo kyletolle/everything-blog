@@ -53,7 +53,7 @@ module Everything
     end
 
     def generate_site
-      logger.info(LOGGER_INFO_STARTING)
+      Everything.logger.info(LOGGER_INFO_STARTING)
       source_files
 
       output = Everything::Blog::Output::Site.new(source_files)
@@ -64,7 +64,7 @@ module Everything
       # TODO: We may want to send the new media for a piece even though we
       # didn't regenerate the HTML. How would we handle that?
 
-      logger.info(LOGGER_INFO_COMPLETE)
+      Everything.logger.info(LOGGER_INFO_COMPLETE)
 
       self
     end
@@ -95,7 +95,7 @@ module Everything
     end
 
     def source_site
-      @source_site ||= Everything::Blog::Source::Site.new(logger)
+      @source_site ||= Everything::Blog::Source::Site.new
     end
 
     def use_debug_logger
