@@ -37,6 +37,30 @@ describe Everything::Blog do
     end
   end
 
+  describe '::verbose_logger' do
+    let(:verbose_logger) { described_class.verbose_logger }
+
+    it 'is an instance of the verbose logger class' do
+      expect(verbose_logger).to be_a(Everything::Blog::VerboseLogger)
+    end
+
+    it 'uses a log devise of $stdout' do
+      expect(Everything::Blog::VerboseLogger)
+        .to receive(:new)
+        .with($stdout, anything)
+
+      verbose_logger
+    end
+
+    it 'passes a progname of the blog class' do
+      expect(Everything::Blog::VerboseLogger)
+        .to receive(:new)
+        .with(anything, progname: described_class.to_s)
+
+      verbose_logger
+    end
+  end
+
   describe '#initialize' do
     context 'with no arguments given' do
       let(:blog) do

@@ -28,6 +28,13 @@ module Everything
       )
     end
 
+    def self.verbose_logger
+      Everything::Blog::VerboseLogger.new(
+        $stdout,
+        progname: self.to_s
+      )
+    end
+
     def initialize(options = {})
       @options = options
     end
