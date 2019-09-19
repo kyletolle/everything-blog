@@ -93,6 +93,10 @@ module Everything
     def use_error_logger
       Everything.logger = self.class.error_logger
     end
+
+    def use_verbose_logger
+      Everything.logger = self.class.verbose_logger
+    end
   end
 end
 

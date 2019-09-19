@@ -363,4 +363,14 @@ describe Everything::Blog do
       expect(Everything.logger).to be_a(Everything::Blog::ErrorLogger)
     end
   end
+
+  describe '#use_verbose_logger' do
+    it 'sets the Everything logger to be a verbose logger' do
+      expect(Everything.logger).not_to be_a(Everything::Blog::VerboseLogger)
+
+      blog.use_verbose_logger
+
+      expect(Everything.logger).to be_a(Everything::Blog::VerboseLogger)
+    end
+  end
 end
