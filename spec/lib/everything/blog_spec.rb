@@ -331,17 +331,6 @@ describe Everything::Blog do
         .to be_a_kind_of(Everything::Blog::Source::Site)
     end
 
-    it 'passes the logger to the source site' do
-      allow(Everything::Blog::Source::Site)
-        .to receive(:new)
-
-      source_site
-
-      expect(Everything::Blog::Source::Site)
-        .to have_received(:new)
-        .with(fake_logger)
-    end
-
     it 'memoizes the results' do
       expect(blog.source_site).to eq(source_site)
     end
