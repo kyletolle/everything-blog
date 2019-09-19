@@ -12,7 +12,7 @@ describe Everything::Blog::Output::Site do
     source_site.files
   end
   let(:source_site) do
-    Everything::Blog::Source::Site.new
+    Everything::Blog::Source::Site.new(double(:debug))
   end
 
   describe '#initialize' do
