@@ -48,6 +48,8 @@ module Everything
 
     def initialize(options = {})
       @options = options
+
+      set_logger
     end
 
     def generate_site

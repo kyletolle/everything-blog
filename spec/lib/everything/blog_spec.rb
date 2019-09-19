@@ -100,6 +100,13 @@ describe Everything::Blog do
       it 'sets options attr to an empty hash' do
         expect(blog.options).to eq({})
       end
+
+      it 'calls #set_logger' do
+        expect_any_instance_of(Everything::Blog)
+          . to receive(:set_logger)
+
+        blog
+      end
     end
 
     context 'with an options arguments given' do
@@ -115,6 +122,13 @@ describe Everything::Blog do
 
       it 'sets options attr to the given options' do
         expect(blog.options).to eq(given_options)
+      end
+
+      it 'calls #set_logger' do
+        expect_any_instance_of(Everything::Blog)
+          . to receive(:set_logger)
+
+        blog
       end
     end
   end
