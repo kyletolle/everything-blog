@@ -35,11 +35,6 @@ describe Everything::Blog do
 
       debug_logger
     end
-
-    it 'memoizes the logger' do
-      expect(described_class.debug_logger.object_id)
-        .to eq(debug_logger.object_id)
-    end
   end
 
   describe '#initialize' do
