@@ -1,5 +1,4 @@
-require 'everything'
-require './lib/everything/add_logger_to_everything_refinement'
+require 'spec_helper'
 
 describe Everything do
   context 'when using the refinement' do
