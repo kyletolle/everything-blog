@@ -21,6 +21,14 @@ module Everything
 
     attr_reader :options
 
+    def self.debug_logger
+      @debug_logger ||=
+        Everything::Blog::DebugLogger.new(
+          $stdout,
+          progname: self.to_s
+        )
+    end
+
     def initialize(options = {})
       @options = options
     end

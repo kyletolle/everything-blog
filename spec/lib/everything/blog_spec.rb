@@ -13,6 +13,35 @@ describe Everything::Blog do
     described_class.new(given_options)
   end
 
+  describe '::debug_logger' do
+    let(:debug_logger) { described_class.debug_logger }
+
+    it 'is an instance of the debug logger class' do
+      expect(debug_logger).to be_a(Everything::Blog::DebugLogger)
+    end
+
+    it 'uses a log device of $stdout' do
+      expect(Everything::Blog::DebugLogger)
+        .to receive(:new)
+        .with($stdout, anything)
+
+      debug_logger
+    end
+
+    it 'passes a progname of the blog class' do
+      expect(Everything::Blog::DebugLogger)
+        .to receive(:new)
+        .with(anything, progname: described_class.to_s)
+
+      debug_logger
+    end
+
+    it 'memoizes the logger' do
+      expect(described_class.debug_logger.object_id)
+        .to eq(debug_logger.object_id)
+    end
+  end
+
   describe '#initialize' do
     context 'with no arguments given' do
       let(:blog) do
