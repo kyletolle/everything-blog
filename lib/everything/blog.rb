@@ -79,17 +79,6 @@ module Everything
       end
     end
 
-    def logger
-      @logger ||=
-          if options['debug']
-            self.class.debug_logger
-          elsif options['verbose']
-            self.class.verbose_logger
-          else
-            self.class.error_logger
-          end
-    end
-
     def source_files
       @source_files ||= source_site.files.compact
     end

@@ -190,65 +190,6 @@ describe Everything::Blog do
     end
   end
 
-  describe '#logger' do
-    subject(:actual_logger) { blog.logger }
-
-    context 'when options are empty' do
-      it 'is a logger' do
-        expect(actual_logger).to be_a_kind_of(Everything::Blog::ErrorLogger)
-      end
-
-      it 'sets the logger progname to the class name' do
-        expect(actual_logger.progname)
-          .to eq(described_class.to_s)
-      end
-    end
-
-    context 'when options are present and include' do
-      # TODO: What about when verbose is equal to false?
-      context 'only verbose' do
-        let(:given_options) do
-          {
-            'verbose' => true
-          }
-        end
-
-        it 'uses the verbose logger' do
-          expect(actual_logger)
-            .to be_a_kind_of(Everything::Blog::VerboseLogger)
-        end
-      end
-
-      context 'only debug' do
-      # TODO: What about when debug is equal to false?
-        let(:given_options) do
-          {
-            'debug' => true
-          }
-        end
-
-        it 'uses the debug logger' do
-          expect(actual_logger)
-            .to be_a_kind_of(Everything::Blog::DebugLogger)
-        end
-      end
-
-      context 'verbose and debug' do
-        let(:given_options) do
-          {
-            'verbose' => true,
-            'debug' => true
-          }
-        end
-
-        it 'uses the debug logger' do
-          expect(actual_logger)
-            .to be_a_kind_of(Everything::Blog::DebugLogger)
-        end
-      end
-    end
-  end
-
   describe '#generate_site' do
     let(:fake_source_files) { [] }
 
