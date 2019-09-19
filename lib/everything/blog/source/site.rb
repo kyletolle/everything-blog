@@ -9,12 +9,6 @@ module Everything
   class Blog
     module Source
       class Site
-        attr_accessor :logger
-
-        def initialize(logger)
-          @logger = logger
-        end
-
         def files
           #TODO: Also test memoization, and running compact
           # TODO: Want to only include the index and stylesheet if those pages

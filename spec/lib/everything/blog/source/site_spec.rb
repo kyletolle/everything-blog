@@ -2,32 +2,8 @@ require 'spec_helper'
 require './spec/support/post_helpers'
 
 describe Everything::Blog::Source::Site do
-  include_context 'with fake logger'
-
   let(:site) do
-    described_class.new(fake_logger)
-  end
-
-  describe '#initialize' do
-    context 'with no arguments given' do
-      let(:site) do
-        described_class.new
-      end
-
-      it 'raises an ArgumentError' do
-        expect { site }.to raise_error(ArgumentError)
-      end
-    end
-
-    context 'with arguments given' do
-      it 'raises no error' do
-        expect { site }.not_to raise_error
-      end
-
-      it 'accepts and sets a logger' do
-        expect(site.logger).to eq(fake_logger)
-      end
-    end
+    described_class.new
   end
 
   describe '#files' do
