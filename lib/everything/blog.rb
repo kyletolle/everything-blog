@@ -67,6 +67,16 @@ module Everything
       self
     end
 
+    def set_logger
+      if options['debug']
+        use_debug_logger
+      elsif options['verbose']
+        use_verbose_logger
+      else
+        use_error_logger
+      end
+    end
+
     def logger
       @logger ||=
           if options['debug']

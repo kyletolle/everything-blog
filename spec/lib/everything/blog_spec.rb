@@ -119,6 +119,63 @@ describe Everything::Blog do
     end
   end
 
+  describe '#set_logger' do
+    context 'when options are empty' do
+      it 'calls #use_error_logger' do
+        expect(blog).to receive(:use_error_logger)
+
+        blog.set_logger
+      end
+    end
+
+    context 'when options are present and include' do
+      # TODO: What about when verbose is equal to false?
+      context 'only verbose' do
+        let(:given_options) do
+          {
+            'verbose' => true
+          }
+        end
+
+        it 'calls #use_verbose_logger' do
+          expect(blog).to receive(:use_verbose_logger)
+
+          blog.set_logger
+        end
+      end
+
+      context 'only debug' do
+      # TODO: What about when debug is equal to false?
+        let(:given_options) do
+          {
+            'debug' => true
+          }
+        end
+
+        it 'calls #use_debug_logger' do
+          expect(blog).to receive(:use_debug_logger)
+
+          blog.set_logger
+        end
+      end
+
+      context 'verbose and debug' do
+        let(:given_options) do
+          {
+            'verbose' => true,
+            'debug' => true
+          }
+        end
+
+        it 'calls #use_debug_logger' do
+          expect(blog).to receive(:use_debug_logger)
+
+          blog.set_logger
+        end
+      end
+    end
+  end
+
   describe '#logger' do
     subject(:actual_logger) { blog.logger }
 
