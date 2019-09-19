@@ -337,7 +337,9 @@ describe Everything::Blog do
   end
 
   describe '#use_debug_logger', aggregate_failures: true do
-    let(:debug_logger) { Everything::Blog.debug_logger }
+    before do
+      Everything.logger = nil
+    end
 
     it 'sets the Everything logger to be a debug logger' do
       expect(Everything.logger).not_to be_a(Everything::Blog::DebugLogger)
@@ -349,6 +351,10 @@ describe Everything::Blog do
   end
 
   describe '#use_error_logger' do
+    before do
+      Everything.logger = nil
+    end
+
     it 'sets the Everything logger to be an error logger' do
       expect(Everything.logger).not_to be_a(Everything::Blog::ErrorLogger)
 
@@ -359,6 +365,10 @@ describe Everything::Blog do
   end
 
   describe '#use_verbose_logger' do
+    before do
+      Everything.logger = nil
+    end
+
     it 'sets the Everything logger to be a verbose logger' do
       expect(Everything.logger).not_to be_a(Everything::Blog::VerboseLogger)
 
