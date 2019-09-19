@@ -2,6 +2,8 @@ require 'spec_helper'
 require './spec/support/post_helpers'
 
 describe Everything::Blog do
+  using Everything::AddLoggerToEverythingRefinement
+
   include_context 'with fake blog path'
   include_context 'with fake logger'
 
@@ -337,6 +339,18 @@ describe Everything::Blog do
 
     it 'memoizes the results' do
       expect(blog.source_site).to eq(source_site)
+    end
+  end
+
+  describe '#use_debug_logger', aggregate_failures: true do
+    let(:debug_logger) { Everything::Blog.debug_logger }
+
+    it 'sets the Everything logger to be a debug logger' do
+      expect(Everything.logger).not_to be_a(Everything::Blog::DebugLogger)
+
+      blog.use_debug_logger
+
+      expect(Everything.logger).to be_a(Everything::Blog::DebugLogger)
     end
   end
 end

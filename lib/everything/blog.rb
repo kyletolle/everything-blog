@@ -18,6 +18,8 @@ require_relative 'blog/s3_site'
 
 module Everything
   class Blog
+    using Everything::AddLoggerToEverythingRefinement
+
     LOGGER_INFO_STARTING = "Generation of blog starting..."
     LOGGER_INFO_COMPLETE = "Generation of blog complete."
 
@@ -82,6 +84,10 @@ module Everything
 
     def source_site
       @source_site ||= Everything::Blog::Source::Site.new(logger)
+    end
+
+    def use_debug_logger
+      Everything.logger = self.class.debug_logger
     end
   end
 end
