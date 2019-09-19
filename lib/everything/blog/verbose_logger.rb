@@ -7,7 +7,7 @@ module Everything
 
       def initialize(logdev, progname: nil)
         super
-        self.level = Logger::INFO
+        self.level = ::Logger::INFO
         self.formatter = DATETIME_MESSAGE_FORMATTER
       end
     end
