@@ -353,4 +353,14 @@ describe Everything::Blog do
       expect(Everything.logger).to be_a(Everything::Blog::DebugLogger)
     end
   end
+
+  describe '#use_error_logger' do
+    it 'sets the Everything logger to be an error logger' do
+      expect(Everything.logger).not_to be_a(Everything::Blog::ErrorLogger)
+
+      blog.use_error_logger
+
+      expect(Everything.logger).to be_a(Everything::Blog::ErrorLogger)
+    end
+  end
 end

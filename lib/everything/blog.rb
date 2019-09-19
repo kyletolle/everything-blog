@@ -89,6 +89,10 @@ module Everything
     def use_debug_logger
       Everything.logger = self.class.debug_logger
     end
+
+    def use_error_logger
+      Everything.logger = self.class.error_logger
+    end
   end
 end
 
