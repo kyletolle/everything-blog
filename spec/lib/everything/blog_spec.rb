@@ -143,33 +143,63 @@ describe Everything::Blog do
     end
 
     context 'when options are present and include' do
-      # TODO: What about when verbose is equal to false?
       context 'only verbose' do
-        let(:given_options) do
-          {
-            'verbose' => true
-          }
+        context 'and equal to false' do
+          let(:given_options) do
+            {
+              'verbose' => false
+            }
+          end
+
+          it 'does not call #use_verbose_logger' do
+            expect(blog).not_to receive(:use_verbose_logger)
+
+            blog.set_logger
+          end
         end
 
-        it 'calls #use_verbose_logger' do
-          expect(blog).to receive(:use_verbose_logger)
+        context 'and equal to true' do
+          let(:given_options) do
+            {
+              'verbose' => true
+            }
+          end
 
-          blog.set_logger
+          it 'calls #use_verbose_logger' do
+            expect(blog).to receive(:use_verbose_logger)
+
+            blog.set_logger
+          end
         end
       end
 
       context 'only debug' do
-      # TODO: What about when debug is equal to false?
-        let(:given_options) do
-          {
-            'debug' => true
-          }
+        context 'and equal to false' do
+          let(:given_options) do
+            {
+              'debug' => false
+            }
+          end
+
+          it 'does not call #use_debug_logger' do
+            expect(blog).not_to receive(:use_debug_logger)
+
+            blog.set_logger
+          end
         end
 
-        it 'calls #use_debug_logger' do
-          expect(blog).to receive(:use_debug_logger)
+        context 'and equal to true' do
+          let(:given_options) do
+            {
+              'debug' => true
+            }
+          end
 
-          blog.set_logger
+          it 'calls #use_debug_logger' do
+            expect(blog).to receive(:use_debug_logger)
+
+            blog.set_logger
+          end
         end
       end
 
