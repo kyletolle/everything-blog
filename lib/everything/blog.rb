@@ -80,7 +80,7 @@ module Everything
     end
 
     def source_files
-      @source_files ||= source_site.files.compact
+      @source_files ||= source_site.files
     end
 
     def source_site

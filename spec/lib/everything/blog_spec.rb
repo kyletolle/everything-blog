@@ -349,6 +349,10 @@ describe Everything::Blog do
       actual_blog_post_names = actual_blog_pages.map(&:post).map(&:name)
       expect(actual_blog_post_names).to match(expected_blog_post_names)
     end
+
+    it 'does not contain nils' do
+      expect(blog.source_files).not_to include(nil)
+    end
   end
 
   describe '#source_site' do

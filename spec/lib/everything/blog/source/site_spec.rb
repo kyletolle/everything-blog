@@ -136,6 +136,11 @@ describe Everything::Blog::Source::Site do
         it 'includes the correct media for the public posts' do
           expect(actual_media_files).to eq(expected_media_files)
         end
+
+        context 'when there are files that are nil' do
+          # TODO: Test calling .compact. But I don't remember why it was
+          # necessary.
+        end
       end
     end
   end
