@@ -23,6 +23,8 @@ module Everything
         # TODO: Eventually this should only call a method on the page itself,
         # not the page's post.
         def ==(other)
+          return false unless other.respond_to?(:post)
+
           self.post.piece.full_path == other.post.piece.full_path
         end
 
