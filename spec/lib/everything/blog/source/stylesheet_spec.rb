@@ -37,28 +37,38 @@ describe Everything::Blog::Source::Stylesheet do
 
   # TODO: Make it check the absolute path
   describe '#==' do
-    context 'when the other stylesheet has a different file name' do
-      let(:other_stylesheet) do
-        described_class.new
-          .tap do |style|
-            def style.file_name
-              'another_style.css'
-            end
-          end
-      end
+    context 'when the other object does not respond to #file_name' do
+      let(:other_object) { nil }
 
       it 'is false' do
-        expect(stylesheet == other_stylesheet).to eq(false)
+        expect(stylesheet == other_object).to eq(false)
       end
     end
 
-    context 'when the other stylesheet has the same file_name' do
-      let(:other_stylesheet) do
-        described_class.new
+    context 'when the other object responds to #file_name' do
+      context 'when the other stylesheet has a different file name' do
+        let(:other_stylesheet) do
+          described_class.new
+            .tap do |style|
+              def style.file_name
+                'another_style.css'
+              end
+            end
+        end
+
+        it 'is false' do
+          expect(stylesheet == other_stylesheet).to eq(false)
+        end
       end
 
-      it 'is true' do
-        expect(stylesheet == other_stylesheet).to eq(true)
+      context 'when the other stylesheet has the same file_name' do
+        let(:other_stylesheet) do
+          described_class.new
+        end
+
+        it 'is true' do
+          expect(stylesheet == other_stylesheet).to eq(true)
+        end
       end
     end
   end

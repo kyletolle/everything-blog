@@ -14,6 +14,8 @@ module Everything
 
         # TODO: Make it check the absolute path
         def ==(other)
+          return false unless other.respond_to?(:file_name)
+
           self.file_name == other.file_name
         end
 
