@@ -32,23 +32,33 @@ describe Everything::Blog::Source::Media do
   end
 
   describe '#==' do
-    context "when the other media's file path doesn't match" do
-      let(:other_media) do
-        described_class.new('/some/other/media/file.png')
-      end
+    context 'when the other object does not respond to #source_file_path' do
+      let(:other_object) { nil }
 
       it 'is false' do
-        expect(media == other_media).to eq(false)
+        expect(media == other_object).to eq(false)
       end
     end
 
-    context "when the other media's file path matches" do
-      let(:other_media) do
-        described_class.new(given_source_file_path)
+    context 'when the other object does respond to #source_file_path' do
+      context "when the other media's file path doesn't match" do
+        let(:other_media) do
+          described_class.new('/some/other/media/file.png')
+        end
+
+        it 'is false' do
+          expect(media == other_media).to eq(false)
+        end
       end
 
-      it 'is true' do
-        expect(media == other_media).to eq(true)
+      context "when the other media's file path matches" do
+        let(:other_media) do
+          described_class.new(given_source_file_path)
+        end
+
+        it 'is true' do
+          expect(media == other_media).to eq(true)
+        end
       end
     end
   end

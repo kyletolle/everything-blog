@@ -20,6 +20,8 @@ module Everything
         end
 
         def ==(other)
+          return false unless other.respond_to?(:source_file_path)
+
           self.source_file_path == other.source_file_path
         end
 
