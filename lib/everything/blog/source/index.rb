@@ -17,6 +17,8 @@ module Everything
         end
 
         def ==(other)
+          return false unless other.respond_to?(:content)
+
           self.content == other.content
         end
 

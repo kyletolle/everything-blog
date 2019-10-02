@@ -62,29 +62,39 @@ describe Everything::Blog::Source::Index do
   end
 
   describe '#==' do
-    context 'when the other index has different page names and titles' do
-      let(:different_page_names_and_titles) do
-        {
-          'chunks-and-chops' => 'Chunks and Chops',
-          'wheeble-whobble'  => 'Wheeble Whobble'
-        }
-      end
-      let(:other_index) do
-        described_class.new(different_page_names_and_titles)
-      end
+    context 'when the other object does not respond to #content' do
+      let(:other_object) { nil }
 
       it 'is false' do
-        expect(index == other_index).to eq(false)
+        expect(index == other_object).to eq(false)
       end
     end
 
-    context 'when the other index has the same page names and titles' do
-      let(:other_index) do
-        described_class.new(given_page_names_and_titles)
+    context 'when the other object responds to #content' do
+      context 'when the other index has different page names and titles' do
+        let(:different_page_names_and_titles) do
+          {
+            'chunks-and-chops' => 'Chunks and Chops',
+            'wheeble-whobble'  => 'Wheeble Whobble'
+          }
+        end
+        let(:other_index) do
+          described_class.new(different_page_names_and_titles)
+        end
+
+        it 'is false' do
+          expect(index == other_index).to eq(false)
+        end
       end
 
-      it 'is true' do
-        expect(index == other_index).to eq(true)
+      context 'when the other index has the same page names and titles' do
+        let(:other_index) do
+          described_class.new(given_page_names_and_titles)
+        end
+
+        it 'is true' do
+          expect(index == other_index).to eq(true)
+        end
       end
     end
   end
