@@ -25,7 +25,7 @@ module Everything
           self.source_file_path == other.source_file_path
         end
 
-        def to_s
+        def inspect
           "#<#{self.class.to_s}: file_name: `#{file_name}`>"
         end
 

@@ -73,13 +73,13 @@ describe Everything::Blog::Source::Stylesheet do
     end
   end
 
-  describe '#to_s' do
+  describe '#inspect' do
     let(:stylesheet_regex) do
       /#<#{described_class}: file_name: `#{stylesheet.file_name}`>/
     end
 
     it 'returns a shorthand format with class name and file name' do
-      expect(stylesheet.to_s).to match(stylesheet_regex)
+      expect(stylesheet.inspect).to match(stylesheet_regex)
     end
   end
 end
