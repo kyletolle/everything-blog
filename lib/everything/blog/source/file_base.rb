@@ -32,6 +32,10 @@ module Everything
           raise NotImplementedError
         end
 
+        def inspect
+          "#<#{self.class}: file_name: `#{file_name}`>"
+        end
+
       private
 
         # TODO: Move this into its own Source class/module. It makes sense to
