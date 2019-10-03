@@ -26,7 +26,7 @@ module Everything
         end
 
         def inspect
-          "#<#{self.class.to_s}: file_name: `#{file_name}`>"
+          "#<#{self.class}: file_name: `#{file_name}`>"
         end
 
       private
