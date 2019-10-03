@@ -19,6 +19,10 @@ module Everything
           self.file_name == other.file_name
         end
 
+        def to_s
+          "#<#{self.class.to_s}: file_name: `#{file_name}`>"
+        end
+
       private
 
         def source_file_path
