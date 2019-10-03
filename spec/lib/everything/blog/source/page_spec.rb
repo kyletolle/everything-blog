@@ -109,12 +109,12 @@ describe Everything::Blog::Source::Page do
   end
 
   describe '#inspect' do
-    let(:page_regex) do
+    let(:inspect_output_regex) do
       /#<#{described_class}: file_name: `#{page.file_name}`>/
     end
 
     it 'returns a shorthand format with class name and file name' do
-      expect(page.inspect).to match(page_regex)
+      expect(page.inspect).to match(inspect_output_regex)
     end
   end
 end

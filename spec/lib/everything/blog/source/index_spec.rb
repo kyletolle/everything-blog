@@ -100,12 +100,12 @@ describe Everything::Blog::Source::Index do
   end
 
   describe '#inspect' do
-    let(:index_regex) do
+    let(:inspect_output_regex) do
       /#<#{described_class}: file_name: `#{index.file_name}`>/
     end
 
     it 'returns a shorthand format with class name and file name' do
-      expect(index.inspect).to match(index_regex)
+      expect(index.inspect).to match(inspect_output_regex)
     end
   end
 end

@@ -64,12 +64,12 @@ describe Everything::Blog::Source::Media do
   end
 
   describe '#inspect' do
-    let(:media_regex) do
+    let(:inspect_output_regex) do
       /#<#{described_class}: file_name: `#{media.file_name}`>/
     end
 
     it 'returns a shorthand format with class name and file name' do
-      expect(media.inspect).to match(media_regex)
+      expect(media.inspect).to match(inspect_output_regex)
     end
   end
 
