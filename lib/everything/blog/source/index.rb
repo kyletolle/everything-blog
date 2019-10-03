@@ -26,6 +26,10 @@ module Everything
           ''
         end
 
+        def to_s
+          "#<#{self.class.to_s}: file_name: `#{file_name}`>"
+        end
+
       private
 
         # TODO: It would be nice to have this Markdown link and list generation
