@@ -25,6 +25,10 @@ module Everything
           self.source_file_path == other.source_file_path
         end
 
+        def to_s
+          "#<#{self.class.to_s}: file_name: `#{file_name}`>"
+        end
+
       private
 
         def base_source_dir_path

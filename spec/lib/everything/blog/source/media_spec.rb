@@ -63,6 +63,16 @@ describe Everything::Blog::Source::Media do
     end
   end
 
+  describe '#to_s' do
+    let(:media_regex) do
+      /#<#{described_class}: file_name: `#{media.file_name}`>/
+    end
+
+    it 'returns a shorthand format with class name and file name' do
+      expect(media.to_s).to match(media_regex)
+    end
+  end
+
   # TODO: Test the methods inherited from Source::FileBase too.
   # include_context 'acts like a source file'
 
