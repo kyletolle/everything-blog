@@ -107,4 +107,14 @@ describe Everything::Blog::Source::Page do
       end
     end
   end
+
+  describe '#to_s' do
+    let(:page_regex) do
+      /#<#{described_class}: file_name: `#{page.file_name}`>/
+    end
+
+    it 'returns a shorthand format with class name and file name' do
+      expect(page.to_s).to match(page_regex)
+    end
+  end
 end
