@@ -19,10 +19,6 @@ module Everything
           self.file_name == other.file_name
         end
 
-        def inspect
-          "#<#{self.class}: file_name: `#{file_name}`>"
-        end
-
       private
 
         def source_file_path

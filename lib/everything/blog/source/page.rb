@@ -28,10 +28,6 @@ module Everything
           self.post.piece.full_path == other.post.piece.full_path
         end
 
-        def inspect
-          "#<#{self.class}: file_name: `#{file_name}`>"
-        end
-
       private
 
         def base_source_dir_path

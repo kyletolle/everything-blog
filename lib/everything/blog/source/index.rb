@@ -26,10 +26,6 @@ module Everything
           ''
         end
 
-        def inspect
-          "#<#{self.class}: file_name: `#{file_name}`>"
-        end
-
       private
 
         # TODO: It would be nice to have this Markdown link and list generation
