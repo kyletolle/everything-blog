@@ -7,6 +7,7 @@ Dotenv.load
 require_relative 'add_pathname_to_everything_refinement'
 require_relative 'add_logger_to_everything_refinement'
 
+require_relative 'blog/logger/base'
 require_relative 'blog/debug_logger'
 require_relative 'blog/error_logger'
 require_relative 'blog/verbose_logger'

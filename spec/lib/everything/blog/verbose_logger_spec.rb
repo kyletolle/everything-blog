@@ -59,10 +59,10 @@ describe Everything::Blog::VerboseLogger do
   describe '#info' do
     it 'logs just the datetime and the message' do
       Timecop.freeze(DateTime.parse('2019-07-05 12:12:12 -0600')) do
-        logger.info("Important message")
+        logger.info('Specs') { "Important message" }
 
         expected_logger_output =
-          "2019-07-05 12:12:12 -0600: Important message\n"
+          "2019-07-05T18:12:12Z: Specs: Important message\n"
         expect(fake_output.string)
           .to eq(expected_logger_output)
       end

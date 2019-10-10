@@ -1,14 +1,9 @@
 module Everything
   class Blog
-    class VerboseLogger < ::Logger
-      DATETIME_MESSAGE_FORMATTER =  proc { |severity, datetime, progname, msg|
-        "#{datetime}: #{msg}\n"
-      }
-
+    class VerboseLogger < Everything::Blog::Logger::Base
       def initialize(logdev, progname: nil)
         super
         self.level = ::Logger::INFO
-        self.formatter = DATETIME_MESSAGE_FORMATTER
       end
     end
   end
