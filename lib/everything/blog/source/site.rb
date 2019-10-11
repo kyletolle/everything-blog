@@ -38,7 +38,11 @@ module Everything
       private
 
       def debug_it(message)
-        Everything.logger.error(self.class.to_s) { message }
+        Everything.logger.debug(class_name) { message }
+      end
+
+      def class_name
+        self.class.to_s
       end
 
         def blog_index
