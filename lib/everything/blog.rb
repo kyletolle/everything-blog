@@ -8,9 +8,9 @@ require_relative 'add_pathname_to_everything_refinement'
 require_relative 'add_logger_to_everything_refinement'
 
 require_relative 'blog/logger/base'
-require_relative 'blog/debug_logger'
-require_relative 'blog/error_logger'
-require_relative 'blog/verbose_logger'
+require_relative 'blog/logger/debug'
+require_relative 'blog/logger/error'
+require_relative 'blog/logger/verbose'
 require_relative 'blog/source'
 require_relative 'blog/source/site'
 require_relative 'blog/output/site'
@@ -27,21 +27,21 @@ module Everything
     attr_reader :options
 
     def self.debug_logger
-      Everything::Blog::DebugLogger.new(
+      Everything::Blog::Logger::Debug.new(
         $stdout,
         progname: self.to_s
       )
     end
 
     def self.error_logger
-      Everything::Blog::ErrorLogger.new(
+      Everything::Blog::Logger::Error.new(
         $stdout,
         progname: self.to_s
       )
     end
 
     def self.verbose_logger
-      Everything::Blog::VerboseLogger.new(
+      Everything::Blog::Logger::Verbose.new(
         $stdout,
         progname: self.to_s
       )

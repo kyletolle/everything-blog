@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Everything::Blog::DebugLogger do
+describe Everything::Blog::Logger::Verbose do
   let(:fake_output) do
     StringIO.new
   end
@@ -26,8 +26,8 @@ describe Everything::Blog::DebugLogger do
           expect(logger).to be_a_kind_of(Logger)
         end
 
-        it 'sets the log level to debug' do
-          expect(logger.level).to eq(Logger::DEBUG)
+        it 'sets the log level to info' do
+          expect(logger.level).to eq(Logger::INFO)
         end
 
         it 'sets the progname to nil' do
@@ -45,8 +45,8 @@ describe Everything::Blog::DebugLogger do
           expect(logger).to be_a_kind_of(Logger)
         end
 
-        it 'sets the log level to debug' do
-          expect(logger.level).to eq(Logger::DEBUG)
+        it 'sets the log level to info' do
+          expect(logger.level).to eq(Logger::INFO)
         end
 
         it 'sets the progname to the given value' do
@@ -56,10 +56,10 @@ describe Everything::Blog::DebugLogger do
     end
   end
 
-  describe '#debug' do
-    it 'logs the datetime, the progname, and the message' do
+  describe '#info' do
+    it 'logs just the datetime and the message' do
       Timecop.freeze(DateTime.parse('2019-07-05 12:12:12 -0600')) do
-        logger.debug('Specs') {"Important message"}
+        logger.info('Specs') { "Important message" }
 
         expected_logger_output =
           "2019-07-05T18:12:12Z: Specs: Important message\n"

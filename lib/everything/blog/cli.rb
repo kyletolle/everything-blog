@@ -7,7 +7,6 @@ module Everything
       class_option :verbose, type: :boolean, aliases: :v
       class_option :debug, type: :boolean, aliases: :d
 
-
       desc 'generate', 'generate an HTML site for the blog directory in your everything repo'
       def generate
         blog.generate_site
