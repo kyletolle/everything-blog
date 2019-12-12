@@ -21,16 +21,16 @@ module Everything
             [ blog_index, stylesheet ]
             .concat(pages)
             .concat(media_for_posts)
-            .tap do |o|
-              o.each{|item| debug_it("Is array item nil? `#{item.nil?}`") }
-              debug_it('Blog: Source files')
-              debug_it(o)
-              o.each do |item|
-                debug_it("Source file:")
-                debug_it(item)
-              end
-              debug_it(o)
-            end
+            # .tap do |o|
+            #   o.each{|item| debug_it("Is array item nil? `#{item.nil?}`") }
+            #   debug_it('Blog: Source files')
+            #   debug_it(o)
+            #   o.each do |item|
+            #     debug_it("Source file:")
+            #     debug_it(item)
+            #   end
+            #   debug_it(o)
+            # end
             # .compact
           # TODO: Add a tap for logging how many files there are and each of
           # their paths?
