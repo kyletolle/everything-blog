@@ -239,24 +239,24 @@ describe Everything::Blog do
       end
 
       it 'logs message when starting' do
-        allow(Everything.logger)
-          .to receive(:info)
+        allow(blog)
+          .to receive(:info_it)
 
         blog.generate_site
 
-        expect(Everything.logger)
-          .to have_received(:info)
+        expect(blog)
+          .to have_received(:info_it)
           .with(described_class::LOGGER_INFO_STARTING)
       end
 
       it 'logs message when complete' do
-        allow(Everything.logger)
-          .to receive(:info)
+        allow(blog)
+          .to receive(:info_it)
 
         blog.generate_site
 
-        expect(Everything.logger)
-          .to have_received(:info)
+        expect(blog)
+          .to have_received(:info_it)
           .with(described_class::LOGGER_INFO_COMPLETE)
       end
     end
@@ -269,24 +269,24 @@ describe Everything::Blog do
       end
 
       it 'logs message when starting' do
-        allow(Everything.logger)
-          .to receive(:info)
+        allow(blog)
+          .to receive(:info_it)
 
         blog.generate_site
 
-        expect(Everything.logger)
-          .to have_received(:info)
+        expect(blog)
+          .to have_received(:info_it)
           .with(described_class::LOGGER_INFO_STARTING)
       end
 
       it 'logs message when complete' do
-        allow(Everything.logger)
-          .to receive(:info)
+        allow(blog)
+          .to receive(:info_it)
 
         blog.generate_site
 
-        expect(Everything.logger)
-          .to have_received(:info)
+        expect(blog)
+          .to have_received(:info_it)
           .with(described_class::LOGGER_INFO_COMPLETE)
       end
     end

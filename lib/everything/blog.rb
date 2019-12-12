@@ -10,6 +10,7 @@ require_relative 'add_logger_to_everything_refinement'
 require_relative 'blog/logger/base'
 require_relative 'blog/logger/debug'
 require_relative 'blog/logger/error'
+require_relative 'blog/logger/log_it'
 require_relative 'blog/logger/verbose'
 require_relative 'blog/source'
 require_relative 'blog/source/site'
@@ -20,6 +21,8 @@ require_relative 'blog/s3_site'
 module Everything
   class Blog
     using Everything::AddLoggerToEverythingRefinement
+
+    include Everything::Blog::Logger::LogIt
 
     LOGGER_INFO_STARTING = "Generation of blog starting..."
     LOGGER_INFO_COMPLETE = "Generation of blog complete."
@@ -68,10 +71,6 @@ module Everything
       info_it(LOGGER_INFO_COMPLETE)
 
       self
-    end
-
-    def info_it(message)
-      Everything.logger.info(message)
     end
 
     def set_logger
