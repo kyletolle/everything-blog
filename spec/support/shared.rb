@@ -609,12 +609,18 @@ shared_context 'with fake stylesheet file in s3' do
 end
 
 shared_context 'with fake logger' do
+  using Everything::AddLoggerToEverythingRefinement
+
   let(:fake_logger) do
     Everything::Blog::Logger::Debug.new(fake_output, progname: described_class.to_s)
   end
 
   let(:fake_output) do
     StringIO.new
+  end
+
+  before do
+    Everything.logger = fake_logger
   end
 end
 
