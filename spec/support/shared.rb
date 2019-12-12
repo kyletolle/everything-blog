@@ -636,3 +636,15 @@ shared_context 'with debug logger' do
   end
 end
 
+shared_context 'with error logger' do
+  using Everything::AddLoggerToEverythingRefinement
+
+  let(:error_logger) do
+    Everything::Blog.error_logger
+  end
+
+  before do
+    Everything.logger = error_logger
+  end
+end
+
