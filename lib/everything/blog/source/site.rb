@@ -46,8 +46,8 @@ module Everything
         def blog_index
           Everything::Blog::Source::Index.new(public_post_names_and_titles)
             .tap do |o|
-              # Everything.logger.error("Source file for index used: #{o}")
-              # Everything.logger.error("Is index nil? `#{o.nil?}`")
+              # debug_it("Source file for index used: #{o}")
+              # debug_it("Is index nil? `#{o.nil?}`")
             end
         end
 
@@ -58,8 +58,8 @@ module Everything
         def stylesheet
           Everything::Blog::Source::Stylesheet.new
             .tap do |o|
-              # Everything.logger.error("Source file for stylesheet used: #{o}")
-              # Everything.logger.error("Is stylesheet nil? `#{o.nil?}`")
+              # debug_it("Source file for stylesheet used: #{o}")
+              # debug_it("Is stylesheet nil? `#{o.nil?}`")
             end
         end
 
@@ -67,8 +67,8 @@ module Everything
           posts_finder.posts.map do |post|
             Everything::Blog::Source::Page.new(post)
               .tap do |o|
-                # Everything.logger.error("Source file for page used: #{o}")
-                # Everything.logger.error("Is page nil? `#{o.nil?}`")
+                # debug_it("Source file for page used: #{o}")
+                # debug_it("Is page nil? `#{o.nil?}`")
               end
           end
         end
@@ -77,8 +77,8 @@ module Everything
           posts_finder.media_for_posts.map do |media_path|
             Everything::Blog::Source::Media.new(media_path)
               .tap do |o|
-                # Everything.logger.error("Source file for media used: #{o}")
-                # Everything.logger.error("Is media nil? `#{o.nil?}`")
+                # debug_it("Source file for media used: #{o}")
+                # debug_it("Is media nil? `#{o.nil?}`")
               end
           end
         end
