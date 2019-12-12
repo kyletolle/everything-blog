@@ -624,3 +624,15 @@ shared_context 'with fake logger' do
   end
 end
 
+shared_context 'with debug logger' do
+  using Everything::AddLoggerToEverythingRefinement
+
+  let(:debug_logger) do
+    Everything::Blog.debug_logger
+  end
+
+  before do
+    Everything.logger = debug_logger
+  end
+end
+
