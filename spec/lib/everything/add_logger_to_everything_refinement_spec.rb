@@ -12,25 +12,31 @@ describe Everything do
       end
 
       context 'when a logger is being overwritten' do
+        let(:original_logger) do
+          instance_double(Logger)
+        end
+        let(:new_logger) do
+          instance_double(Logger)
+        end
+
         before do
-          let(:original_logger) do
-            instance_double(Logger)
-          end
-          let(:new_logger) do
-            instance_double(Logger)
-          end
+          Everything.logger = original_logger
+        end
 
+        context 'with a new logger' do
           before do
-            Everything.logger = original_logger
+            Everything.logger = new_logger
           end
 
-          it' is not the original logger' do
+          it 'is not the original logger' do
             expect(Everything.logger).not_to eq(original_logger)
           end
+
           it 'is the new logger' do
             expect(Everything.logger).to eq(new_logger)
           end
         end
+
       end
 
       context 'when a logger is not being overwritten' do
