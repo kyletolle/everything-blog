@@ -11,6 +11,8 @@ module Everything
       class Site
         using Everything::AddLoggerToEverythingRefinement
 
+        include Everything::Blog::Logger::LogIt
+
         def files
           #TODO: Also test memoization, and running compact
           # TODO: Want to only include the index and stylesheet if those pages
@@ -36,10 +38,6 @@ module Everything
         end
 
       private
-
-      def debug_it(message)
-        Everything.logger.debug(class_name) { message }
-      end
 
       def class_name
         self.class.to_s
