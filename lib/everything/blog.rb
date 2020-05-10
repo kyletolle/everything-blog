@@ -2,7 +2,7 @@
 require 'rubygems'
 require 'bundler/setup'
 Bundler.require(:default)
-Dotenv.load
+Dotenv.load('test.env')
 
 require_relative 'add_pathname_to_everything_refinement'
 
