@@ -2,6 +2,8 @@ require 'spec_helper'
 require './spec/support/post_helpers'
 
 describe Everything::Blog::Source::Site do
+  include_context 'with fake logger'
+
   let(:site) do
     described_class.new
   end
