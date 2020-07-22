@@ -20,7 +20,7 @@ GEM
     excon (0.62.0)
     fakefs (0.11.0)
     fastenv (0.0.3)
-    ffi (1.9.18)
+    ffi (1.11.1)
     fog-aws (3.3.0)
       fog-core (~> 2.1)
       fog-json (~> 1.1)
