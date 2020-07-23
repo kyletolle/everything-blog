@@ -2,6 +2,7 @@ require 'spec_helper'
 require './spec/support/post_helpers'
 
 describe Everything::Blog::Output::Stylesheet do
+  include_context 'stub out everything path'
   include_context 'with fake blog path'
   include_context 'stub out blog output path'
   include_context 'with fake source stylesheet'
