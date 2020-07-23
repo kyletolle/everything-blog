@@ -1,4 +1,5 @@
 # Everything::Blog
+[![Build Status](https://travis-ci.org/kyletolle/everything-blog.svg?branch=master)](https://travis-ci.org/kyletolle/everything-blog)
 
 Generate an HTML site for a blog of markdown pieces in your `everything` repo.
 
