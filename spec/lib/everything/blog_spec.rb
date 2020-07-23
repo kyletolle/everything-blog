@@ -317,10 +317,6 @@ describe Everything::Blog do
   describe '#source_files' do
     include_context 'with public posts'
 
-    xit 'strips out missing files' do
-      # TODO: I don't remember why the .compact was necessary.
-    end
-
     it 'contains four source files' do
       expect(blog.source_files.count).to eq(4)
     end
