@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Everything::Blog::Remote::HtmlFile do
   # TODO: Add specs for these
   # include_context 'behaves like a Remote::FileBase'
+  include_context 'stub out everything path'
   include_context 'with fake output index'
   include_context 'with mock fog'
 

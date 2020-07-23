@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe Everything::Blog::Source::Stylesheet do
+  include_context 'stub out everything path'
+
   let(:stylesheet) do
     described_class.new
   end

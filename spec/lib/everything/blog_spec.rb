@@ -2,6 +2,7 @@ require 'spec_helper'
 require './spec/support/post_helpers'
 
 describe Everything::Blog do
+  include_context 'stub out everything path'
   include_context 'with fake blog path'
   include_context 'with fake logger'
 

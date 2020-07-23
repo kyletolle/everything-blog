@@ -4,6 +4,7 @@ require 'fakefs/spec_helpers'
 describe Everything::Blog::Output::Page do
   include FakeFS::SpecHelpers
 
+  include_context 'stub out everything path'
   include_context 'with fakefs'
   include_context 'create blog path'
   include_context 'stub out blog output path'

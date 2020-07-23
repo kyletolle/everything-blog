@@ -6,6 +6,8 @@ describe Everything::Blog::Source::PostsFinder do
   include FakeFS::SpecHelpers
   include PostHelpers
 
+  include_context 'stub out everything path'
+
   let(:posts_finder) do
     described_class.new
   end

@@ -4,6 +4,7 @@ require './spec/support/post_helpers'
 describe Everything::Blog::Output::Index do
   include PostHelpers
 
+  include_context 'stub out everything path'
   include_context 'with fake blog path'
   include_context 'stub out blog output path'
   include_context 'with one public post'

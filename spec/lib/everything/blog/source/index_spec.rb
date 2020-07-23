@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe Everything::Blog::Source::Index do
+  include_context 'stub out everything path'
+
   let(:given_page_names_and_titles) do
     {
       'bits-and-bytes'             => 'Bits and Bytes',

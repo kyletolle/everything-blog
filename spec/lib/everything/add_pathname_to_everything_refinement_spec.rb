@@ -10,6 +10,8 @@ class RefinedContext
 end
 
 describe Everything::AddPathnameToEverythingRefinement do
+  include_context 'stub out everything path'
+
   context 'when using the refinement' do
     let(:refined_context) do
       RefinedContext.new
