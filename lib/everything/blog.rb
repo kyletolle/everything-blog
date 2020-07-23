@@ -50,6 +50,7 @@ module Everything
 
     def generate_site
       info_it(LOGGER_INFO_STARTING)
+      debug_it("Reading blog source files from `#{Everything.path}`")
       output = Everything::Blog::Output::Site.new(source_files)
       output.generate
 
