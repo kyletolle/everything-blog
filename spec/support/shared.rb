@@ -476,6 +476,13 @@ shared_context 'with fake aws_storage_region env var' do
   end
 end
 
+shared_context 'with fake aws env vars' do
+  include_context 'with fake aws_access_key_id env var'
+  include_context 'with fake aws_secret_access_key env var'
+  include_context 'with fake aws_storage_bucket env var'
+  include_context 'with fake aws_storage_region env var'
+end
+
 shared_context 'with mock fog' do
   before do
     Fog.mock!

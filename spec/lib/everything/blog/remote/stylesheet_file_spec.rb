@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Everything::Blog::Remote::StylesheetFile do
   include_context 'with fake output stylesheet'
+  include_context 'with fake aws env vars'
   include_context 'with mock fog'
 
   let(:stylesheet_file) do

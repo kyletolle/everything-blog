@@ -3,6 +3,7 @@ require 'spec_helper'
 describe Everything::Blog::Remote::BinaryFile do
   include_context 'stub out everything path'
   include_context 'with fake output media'
+  include_context 'with fake aws env vars'
   include_context 'with mock fog'
 
   let(:binary_file) do
