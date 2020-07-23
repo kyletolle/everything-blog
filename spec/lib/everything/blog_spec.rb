@@ -407,3 +407,4 @@ describe Everything::Blog do
     end
   end
 end
+

@@ -20,19 +20,9 @@ module Everything
             .concat(pages)
             .concat(media_for_posts)
             .tap do |o|
-              o.each{|item| debug_it("Is array item nil? `#{item.nil?}`") }
-              debug_it('Blog: Source files')
-              debug_it(o)
-              o.each do |item|
-                debug_it("Source file:")
-                debug_it(item)
-              end
-              debug_it(o)
+              debug_it("Using a total of `#{o.count}` source files")
             end
             # .compact
-          # TODO: Add a tap for logging how many files there are and each of
-          # their paths?
-          # .tap{|o| puts "Blog: Number of source files: #{o.count}" }
         end
 
       private
@@ -44,8 +34,7 @@ module Everything
         def blog_index
           Everything::Blog::Source::Index.new(public_post_names_and_titles)
             .tap do |o|
-              debug_it("Source file for index used: #{o}")
-              debug_it("Is index nil? `#{o.nil?}`")
+              debug_it("Using source index: #{o.inspect}")
             end
         end
 
@@ -54,30 +43,24 @@ module Everything
         end
 
         def stylesheet
-          Everything::Blog::Source::Stylesheet.new
-            .tap do |o|
-              debug_it("Source file for stylesheet used: #{o}")
-              debug_it("Is stylesheet nil? `#{o.nil?}`")
-            end
+          Everything::Blog::Source::Stylesheet.new.tap do |o|
+            debug_it("Using source stylesheet: #{o.inspect}")
+          end
         end
 
         def pages
           posts_finder.posts.map do |post|
-            Everything::Blog::Source::Page.new(post)
-              .tap do |o|
-                debug_it("Source file for page used: #{o}")
-                debug_it("Is page nil? `#{o.nil?}`")
-              end
+            Everything::Blog::Source::Page.new(post).tap do |o|
+              debug_it("Using source page: #{o.inspect}")
+            end
           end
         end
 
         def media_for_posts
           posts_finder.media_for_posts.map do |media_path|
-            Everything::Blog::Source::Media.new(media_path)
-              .tap do |o|
-                debug_it("Source file for media used: #{o}")
-                debug_it("Is media nil? `#{o.nil?}`")
-              end
+            Everything::Blog::Source::Media.new(media_path).tap do |o|
+              debug_it("Using source media: #{o.inspect}")
+            end
           end
         end
 
