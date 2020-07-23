@@ -2,8 +2,6 @@ require 'spec_helper'
 require './spec/support/post_helpers'
 
 describe Everything::Blog do
-  using Everything::AddLoggerToEverythingRefinement
-
   include_context 'with fake blog path'
   include_context 'with fake logger'
 
@@ -19,11 +17,11 @@ describe Everything::Blog do
     let(:debug_logger) { described_class.debug_logger }
 
     it 'is an instance of the debug logger class' do
-      expect(debug_logger).to be_a(Everything::Blog::Logger::Debug)
+      expect(debug_logger).to be_a(Everything::Logger::Debug)
     end
 
     it 'uses a log device of $stdout' do
-      expect(Everything::Blog::Logger::Debug)
+      expect(Everything::Logger::Debug)
         .to receive(:new)
         .with($stdout, anything)
 
@@ -31,7 +29,7 @@ describe Everything::Blog do
     end
 
     it 'passes a progname of the blog class' do
-      expect(Everything::Blog::Logger::Debug)
+      expect(Everything::Logger::Debug)
         .to receive(:new)
         .with(anything, progname: described_class.to_s)
 
@@ -43,11 +41,11 @@ describe Everything::Blog do
     let(:error_logger) { described_class.error_logger }
 
     it 'is an instance of the error logger class' do
-      expect(error_logger).to be_a(Everything::Blog::Logger::Error)
+      expect(error_logger).to be_a(Everything::Logger::Error)
     end
 
     it 'uses a log device of $stdout' do
-      expect(Everything::Blog::Logger::Error)
+      expect(Everything::Logger::Error)
         .to receive(:new)
         .with($stdout, anything)
 
@@ -55,7 +53,7 @@ describe Everything::Blog do
     end
 
     it 'passes a progname of the blog class' do
-      expect(Everything::Blog::Logger::Error)
+      expect(Everything::Logger::Error)
         .to receive(:new)
         .with(anything, progname: described_class.to_s)
 
@@ -67,11 +65,11 @@ describe Everything::Blog do
     let(:verbose_logger) { described_class.verbose_logger }
 
     it 'is an instance of the verbose logger class' do
-      expect(verbose_logger).to be_a(Everything::Blog::Logger::Verbose)
+      expect(verbose_logger).to be_a(Everything::Logger::Verbose)
     end
 
     it 'uses a log devise of $stdout' do
-      expect(Everything::Blog::Logger::Verbose)
+      expect(Everything::Logger::Verbose)
         .to receive(:new)
         .with($stdout, anything)
 
@@ -79,7 +77,7 @@ describe Everything::Blog do
     end
 
     it 'passes a progname of the blog class' do
-      expect(Everything::Blog::Logger::Verbose)
+      expect(Everything::Logger::Verbose)
         .to receive(:new)
         .with(anything, progname: described_class.to_s)
 
@@ -378,11 +376,11 @@ describe Everything::Blog do
     end
 
     it 'sets the Everything logger to be a debug logger' do
-      expect(Everything.logger).not_to be_a(Everything::Blog::Logger::Debug)
+      expect(Everything.logger).not_to be_a(Everything::Logger::Debug)
 
       blog.use_debug_logger
 
-      expect(Everything.logger).to be_a(Everything::Blog::Logger::Debug)
+      expect(Everything.logger).to be_a(Everything::Logger::Debug)
     end
   end
 
@@ -392,11 +390,11 @@ describe Everything::Blog do
     end
 
     it 'sets the Everything logger to be an error logger' do
-      expect(Everything.logger).not_to be_a(Everything::Blog::Logger::Error)
+      expect(Everything.logger).not_to be_a(Everything::Logger::Error)
 
       blog.use_error_logger
 
-      expect(Everything.logger).to be_a(Everything::Blog::Logger::Error)
+      expect(Everything.logger).to be_a(Everything::Logger::Error)
     end
   end
 
@@ -406,11 +404,11 @@ describe Everything::Blog do
     end
 
     it 'sets the Everything logger to be a verbose logger' do
-      expect(Everything.logger).not_to be_a(Everything::Blog::Logger::Verbose)
+      expect(Everything.logger).not_to be_a(Everything::Logger::Verbose)
 
       blog.use_verbose_logger
 
-      expect(Everything.logger).to be_a(Everything::Blog::Logger::Verbose)
+      expect(Everything.logger).to be_a(Everything::Logger::Verbose)
     end
   end
 end

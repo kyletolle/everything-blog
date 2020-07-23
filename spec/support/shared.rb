@@ -609,10 +609,8 @@ shared_context 'with fake stylesheet file in s3' do
 end
 
 shared_context 'with fake logger' do
-  using Everything::AddLoggerToEverythingRefinement
-
   let(:fake_logger) do
-    Everything::Blog::Logger::Debug.new(fake_output, progname: described_class.to_s)
+    Everything::Logger::Debug.new(fake_output, progname: described_class.to_s)
   end
 
   let(:fake_output) do
@@ -625,8 +623,6 @@ shared_context 'with fake logger' do
 end
 
 shared_context 'with debug logger' do
-  using Everything::AddLoggerToEverythingRefinement
-
   let(:debug_logger) do
     Everything::Blog.debug_logger
   end
@@ -637,8 +633,6 @@ shared_context 'with debug logger' do
 end
 
 shared_context 'with error logger' do
-  using Everything::AddLoggerToEverythingRefinement
-
   let(:error_logger) do
     Everything::Blog.error_logger
   end

@@ -1,5 +1,4 @@
 require 'everything/blog'
-require 'logger'
 
 module Everything
   class Blog

@@ -9,9 +9,7 @@ module Everything
   class Blog
     module Source
       class Site
-        using Everything::AddLoggerToEverythingRefinement
-
-        include Everything::Blog::Logger::LogIt
+        include Everything::Logger::LogIt
 
         def files
           #TODO: Also test memoization, and running compact

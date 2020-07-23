@@ -5,13 +5,7 @@ Bundler.require(:default)
 Dotenv.load
 
 require_relative 'add_pathname_to_everything_refinement'
-require_relative 'add_logger_to_everything_refinement'
 
-require_relative 'blog/logger/base'
-require_relative 'blog/logger/debug'
-require_relative 'blog/logger/error'
-require_relative 'blog/logger/verbose'
-require_relative 'blog/logger/log_it'
 require_relative 'blog/source'
 require_relative 'blog/source/site'
 require_relative 'blog/output/site'
@@ -20,9 +14,7 @@ require_relative 'blog/s3_site'
 
 module Everything
   class Blog
-    using Everything::AddLoggerToEverythingRefinement
-
-    include Everything::Blog::Logger::LogIt
+    include Everything::Logger::LogIt
 
     LOGGER_INFO_STARTING = "Generation of blog starting..."
     LOGGER_INFO_COMPLETE = "Generation of blog complete."
@@ -30,21 +22,21 @@ module Everything
     attr_reader :options
 
     def self.debug_logger
-      Everything::Blog::Logger::Debug.new(
+      Everything::Logger::Debug.new(
         $stdout,
         progname: self.to_s
       )
     end
 
     def self.error_logger
-      Everything::Blog::Logger::Error.new(
+      Everything::Logger::Error.new(
         $stdout,
         progname: self.to_s
       )
     end
 
     def self.verbose_logger
-      Everything::Blog::Logger::Verbose.new(
+      Everything::Logger::Verbose.new(
         $stdout,
         progname: self.to_s
       )
