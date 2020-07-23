@@ -65,7 +65,7 @@ describe Everything::Blog::Source::Media do
 
   describe '#inspect' do
     let(:inspect_output_regex) do
-      /#<#{described_class}: file_name: `#{media.file_name}`>/
+      /#<#{described_class}: path: `#{media.relative_dir_path}`, file_name: `#{media.file_name}`>/
     end
 
     it 'returns a shorthand format with class name and file name' do

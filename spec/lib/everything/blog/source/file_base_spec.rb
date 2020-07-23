@@ -32,7 +32,7 @@ describe Everything::Blog::Source::FileBase do
         .and_return("/a/fake/file/name/for/inspect.md")
     end
     let(:inspect_output_regex) do
-      /#<#{described_class}: file_name: `#{file_base_instance.file_name}`>/
+      /#<#{described_class}: path: `#{file_base_instance.relative_dir_path}`, file_name: `#{file_base_instance.file_name}`>/
     end
 
     it 'returns a shorthand format with class name and file name' do

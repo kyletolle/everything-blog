@@ -75,7 +75,7 @@ describe Everything::Blog::Source::Stylesheet do
 
   describe '#inspect' do
     let(:inspect_output_regex) do
-      /#<#{described_class}: file_name: `#{stylesheet.file_name}`>/
+      /#<#{described_class}: path: `#{stylesheet.relative_dir_path}`, file_name: `#{stylesheet.file_name}`>/
     end
 
     it 'returns a shorthand format with class name and file name' do

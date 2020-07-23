@@ -34,7 +34,7 @@ module Everything
         end
 
         def inspect
-          "#<#{self.class}: file_name: `#{file_name}`>"
+          "#<#{self.class}: path: `#{relative_dir_path}`, file_name: `#{file_name}`>"
         end
 
       private
