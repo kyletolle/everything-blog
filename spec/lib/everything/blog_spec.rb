@@ -364,12 +364,13 @@ describe Everything::Blog do
     end
   end
 
-  describe '#use_debug_logger', aggregate_failures: true do
+  describe '#use_debug_logger' do
     before do
       Everything.logger = nil
     end
 
-    it 'sets the Everything logger to be a debug logger' do
+    # See aggregate_failures docs at https://relishapp.com/rspec/rspec-core/docs/expectation-framework-integration/aggregating-failures
+    it 'sets the Everything logger to be a debug logger', :aggregate_failures do
       expect(Everything.logger).not_to be_a(Everything::Logger::Debug)
 
       blog.use_debug_logger
@@ -383,7 +384,7 @@ describe Everything::Blog do
       Everything.logger = nil
     end
 
-    it 'sets the Everything logger to be an error logger' do
+    it 'sets the Everything logger to be an error logger', :aggregate_failures do
       expect(Everything.logger).not_to be_a(Everything::Logger::Error)
 
       blog.use_error_logger
@@ -397,7 +398,7 @@ describe Everything::Blog do
       Everything.logger = nil
     end
 
-    it 'sets the Everything logger to be a verbose logger' do
+    it 'sets the Everything logger to be a verbose logger', :aggregate_failures do
       expect(Everything.logger).not_to be_a(Everything::Logger::Verbose)
 
       blog.use_verbose_logger
