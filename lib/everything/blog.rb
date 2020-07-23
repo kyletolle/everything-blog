@@ -50,8 +50,6 @@ module Everything
 
     def generate_site
       info_it(LOGGER_INFO_STARTING)
-      source_files
-
       output = Everything::Blog::Output::Site.new(source_files)
       output.generate
 
