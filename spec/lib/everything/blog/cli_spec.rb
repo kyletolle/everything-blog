@@ -60,7 +60,6 @@ describe Everything::Blog::CLI do
     end
 
     shared_context "calls blog's generate_site" do
-
       it "calls blog's generate_site" do
         cli
 

@@ -349,8 +349,6 @@ describe Everything::Blog do
     end
 
     it 'does not contain nils' do
-      puts "What are the source files?"
-      puts blog.source_files
       expect(blog.source_files).not_to include(nil)
     end
   end
