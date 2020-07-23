@@ -1,8 +1,7 @@
 require 'spec_helper'
 
 describe Everything::Blog::S3Bucket do
-  include_context 'with fake aws_access_key_id env var'
-  include_context 'with fake aws_secret_access_key env var'
+  include_context 'with fake aws env vars'
   include_context 'with mock fog'
 
   let(:s3_bucket) do
