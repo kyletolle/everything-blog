@@ -84,6 +84,8 @@ describe Everything::Blog::Output::Index do
 
   # TODO: Lots of overlap with blog/output/page_spec
   describe '#save_file' do
+    include_context 'stub out templates path'
+
     context 'when an index template does not exist' do
       let(:action) do
         index.save_file
@@ -93,10 +95,13 @@ describe Everything::Blog::Output::Index do
     end
 
     context 'when an index template exists' do
+      include_context 'with fake templates'
+
       let(:expected_file_data_regex) do
         /\<html.*\>/
       end
 
+      include_context 'when templates_path is set'
       include_context 'with an index template'
 
       context 'when the blog output path does not already exist' do

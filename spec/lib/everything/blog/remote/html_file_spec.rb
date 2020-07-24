@@ -6,6 +6,8 @@ describe Everything::Blog::Remote::HtmlFile do
   include_context 'stub out everything path'
   include_context 'with fake output index'
   include_context 'with mock fog'
+  include_context 'with fake aws env vars'
+  include_context 'with fake templates'
 
   let(:html_file) do
     described_class.new(given_output_file)

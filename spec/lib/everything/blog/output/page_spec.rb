@@ -29,7 +29,7 @@ describe Everything::Blog::Output::Page do
 
   describe '#should_generate_output?' do
     # Assuming the post template exists.
-    include_context 'with a post template'
+    include_context 'with fake templates'
 
     context 'when page has never been saved before' do
       it 'is true' do
@@ -145,6 +145,8 @@ describe Everything::Blog::Output::Page do
   end
 
   describe '#save_file' do
+    include_context 'stub out templates path'
+
     context 'when a post template does not exist' do
       let(:action) do
         page.save_file
@@ -154,6 +156,8 @@ describe Everything::Blog::Output::Page do
     end
 
     context 'when a post template exists' do
+      include_context 'with fake templates'
+
       let(:expected_file_data_regex) do
         /\<html.*\>/
       end

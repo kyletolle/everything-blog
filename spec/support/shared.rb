@@ -8,6 +8,60 @@ shared_context 'stub out everything path' do
   end
 end
 
+shared_context 'stub out templates path' do
+  let(:fake_templates_path) do
+    '/fake/templates/path'
+  end
+
+  before do
+    without_partial_double_verification do
+      allow(Fastenv)
+        .to receive(:templates_path)
+        .and_return(fake_templates_path)
+    end
+
+  end
+end
+
+shared_context 'with fake templates' do
+  include_context 'stub out templates path'
+
+  let(:fake_index_template) do
+    Everything::Blog::Output::IndexTemplate.new('')
+  end
+  let(:fake_post_template) do
+    Everything::Blog::Output::PostTemplate.new('')
+  end
+  let(:fake_template_html) do
+    <<~HTML
+    <html lang="en">
+    <body>
+          <%= yield %>
+    </body>
+    </html>
+    HTML
+  end
+
+  before do
+    FakeFS.activate!
+
+    FileUtils.mkdir_p(fake_templates_path)
+
+    File.open(fake_index_template.template_path, 'w') do |f|
+      f.write(fake_template_html)
+    end
+    File.open(fake_post_template.template_path, 'w') do |f|
+      f.write(fake_template_html)
+    end
+  end
+
+  after do
+    FileUtils.rm_rf(fake_templates_path)
+
+    FakeFS.deactivate!
+  end
+end
+
 shared_context 'create blog path' do
   before do
     FileUtils.mkdir_p(Everything::Blog::Source.absolute_path)

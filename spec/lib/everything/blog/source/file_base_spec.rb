@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe Everything::Blog::Source::FileBase do
+  include_context 'stub out everything path'
+
   let(:file_base_instance) do
     described_class.new
   end
