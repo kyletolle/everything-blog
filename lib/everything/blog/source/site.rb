@@ -12,6 +12,7 @@ module Everything
         include Everything::Logger::LogIt
 
         def files
+          info_it("Reading blog source files from `#{Everything.path}`")
           # TODO: Also test memoization, and running compact
           # TODO: Want to only include the index and stylesheet if those pages
           # have changed and need to be regenerated?
