@@ -18,12 +18,16 @@ describe Everything::Blog::Remote::StylesheetFile do
   end
 
   describe '#initialize' do
+    include_context 'stub out everything path'
+
     it 'sets the output_file to the given output file' do
       expect(stylesheet_file.output_file).to eq(given_output_file)
     end
   end
 
   describe '#content' do
+    include_context 'stub out everything path'
+
     before do
       allow(given_output_file)
         .to receive(:output_content)
@@ -69,6 +73,8 @@ describe Everything::Blog::Remote::StylesheetFile do
   end
 
   describe '#content_type' do
+    include_context 'stub out everything path'
+
     it 'is equal to STYLESHEET_CONTENT_TYPE' do
       expect(stylesheet_file.content_type)
         .to eq(described_class::STYLESHEET_CONTENT_TYPE)
@@ -320,6 +326,8 @@ describe Everything::Blog::Remote::StylesheetFile do
   end
 
   describe '#remote_file_does_not_exist?' do
+    include_context 'stub out everything path'
+
     subject { stylesheet_file.remote_file_does_not_exist? }
 
     context 'when remote_file is nil' do

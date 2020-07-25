@@ -17,6 +17,8 @@ describe Everything::Blog::Source::Stylesheet do
   end
 
   describe '#file_name' do
+    include_context 'stub out everything path'
+
     let(:expected_file_name) { 'style.css' }
     it 'is the default stylesheet name' do
       expect(stylesheet.file_name).to eq(expected_file_name)
@@ -41,6 +43,8 @@ describe Everything::Blog::Source::Stylesheet do
 
   # TODO: Make it check the absolute path
   describe '#==' do
+    include_context 'stub out everything path'
+
     context 'when the other object does not respond to #file_name' do
       let(:other_object) { nil }
 
