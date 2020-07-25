@@ -36,6 +36,8 @@ describe Everything::Blog::Remote::StylesheetFile do
   end
 
   describe '#content_hash' do
+    include_context 'with fake stylesheet'
+
     subject { stylesheet_file.content_hash }
 
     let(:md5_double) { instance_double(Digest::MD5) }
@@ -75,6 +77,7 @@ describe Everything::Blog::Remote::StylesheetFile do
 
   describe '#local_file_is_different?' do
     include_context 'stub out everything path'
+    include_context 'with fake stylesheet'
 
     subject { stylesheet_file.local_file_is_different? }
 
@@ -128,6 +131,7 @@ describe Everything::Blog::Remote::StylesheetFile do
 
   describe '#send' do
     include_context 'stub out everything path'
+    include_context 'with fake stylesheet'
 
     subject { stylesheet_file.send }
 
