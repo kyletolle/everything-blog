@@ -91,7 +91,7 @@ describe Everything::Blog::Output::Stylesheet do
       include_context 'with fake stylesheet'
 
       context 'when the blog output path does not already exist' do
-        it 'creates it' do
+        it 'creates it', :aggregate_failures do
           expect(Dir.exist?(fake_blog_output_path)).to eq(false)
 
           stylesheet.save_file
@@ -117,7 +117,7 @@ describe Everything::Blog::Output::Stylesheet do
           FileUtils.rmdir(fake_blog_output_path)
         end
 
-        it 'keeps the folder out there' do
+        it 'keeps the folder out there, :aggregate_failures' do
           expect(Dir.exist?(fake_blog_output_path)).to eq(true)
 
           stylesheet.save_file
@@ -125,7 +125,7 @@ describe Everything::Blog::Output::Stylesheet do
           expect(Dir.exist?(fake_blog_output_path)).to eq(true)
         end
 
-        it 'does not clear existing files in the folder' do
+        it 'does not clear existing files in the folder, :aggregate_failures' do
           expect(File.exist?(fake_file_path)).to eq(true)
 
           stylesheet.save_file
@@ -135,7 +135,7 @@ describe Everything::Blog::Output::Stylesheet do
       end
 
       context 'when the file does not already exist' do
-        it 'creates it' do
+        it 'creates it, :aggregate_failures' do
           expect(File.exist?(stylesheet.output_file_path)).to eq(false)
 
           stylesheet.save_file
@@ -157,7 +157,7 @@ describe Everything::Blog::Output::Stylesheet do
           File.write(stylesheet.output_file_path, 'not even css')
         end
 
-        it 'does not delete the file' do
+        it 'does not delete the file, :aggregate_failures' do
           expect(File.exist?(stylesheet.output_file_path)).to eq(true)
 
           stylesheet.save_file
@@ -165,7 +165,7 @@ describe Everything::Blog::Output::Stylesheet do
           expect(File.exist?(stylesheet.output_file_path)).to eq(true)
         end
 
-        it 'overwrites it with the correct file data' do
+        it 'overwrites it with the correct file data, :aggregate_failures' do
           stylesheet_file_data = File.read(stylesheet.output_file_path)
           expect(stylesheet_file_data).not_to match(expected_file_data_regex)
 
