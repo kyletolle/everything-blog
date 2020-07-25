@@ -21,7 +21,7 @@ module Everything
             .concat(pages)
             .concat(media_for_posts)
             .tap do |o|
-              debug_it("Using a total of `#{o.count}` source files")
+              info_it("Processing a total of `#{o.count}` source files")
             end
             # .compact
         end
