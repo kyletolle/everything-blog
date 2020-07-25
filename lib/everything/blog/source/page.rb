@@ -6,10 +6,14 @@ module Everything
   class Blog
     module Source
       class Page < FileBase
+        include Everything::Logger::LogIt
+
         attr_reader :post
 
         def initialize(post)
           @post = post
+
+          debug_it("Using source page: #{inspect}")
         end
 
         def content

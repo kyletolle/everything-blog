@@ -4,8 +4,12 @@ module Everything
   class Blog
     module Source
       class Index < Everything::Blog::Source::FileBase
+        include Everything::Logger::LogIt
+
         def initialize(page_names_and_titles)
           @page_names_and_titles = page_names_and_titles
+
+          debug_it("Using source index: #{inspect}")
         end
 
         def content

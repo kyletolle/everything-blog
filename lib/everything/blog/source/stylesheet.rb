@@ -4,8 +4,12 @@ module Everything
   class Blog
     module Source
       class Stylesheet < Everything::Blog::Source::FileBase
+        include Everything::Logger::LogIt
+
         def content
           @content ||= File.read(source_file_path)
+
+          debug_it("Using source stylesheet: #{inspect}")
         end
 
         def file_name
