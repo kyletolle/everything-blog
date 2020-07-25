@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe Everything::Blog::Source::Index do
-  include_context 'stub out everything path'
-
   let(:given_page_names_and_titles) do
     {
       'bits-and-bytes'             => 'Bits and Bytes',
@@ -58,6 +56,8 @@ describe Everything::Blog::Source::Index do
 
   # TODO: Should this actually be an empty string?
   describe '#relative_file_path' do
+    include_context 'stub out everything path'
+
     it 'is the index file in the root path, without a leading slash' do
       expect(index.relative_file_path).to eq('index.html')
     end

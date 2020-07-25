@@ -2,15 +2,14 @@ require 'spec_helper'
 require './spec/support/post_helpers'
 
 describe Everything::Blog::Source::Site do
-  include_context 'stub out everything path'
-  include_context 'with fake logger'
-
   let(:site) do
     described_class.new
   end
 
   describe '#files' do
+    include_context 'stub out everything path'
     include_context 'with fake blog path'
+    include_context 'with fake logger'
 
     shared_examples 'includes the index and stylesheet' do
       it 'includes the index' do

@@ -1,9 +1,7 @@
 require 'spec_helper'
 
 describe Everything::Blog::Remote::StylesheetFile do
-  include_context 'stub out everything path'
   include_context 'with fake output stylesheet'
-  include_context 'with fake aws env vars'
   include_context 'with mock fog'
 
   let(:stylesheet_file) do
@@ -76,9 +74,13 @@ describe Everything::Blog::Remote::StylesheetFile do
   end
 
   describe '#local_file_is_different?' do
+    include_context 'stub out everything path'
+
     subject { stylesheet_file.local_file_is_different? }
 
     context 'when the bucket does not exist' do
+      include_context 'with fake aws env vars'
+
       it 'returns true' do
         expect(subject).to eq(true)
       end
@@ -125,9 +127,13 @@ describe Everything::Blog::Remote::StylesheetFile do
   end
 
   describe '#send' do
+    include_context 'stub out everything path'
+
     subject { stylesheet_file.send }
 
     context 'when the bucket does not exist' do
+      include_context 'with fake aws env vars'
+
       it 'returns nil' do
         expect(subject).to be_nil
       end
@@ -255,9 +261,13 @@ describe Everything::Blog::Remote::StylesheetFile do
   end
 
   describe '#remote_file' do
+    include_context 'stub out everything path'
+
     subject { stylesheet_file.remote_file }
 
     context 'when the bucket does not exist' do
+      include_context 'with fake aws env vars'
+
       it 'is nil' do
         expect(subject).to be_nil
       end
@@ -336,6 +346,8 @@ describe Everything::Blog::Remote::StylesheetFile do
   end
 
   describe '#remote_key' do
+    include_context 'stub out everything path'
+
     subject { stylesheet_file.remote_key }
 
     before do

@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Everything::Blog::S3Bucket do
-  include_context 'with fake aws env vars'
   include_context 'with mock fog'
 
   let(:s3_bucket) do
@@ -12,6 +11,8 @@ describe Everything::Blog::S3Bucket do
     subject { s3_bucket.bucket }
 
     context 'when the bucket does not exist' do
+      include_context 'with fake aws env vars'
+
       it 'returns nil' do
         expect(subject).to be_nil
       end
@@ -67,6 +68,8 @@ describe Everything::Blog::S3Bucket do
   end
 
   describe '#s3_connection' do
+    include_context 'with fake aws env vars'
+
     subject { s3_bucket.s3_connection }
 
     it 'is a connection to s3' do

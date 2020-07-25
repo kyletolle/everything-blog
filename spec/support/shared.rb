@@ -4,7 +4,11 @@ shared_context 'stub out everything path' do
   end
 
   before do
-    allow(Everything).to receive(:path).and_return(fake_everything_path)
+    without_partial_double_verification do
+      allow(Fastenv)
+        .to receive(:everything_path)
+        .and_return(fake_everything_path)
+    end
   end
 end
 
@@ -483,6 +487,8 @@ shared_context 'with fake stylesheet' do
   require 'fakefs/spec_helpers'
   include FakeFS::SpecHelpers
 
+  include_context 'stub out everything path'
+
   let(:given_stylesheet_content) do
     'p { font-size: 1em; }'
   end
@@ -544,6 +550,7 @@ shared_context 'with mock fog' do
 end
 
 shared_context 'with mock bucket in s3' do
+  include_context 'with fake aws env vars'
   include_context 'with mock fog'
 
   let(:expected_bucket_name) do

@@ -3,11 +3,8 @@ require 'spec_helper'
 describe Everything::Blog::Remote::HtmlFile do
   # TODO: Add specs for these
   # include_context 'behaves like a Remote::FileBase'
-  include_context 'stub out everything path'
   include_context 'with fake output index'
   include_context 'with mock fog'
-  include_context 'with fake aws env vars'
-  include_context 'with fake templates'
 
   let(:html_file) do
     described_class.new(given_output_file)
@@ -41,6 +38,8 @@ describe Everything::Blog::Remote::HtmlFile do
   end
 
   describe '#content_hash' do
+    include_context 'with fake templates'
+
     subject { html_file.content_hash }
 
     let(:md5_double) { instance_double(Digest::MD5) }
@@ -78,6 +77,9 @@ describe Everything::Blog::Remote::HtmlFile do
   end
 
   describe '#local_file_is_different?' do
+    include_context 'stub out everything path'
+    include_context 'with fake templates'
+
     subject { html_file.local_file_is_different? }
 
     context 'when the bucket does not exist' do
@@ -127,9 +129,14 @@ describe Everything::Blog::Remote::HtmlFile do
   end
 
   describe '#send' do
+    include_context 'stub out everything path'
+    include_context 'with fake templates'
+
     subject { html_file.send }
 
     context 'when the bucket does not exist' do
+      include_context 'with fake aws env vars'
+
       it 'returns nil' do
         expect(subject).to be_nil
       end
@@ -257,6 +264,8 @@ describe Everything::Blog::Remote::HtmlFile do
   end
 
   describe '#remote_file' do
+    include_context 'stub out everything path'
+
     subject { html_file.remote_file }
 
     context 'when the bucket does not exist' do
@@ -341,6 +350,8 @@ describe Everything::Blog::Remote::HtmlFile do
   end
 
   describe '#remote_key' do
+    include_context 'stub out everything path'
+
     subject { html_file.remote_key }
 
     before do

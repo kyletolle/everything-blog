@@ -1,8 +1,6 @@
 require 'spec_helper'
 
 describe Everything::Blog::Source::Stylesheet do
-  include_context 'stub out everything path'
-
   let(:stylesheet) do
     described_class.new
   end
@@ -26,12 +24,16 @@ describe Everything::Blog::Source::Stylesheet do
   end
 
   describe '#relative_dir_path' do
+    include_context 'stub out everything path'
+
     it 'is a relative path to the dir, without a leading slash' do
       expect(stylesheet.relative_dir_path).to eq('css')
     end
   end
 
   describe '#relative_file_path' do
+    include_context 'stub out everything path'
+
     it 'is a relative path to the file, without a leading slash' do
       expect(stylesheet.relative_file_path).to eq('css/style.css')
     end
@@ -76,6 +78,8 @@ describe Everything::Blog::Source::Stylesheet do
   end
 
   describe '#inspect' do
+    include_context 'stub out everything path'
+
     let(:inspect_output_regex) do
       /#<#{described_class}: path: `#{stylesheet.relative_dir_path}`, file_name: `#{stylesheet.file_name}`>/
     end
