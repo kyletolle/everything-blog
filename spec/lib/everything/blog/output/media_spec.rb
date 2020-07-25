@@ -18,6 +18,16 @@ describe Everything::Blog::Output::Media do
     described_class.new(source_media)
   end
 
+  describe '#inspect' do
+    let(:inspect_output_regex) do
+      /#<#{described_class}: path: `#{media.relative_dir_path}`, output_file_name: `#{media.output_file_name}`>/
+    end
+
+    it 'returns a shorthand format with class name and file name' do
+      expect(media.inspect).to match(inspect_output_regex)
+    end
+  end
+
   describe '#output_content' do
     it 'is the source content' do
       expect(media.output_content).to eq(source_media.content)

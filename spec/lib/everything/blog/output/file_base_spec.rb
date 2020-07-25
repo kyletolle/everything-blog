@@ -81,6 +81,30 @@ describe Everything::Blog::Output::FileBase do
     end
   end
 
+  describe '#inspect' do
+    let(:given_source_file) do
+      Everything::Blog::Source::Index.new({})
+    end
+    let(:output_file_base_instance) do
+      described_class.new(given_source_file)
+    end
+
+    include_context 'stub out everything path'
+
+    before do
+      allow(output_file_base_instance)
+        .to receive(:output_file_name)
+        .and_return("/a/fake/file/name/for/inspect.md")
+    end
+    let(:inspect_output_regex) do
+      /#<#{described_class}: path: `#{output_file_base_instance.relative_dir_path}`, output_file_name: `#{output_file_base_instance.output_file_name}`>/
+    end
+
+    it 'returns a shorthand format with class name and file name' do
+      expect(output_file_base_instance.inspect).to match(inspect_output_regex)
+    end
+  end
+
   context '#template_klass' do
     context 'when the class is used without going through a child class' do
       include_context 'with fakefs'

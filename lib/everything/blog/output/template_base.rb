@@ -12,6 +12,10 @@ module Everything
           @template_context = template_context
         end
 
+        def inspect
+          "#<#{self.class}: template_path: `#{template_path}`, template_name: `#{template_name}`>"
+        end
+
         def merge_content_and_template
           Tilt.new(template_path).render(template_context) do
             content_html

@@ -43,8 +43,11 @@ describe Everything::Blog::S3Site do
       end
 
       context 'index' do
+        let(:given_source_file) do
+          Everything::Blog::Source::Index.new({})
+        end
         let(:given_output_file) do
-          Everything::Blog::Output::Index.new({})
+          Everything::Blog::Output::Index.new(given_source_file)
         end
         let(:expected_remote_class) do
           Everything::Blog::Remote::HtmlFile

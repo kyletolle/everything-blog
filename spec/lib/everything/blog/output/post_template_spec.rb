@@ -16,6 +16,16 @@ describe Everything::Blog::Output::PostTemplate do
     described_class.new(given_content_html, given_template_context)
   end
 
+  describe '#inspect' do
+    let(:inspect_output_regex) do
+      /#<#{described_class}: template_path: `#{post_template.template_path}`, template_name: `#{post_template.template_name}`>/
+    end
+
+    it 'returns a shorthand format with class name and file name' do
+      expect(post_template.inspect).to match(inspect_output_regex)
+    end
+  end
+  
   describe '#merge_content_and_template' do
     let(:given_content_html) do
       "<p>Hi.</p>"

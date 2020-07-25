@@ -21,6 +21,16 @@ describe Everything::Blog::Output::Index do
     end
   end
 
+  describe '#inspect' do
+    let(:inspect_output_regex) do
+      /#<#{described_class}: path: `#{index.relative_dir_path}`, output_file_name: `#{index.output_file_name}`>/
+    end
+
+    it 'returns a shorthand format with class name and file name' do
+      expect(index.inspect).to match(inspect_output_regex)
+    end
+  end
+
   describe '#output_content' do
     let(:template_double) { instance_double(index.template_klass) }
     let(:fake_content_and_template) { '<p>Faked out, yo!</p>' }

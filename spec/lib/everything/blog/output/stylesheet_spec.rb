@@ -24,6 +24,16 @@ describe Everything::Blog::Output::Stylesheet do
     end
   end
 
+  describe '#inspect' do
+    let(:inspect_output_regex) do
+      /#<#{described_class}: path: `#{stylesheet.relative_dir_path}`, output_file_name: `#{stylesheet.output_file_name}`>/
+    end
+
+    it 'returns a shorthand format with class name and file name' do
+      expect(stylesheet.inspect).to match(inspect_output_regex)
+    end
+  end
+
   describe '#output_content' do
     include_context 'with fake stylesheet'
 

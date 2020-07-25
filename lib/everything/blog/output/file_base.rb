@@ -33,6 +33,10 @@ module Everything
           @source_file = source_file
         end
 
+        def inspect
+          "#<#{self.class}: path: `#{relative_dir_path}`, output_file_name: `#{output_file_name}`>"
+        end
+
         def output_content
           source_file.content
         end

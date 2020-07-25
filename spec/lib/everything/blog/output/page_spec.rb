@@ -27,6 +27,16 @@ describe Everything::Blog::Output::Page do
     described_class.new(given_source_page)
   end
 
+  describe '#inspect' do
+    let(:inspect_output_regex) do
+      /#<#{described_class}: path: `#{page.relative_dir_path}`, output_file_name: `#{page.output_file_name}`>/
+    end
+
+    it 'returns a shorthand format with class name and file name' do
+      expect(page.inspect).to match(inspect_output_regex)
+    end
+  end
+
   describe '#should_generate_output?' do
     # Assuming the post template exists.
     include_context 'with fake templates'
