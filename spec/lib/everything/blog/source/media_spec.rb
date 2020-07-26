@@ -1,8 +1,4 @@
-require 'pp' # Helps prevent an error like: 'superclass mismatch for class File'
-require 'bundler/setup'
-Bundler.require(:default)
-require './lib/everything/blog/source/media'
-require './spec/support/shared'
+require 'spec_helper'
 require 'fakefs/spec_helpers'
 
 describe Everything::Blog::Source::Media do
@@ -36,24 +32,44 @@ describe Everything::Blog::Source::Media do
   end
 
   describe '#==' do
-    context "when the other media's file path doesn't match" do
-      let(:other_media) do
-        described_class.new('/some/other/media/file.png')
-      end
+    context 'when the other object does not respond to #source_file_path' do
+      let(:other_object) { nil }
 
       it 'is false' do
-        expect(media == other_media).to eq(false)
+        expect(media == other_object).to eq(false)
       end
     end
 
-    context "when the other media's file path matches" do
-      let(:other_media) do
-        described_class.new(given_source_file_path)
+    context 'when the other object does respond to #source_file_path' do
+      context "when the other media's file path doesn't match" do
+        let(:other_media) do
+          described_class.new('/some/other/media/file.png')
+        end
+
+        it 'is false' do
+          expect(media == other_media).to eq(false)
+        end
       end
 
-      it 'is true' do
-        expect(media == other_media).to eq(true)
+      context "when the other media's file path matches" do
+        let(:other_media) do
+          described_class.new(given_source_file_path)
+        end
+
+        it 'is true' do
+          expect(media == other_media).to eq(true)
+        end
       end
+    end
+  end
+
+  describe '#inspect' do
+    let(:inspect_output_regex) do
+      /#<#{described_class}: path: `#{media.relative_dir_path}`, file_name: `#{media.file_name}`>/
+    end
+
+    it 'returns a shorthand format with class name and file name' do
+      expect(media.inspect).to match(inspect_output_regex)
     end
   end
 

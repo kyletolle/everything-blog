@@ -4,24 +4,30 @@ module Everything
   class Blog
     module Output
       class Site
+        include Everything::Logger::LogIt
+
         def initialize(source_files)
-          puts
-          puts 'Output: Creating site'
           @source_files = source_files
         end
 
         def generate
-          puts 'Output: Generating files'
+          info_it("Creating blog output files...")
+
           output_files
-            .tap{|o| puts "Output: Number of output files: #{o.count}"}
+            .tap do |o|
+              info_it("Processing a total of `#{o.count}` output files")
+            end
             .select(&:should_generate_output?)
-            .tap{|o| puts "Output: Number of output files to generate: #{o.count}" }
+            .tap do |o|
+              info_it("Generating and saving a total of `#{o.count}` output files")
+            end
             .map(&:save_file)
+
+          info_it("Creation of  blog output files complete.")
         end
 
         def output_files
           @output_files ||= begin
-            puts 'Output: Mapping source files to output files'
             source_files.map do |source_file|
               # TODO: This feels weird, could I call this method on the source
               # file's class?

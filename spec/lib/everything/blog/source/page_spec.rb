@@ -1,9 +1,5 @@
-require 'pp' # Helps prevent an error like: 'superclass mismatch for class File'
-require 'bundler/setup'
-Bundler.require(:default)
-require './lib/everything/blog/source/page'
+require 'spec_helper'
 require 'fakefs/spec_helpers'
-require './spec/support/shared'
 require './spec/support/post_helpers'
 
 describe Everything::Blog::Source::Page do
@@ -64,41 +60,61 @@ describe Everything::Blog::Source::Page do
   end
 
   describe '#==' do
-    include_context 'with fakefs'
-    include_context 'create blog path'
-
-    context "when the other page's post's full path does not match" do
-      before do
-        create_post('some-title')
-      end
-
-      after do
-        delete_post('some-title')
-      end
-
-      let(:other_post) do
-        Everything::Blog::Post.new('some-title')
-      end
-      let(:other_page) do
-        described_class.new(other_post)
-      end
+    context 'when the other object does not respond to #post' do
+      let(:other_object) { nil }
 
       it 'is false' do
-        expect(page == other_page).to eq(false)
+        expect(page == other_object).to eq(false)
       end
     end
 
-    context "when the other page's post's full path matches" do
-      let(:other_post) do
-        Everything::Blog::Post.new(given_post_name)
-      end
-      let(:other_page) do
-        described_class.new(other_post)
+    context 'when the other object responds to #post' do
+      include_context 'with fakefs'
+      include_context 'create blog path'
+
+      context "when the other page's post's full path does not match" do
+        before do
+          create_post('some-title')
+        end
+
+        after do
+          delete_post('some-title')
+        end
+
+        let(:other_post) do
+          Everything::Blog::Post.new('some-title')
+        end
+        let(:other_page) do
+          described_class.new(other_post)
+        end
+
+        it 'is false' do
+          expect(page == other_page).to eq(false)
+        end
       end
 
-      it 'is true' do
-        expect(page == other_page).to eq(true)
+      context "when the other page's post's full path matches" do
+        let(:other_post) do
+          Everything::Blog::Post.new(given_post_name)
+        end
+        let(:other_page) do
+          described_class.new(other_post)
+        end
+
+        it 'is true' do
+          expect(page == other_page).to eq(true)
+        end
       end
+    end
+  end
+
+  describe '#inspect' do
+    let(:inspect_output_regex) do
+      /#<#{described_class}: path: `#{page.relative_dir_path}`, file_name: `#{page.file_name}`>/
+    end
+
+    it 'returns a shorthand format with class name and file name' do
+      expect(page.inspect).to match(inspect_output_regex)
     end
   end
 end

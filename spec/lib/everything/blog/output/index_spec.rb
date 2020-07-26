@@ -1,13 +1,10 @@
-# TODO: Should the requiring that's almost all specs be in a spec_helper file?
-require 'pp' # helps prevent an error like: 'superclass mismatch for class file'
-require 'bundler/setup'
-Bundler.require(:default)
-require './lib/everything/blog/output/index'
+require 'spec_helper'
 require './spec/support/post_helpers'
 
 describe Everything::Blog::Output::Index do
   include PostHelpers
 
+  include_context 'stub out everything path'
   include_context 'with fake blog path'
   include_context 'stub out blog output path'
   include_context 'with one public post'
@@ -21,6 +18,16 @@ describe Everything::Blog::Output::Index do
   describe '#initialize' do
     it 'sets the source_file attr to the given source file' do
       expect(index.source_file).to eq(source_index)
+    end
+  end
+
+  describe '#inspect' do
+    let(:inspect_output_regex) do
+      /#<#{described_class}: path: `#{index.relative_dir_path}`, output_file_name: `#{index.output_file_name}`>/
+    end
+
+    it 'returns a shorthand format with class name and file name' do
+      expect(index.inspect).to match(inspect_output_regex)
     end
   end
 
@@ -87,6 +94,8 @@ describe Everything::Blog::Output::Index do
 
   # TODO: Lots of overlap with blog/output/page_spec
   describe '#save_file' do
+    include_context 'stub out templates path'
+
     context 'when an index template does not exist' do
       let(:action) do
         index.save_file
@@ -96,10 +105,13 @@ describe Everything::Blog::Output::Index do
     end
 
     context 'when an index template exists' do
+      include_context 'with fake templates'
+
       let(:expected_file_data_regex) do
         /\<html.*\>/
       end
 
+      include_context 'when templates_path is set'
       include_context 'with an index template'
 
       context 'when the blog output path does not already exist' do

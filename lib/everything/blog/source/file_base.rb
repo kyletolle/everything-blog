@@ -7,7 +7,8 @@ module Everything
       class FileBase
         # TODO: Can we take some hints from the ruby File class and use the same
         # methods they do? basename, pathname, absolute_path, etc?
-        # http://ruby-doc.org/core-2.4.1/File.html
+        # See source stylesheet spec for an example of the approach.
+        # File docs: http://ruby-doc.org/core-2.4.1/File.html
         # And for joining paths with others, we can use File.expand_path. So we
         # shouldn't probably need to have this relative_file_path and
         # base_source_dir_path and stuff.
@@ -21,7 +22,6 @@ module Everything
             .sub(base_source_dir_path, '')
             .to_s
             .delete_prefix('/')
-            .tap{|fp| puts "SOURCE RELATIVE FILE PATH: #{fp}"}
         end
 
         def content
@@ -30,6 +30,10 @@ module Everything
 
         def file_name
           raise NotImplementedError
+        end
+
+        def inspect
+          "#<#{self.class}: path: `#{relative_dir_path}`, file_name: `#{file_name}`>"
         end
 
       private

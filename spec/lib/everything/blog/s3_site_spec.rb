@@ -1,9 +1,4 @@
-require 'pp' # Helps prevent an error like: 'superclass mismatch for class File'
-require 'bundler/setup'
-Bundler.require(:default)
 require 'spec_helper'
-require './lib/everything/blog/s3_site'
-require './spec/support/shared'
 
 describe Everything::Blog::S3Site do
   include_context 'with fake output index'
@@ -48,8 +43,11 @@ describe Everything::Blog::S3Site do
       end
 
       context 'index' do
+        let(:given_source_file) do
+          Everything::Blog::Source::Index.new({})
+        end
         let(:given_output_file) do
-          Everything::Blog::Output::Index.new({})
+          Everything::Blog::Output::Index.new(given_source_file)
         end
         let(:expected_remote_class) do
           Everything::Blog::Remote::HtmlFile
@@ -58,8 +56,11 @@ describe Everything::Blog::S3Site do
       end
 
       context 'media' do
+        let(:given_source_file) do
+          Everything::Blog::Source::Media.new('')
+        end
         let(:given_output_file) do
-          Everything::Blog::Output::Media.new('')
+          Everything::Blog::Output::Media.new(given_source_file)
         end
         let(:expected_remote_class) do
           Everything::Blog::Remote::BinaryFile
@@ -68,8 +69,13 @@ describe Everything::Blog::S3Site do
       end
 
       context 'page' do
+        include_context 'with fake post'
+
+        let(:given_source_file) do
+          Everything::Blog::Source::Page.new(fake_post)
+        end
         let(:given_output_file) do
-          Everything::Blog::Output::Page.new('')
+          Everything::Blog::Output::Page.new(given_source_file)
         end
         let(:expected_remote_class) do
           Everything::Blog::Remote::HtmlFile
@@ -78,8 +84,11 @@ describe Everything::Blog::S3Site do
       end
 
       context 'stylesheet' do
+        let(:given_source_file) do
+          Everything::Blog::Source::Stylesheet.new
+        end
         let(:given_output_file) do
-          Everything::Blog::Output::Stylesheet.new('')
+          Everything::Blog::Output::Stylesheet.new(given_source_file)
         end
         let(:expected_remote_class) do
           Everything::Blog::Remote::StylesheetFile

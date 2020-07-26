@@ -4,6 +4,12 @@ module Everything
   class Blog
     module Source
       class Stylesheet < Everything::Blog::Source::FileBase
+        include Everything::Logger::LogIt
+
+        def initialize
+          debug_it("Using source stylesheet: #{inspect}")
+        end
+
         def content
           @content ||= File.read(source_file_path)
         end
@@ -14,6 +20,8 @@ module Everything
 
         # TODO: Make it check the absolute path
         def ==(other)
+          return false unless other.respond_to?(:file_name)
+
           self.file_name == other.file_name
         end
 

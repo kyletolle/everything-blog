@@ -1,12 +1,10 @@
-require 'bundler/setup'
-Bundler.require(:default)
-require './lib/everything/blog/output/media'
+require 'spec_helper'
 require 'fakefs/spec_helpers'
-require './spec/support/shared'
 
 describe Everything::Blog::Output::Media do
   include FakeFS::SpecHelpers
 
+  include_context 'stub out everything path'
   include_context 'with fakefs'
   include_context 'create blog path'
   include_context 'stub out blog output path'
@@ -18,6 +16,16 @@ describe Everything::Blog::Output::Media do
   end
   let(:media) do
     described_class.new(source_media)
+  end
+
+  describe '#inspect' do
+    let(:inspect_output_regex) do
+      /#<#{described_class}: path: `#{media.relative_dir_path}`, output_file_name: `#{media.output_file_name}`>/
+    end
+
+    it 'returns a shorthand format with class name and file name' do
+      expect(media.inspect).to match(inspect_output_regex)
+    end
   end
 
   describe '#output_content' do

@@ -1,7 +1,4 @@
-require 'pp' # Helps prevent an error like: 'superclass mismatch for class File'
-require 'bundler/setup'
-Bundler.require(:default)
-require './lib/everything/blog/source/site'
+require 'spec_helper'
 require './spec/support/post_helpers'
 
 describe Everything::Blog::Source::Site do
@@ -10,7 +7,9 @@ describe Everything::Blog::Source::Site do
   end
 
   describe '#files' do
+    include_context 'stub out everything path'
     include_context 'with fake blog path'
+    include_context 'with fake logger'
 
     shared_examples 'includes the index and stylesheet' do
       it 'includes the index' do
@@ -138,6 +137,11 @@ describe Everything::Blog::Source::Site do
         end
         it 'includes the correct media for the public posts' do
           expect(actual_media_files).to eq(expected_media_files)
+        end
+
+        context 'when there are files that are nil' do
+          # TODO: Test calling .compact. But I don't remember why it was
+          # necessary.
         end
       end
     end

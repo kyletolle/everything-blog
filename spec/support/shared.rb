@@ -4,7 +4,65 @@ shared_context 'stub out everything path' do
   end
 
   before do
-    allow(Everything).to receive(:path).and_return(fake_everything_path)
+    without_partial_double_verification do
+      allow(Fastenv)
+        .to receive(:everything_path)
+        .and_return(fake_everything_path)
+    end
+  end
+end
+
+shared_context 'stub out templates path' do
+  let(:fake_templates_path) do
+    '/fake/templates/path'
+  end
+
+  before do
+    without_partial_double_verification do
+      allow(Fastenv)
+        .to receive(:templates_path)
+        .and_return(fake_templates_path)
+    end
+
+  end
+end
+
+shared_context 'with fake templates' do
+  include_context 'stub out templates path'
+
+  let(:fake_index_template) do
+    Everything::Blog::Output::IndexTemplate.new('')
+  end
+  let(:fake_post_template) do
+    Everything::Blog::Output::PostTemplate.new('')
+  end
+  let(:fake_template_html) do
+    <<~HTML
+    <html lang="en">
+    <body>
+          <%= yield %>
+    </body>
+    </html>
+    HTML
+  end
+
+  before do
+    FakeFS.activate!
+
+    FileUtils.mkdir_p(fake_templates_path)
+
+    File.open(fake_index_template.template_path, 'w') do |f|
+      f.write(fake_template_html)
+    end
+    File.open(fake_post_template.template_path, 'w') do |f|
+      f.write(fake_template_html)
+    end
+  end
+
+  after do
+    FileUtils.rm_rf(fake_templates_path)
+
+    FakeFS.deactivate!
   end
 end
 
@@ -429,6 +487,8 @@ shared_context 'with fake stylesheet' do
   require 'fakefs/spec_helpers'
   include FakeFS::SpecHelpers
 
+  include_context 'stub out everything path'
+
   let(:given_stylesheet_content) do
     'p { font-size: 1em; }'
   end
@@ -476,6 +536,13 @@ shared_context 'with fake aws_storage_region env var' do
   end
 end
 
+shared_context 'with fake aws env vars' do
+  include_context 'with fake aws_access_key_id env var'
+  include_context 'with fake aws_secret_access_key env var'
+  include_context 'with fake aws_storage_bucket env var'
+  include_context 'with fake aws_storage_region env var'
+end
+
 shared_context 'with mock fog' do
   before do
     Fog.mock!
@@ -483,6 +550,7 @@ shared_context 'with mock fog' do
 end
 
 shared_context 'with mock bucket in s3' do
+  include_context 'with fake aws env vars'
   include_context 'with mock fog'
 
   let(:expected_bucket_name) do
@@ -605,6 +673,40 @@ shared_context 'with fake stylesheet file in s3' do
 
   after do
     mock_s3_bucket.files.each(&:destroy)
+  end
+end
+
+shared_context 'with fake logger' do
+  let(:fake_logger) do
+    Everything::Logger::Debug.new(fake_output, progname: described_class.to_s)
+  end
+
+  let(:fake_output) do
+    StringIO.new
+  end
+
+  before do
+    Everything.logger = fake_logger
+  end
+end
+
+shared_context 'with debug logger' do
+  let(:debug_logger) do
+    Everything::Blog.debug_logger
+  end
+
+  before do
+    Everything.logger = debug_logger
+  end
+end
+
+shared_context 'with error logger' do
+  let(:error_logger) do
+    Everything::Blog.error_logger
+  end
+
+  before do
+    Everything.logger = error_logger
   end
 end
 

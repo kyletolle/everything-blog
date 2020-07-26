@@ -26,6 +26,8 @@ module Everything
         end
       end
 
+      include Everything::Logger::LogIt
+
       attr_reader :output_files
 
       def initialize(output_files)
@@ -39,7 +41,15 @@ module Everything
       end
 
       def send_remote_files
-        remote_files.each(&:send)
+        info_it("Uploading blog output files to S3...")
+
+        remote_files
+          .tap do |o|
+            info_it("Uploading a total of `#{o.count}` output files")
+          end
+          .each(&:send)
+
+        info_it("Upload to S3 complete.")
       end
     end
   end

@@ -14,14 +14,43 @@ require_relative 'blog/s3_site'
 
 module Everything
   class Blog
-    def generate_site
-      puts
-      puts 'Blog: Generating entire site'
-      source_files
-        .tap{|o| puts "Blog: Number of source files: #{o.count}" }
-        .tap{|o| puts 'Blog: Source files'; puts o}
+    include Everything::Logger::LogIt
 
-      output = Output::Site.new(source_files)
+    LOGGER_INFO_STARTING = "Generation of blog starting..."
+    LOGGER_INFO_COMPLETE = "Generation of blog complete."
+
+    attr_reader :options
+
+    def self.debug_logger
+      Everything::Logger::Debug.new(
+        $stdout,
+        progname: self.to_s
+      )
+    end
+
+    def self.error_logger
+      Everything::Logger::Error.new(
+        $stdout,
+        progname: self.to_s
+      )
+    end
+
+    def self.verbose_logger
+      Everything::Logger::Verbose.new(
+        $stdout,
+        progname: self.to_s
+      )
+    end
+
+    def initialize(options = {})
+      @options = options
+
+      set_logger
+    end
+
+    def generate_site
+      info_it(LOGGER_INFO_STARTING)
+      output = Everything::Blog::Output::Site.new(source_files)
       output.generate
 
       Everything::Blog::S3Site.new(output.output_files).send_remote_files
@@ -29,17 +58,39 @@ module Everything
       # TODO: We may want to send the new media for a piece even though we
       # didn't regenerate the HTML. How would we handle that?
 
+      info_it(LOGGER_INFO_COMPLETE)
+
       self
     end
 
-    def source_files
-      @source_files ||= source_site.files.compact
+    def set_logger
+      if options['debug']
+        use_debug_logger
+      elsif options['verbose']
+        use_verbose_logger
+      else
+        use_error_logger
+      end
     end
 
-  private
+    def source_files
+      @source_files ||= source_site.files
+    end
 
     def source_site
-      @source_site ||= Source::Site.new
+      @source_site ||= Everything::Blog::Source::Site.new
+    end
+
+    def use_debug_logger
+      Everything.logger = self.class.debug_logger
+    end
+
+    def use_error_logger
+      Everything.logger = self.class.error_logger
+    end
+
+    def use_verbose_logger
+      Everything.logger = self.class.verbose_logger
     end
   end
 end

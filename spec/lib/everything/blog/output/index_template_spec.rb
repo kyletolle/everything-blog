@@ -1,9 +1,5 @@
-require 'pp' # Helps prevent an error like: 'superclass mismatch for class File'
-require 'bundler/setup'
-Bundler.require(:default)
-require './lib/everything/blog/output/index_template'
+require 'spec_helper'
 require 'fakefs/spec_helpers'
-require './spec/support/shared'
 
 describe Everything::Blog::Output::IndexTemplate do
   include FakeFS::SpecHelpers
@@ -18,6 +14,18 @@ describe Everything::Blog::Output::IndexTemplate do
   end
   let(:index_template) do
     described_class.new(given_content_html, given_template_context)
+  end
+
+  describe '#inspect' do
+    include_context 'stub out templates path'
+
+    let(:inspect_output_regex) do
+      /#<#{described_class}: template_path: `#{index_template.template_path}`, template_name: `#{index_template.template_name}`>/
+    end
+
+    it 'returns a shorthand format with class name and file name' do
+      expect(index_template.inspect).to match(inspect_output_regex)
+    end
   end
 
   describe '#merge_content_and_template' do

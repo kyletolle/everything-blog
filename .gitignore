@@ -2,3 +2,6 @@
 .bundle/
 output/**
 coverage
+tags*
+test.env
+*.vimsession

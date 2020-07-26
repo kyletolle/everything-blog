@@ -1,7 +1,4 @@
-require 'pp' # Helps prevent an error like: 'superclass mismatch for class File'
-require 'bundler/setup'
-Bundler.require(:default)
-require './lib/everything/blog/source/index'
+require 'spec_helper'
 
 describe Everything::Blog::Source::Index do
   let(:given_page_names_and_titles) do
@@ -59,36 +56,58 @@ describe Everything::Blog::Source::Index do
 
   # TODO: Should this actually be an empty string?
   describe '#relative_file_path' do
+    include_context 'stub out everything path'
+
     it 'is the index file in the root path, without a leading slash' do
       expect(index.relative_file_path).to eq('index.html')
     end
   end
 
   describe '#==' do
-    context 'when the other index has different page names and titles' do
-      let(:different_page_names_and_titles) do
-        {
-          'chunks-and-chops' => 'Chunks and Chops',
-          'wheeble-whobble'  => 'Wheeble Whobble'
-        }
-      end
-      let(:other_index) do
-        described_class.new(different_page_names_and_titles)
-      end
+    context 'when the other object does not respond to #content' do
+      let(:other_object) { nil }
 
       it 'is false' do
-        expect(index == other_index).to eq(false)
+        expect(index == other_object).to eq(false)
       end
     end
 
-    context 'when the other index has the same page names and titles' do
-      let(:other_index) do
-        described_class.new(given_page_names_and_titles)
+    context 'when the other object responds to #content' do
+      context 'when the other index has different page names and titles' do
+        let(:different_page_names_and_titles) do
+          {
+            'chunks-and-chops' => 'Chunks and Chops',
+            'wheeble-whobble'  => 'Wheeble Whobble'
+          }
+        end
+        let(:other_index) do
+          described_class.new(different_page_names_and_titles)
+        end
+
+        it 'is false' do
+          expect(index == other_index).to eq(false)
+        end
       end
 
-      it 'is true' do
-        expect(index == other_index).to eq(true)
+      context 'when the other index has the same page names and titles' do
+        let(:other_index) do
+          described_class.new(given_page_names_and_titles)
+        end
+
+        it 'is true' do
+          expect(index == other_index).to eq(true)
+        end
       end
+    end
+  end
+
+  describe '#inspect' do
+    let(:inspect_output_regex) do
+      /#<#{described_class}: path: `#{index.relative_dir_path}`, file_name: `#{index.file_name}`>/
+    end
+
+    it 'returns a shorthand format with class name and file name' do
+      expect(index.inspect).to match(inspect_output_regex)
     end
   end
 end

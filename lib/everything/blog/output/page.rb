@@ -6,6 +6,14 @@ module Everything
   class Blog
     module Output
       class Page < Everything::Blog::Output::WithTemplateBase
+        include Everything::Logger::LogIt
+
+        def initialize(source_file)
+          super
+
+          debug_it("Using output page: #{inspect}")
+        end
+
         def should_generate_output?
           # TODO: Also need to know if the template changed, because we also
           # want to generate in that case too.

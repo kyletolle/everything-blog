@@ -1,9 +1,4 @@
-require 'pp' # helps prevent an error like: 'superclass mismatch for class file'
-require 'bundler/setup'
-Bundler.require(:default)
-require './lib/everything/blog/remote/stylesheet_file'
-require './lib/everything/blog/output/stylesheet'
-require './spec/support/shared'
+require 'spec_helper'
 
 describe Everything::Blog::Remote::StylesheetFile do
   include_context 'with fake output stylesheet'
@@ -23,12 +18,16 @@ describe Everything::Blog::Remote::StylesheetFile do
   end
 
   describe '#initialize' do
+    include_context 'stub out everything path'
+
     it 'sets the output_file to the given output file' do
       expect(stylesheet_file.output_file).to eq(given_output_file)
     end
   end
 
   describe '#content' do
+    include_context 'stub out everything path'
+
     before do
       allow(given_output_file)
         .to receive(:output_content)
@@ -41,6 +40,8 @@ describe Everything::Blog::Remote::StylesheetFile do
   end
 
   describe '#content_hash' do
+    include_context 'with fake stylesheet'
+
     subject { stylesheet_file.content_hash }
 
     let(:md5_double) { instance_double(Digest::MD5) }
@@ -72,6 +73,8 @@ describe Everything::Blog::Remote::StylesheetFile do
   end
 
   describe '#content_type' do
+    include_context 'stub out everything path'
+
     it 'is equal to STYLESHEET_CONTENT_TYPE' do
       expect(stylesheet_file.content_type)
         .to eq(described_class::STYLESHEET_CONTENT_TYPE)
@@ -79,9 +82,14 @@ describe Everything::Blog::Remote::StylesheetFile do
   end
 
   describe '#local_file_is_different?' do
+    include_context 'stub out everything path'
+    include_context 'with fake stylesheet'
+
     subject { stylesheet_file.local_file_is_different? }
 
     context 'when the bucket does not exist' do
+      include_context 'with fake aws env vars'
+
       it 'returns true' do
         expect(subject).to eq(true)
       end
@@ -128,9 +136,14 @@ describe Everything::Blog::Remote::StylesheetFile do
   end
 
   describe '#send' do
+    include_context 'stub out everything path'
+    include_context 'with fake stylesheet'
+
     subject { stylesheet_file.send }
 
     context 'when the bucket does not exist' do
+      include_context 'with fake aws env vars'
+
       it 'returns nil' do
         expect(subject).to be_nil
       end
@@ -258,9 +271,13 @@ describe Everything::Blog::Remote::StylesheetFile do
   end
 
   describe '#remote_file' do
+    include_context 'stub out everything path'
+
     subject { stylesheet_file.remote_file }
 
     context 'when the bucket does not exist' do
+      include_context 'with fake aws env vars'
+
       it 'is nil' do
         expect(subject).to be_nil
       end
@@ -309,6 +326,8 @@ describe Everything::Blog::Remote::StylesheetFile do
   end
 
   describe '#remote_file_does_not_exist?' do
+    include_context 'stub out everything path'
+
     subject { stylesheet_file.remote_file_does_not_exist? }
 
     context 'when remote_file is nil' do
@@ -339,6 +358,8 @@ describe Everything::Blog::Remote::StylesheetFile do
   end
 
   describe '#remote_key' do
+    include_context 'stub out everything path'
+
     subject { stylesheet_file.remote_key }
 
     before do

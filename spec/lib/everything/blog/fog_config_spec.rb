@@ -1,9 +1,4 @@
-require 'pp' # Helps prevent an error like: 'superclass mismatch for class File'
-require 'bundler/setup'
-Bundler.require(:default)
 require 'spec_helper'
-require './lib/everything/blog/fog_config'
-require './spec/support/shared'
 
 describe Everything::Blog::FogConfig do
   let(:fog_config) do

@@ -1,13 +1,10 @@
-require 'pp' # helps prevent an error like: 'superclass mismatch for class file'
-require 'bundler/setup'
-Bundler.require(:default)
-require './lib/everything/blog/output/page'
+require 'spec_helper'
 require 'fakefs/spec_helpers'
-require './spec/support/shared'
 
 describe Everything::Blog::Output::Page do
   include FakeFS::SpecHelpers
 
+  include_context 'stub out everything path'
   include_context 'with fakefs'
   include_context 'create blog path'
   include_context 'stub out blog output path'
@@ -30,9 +27,19 @@ describe Everything::Blog::Output::Page do
     described_class.new(given_source_page)
   end
 
+  describe '#inspect' do
+    let(:inspect_output_regex) do
+      /#<#{described_class}: path: `#{page.relative_dir_path}`, output_file_name: `#{page.output_file_name}`>/
+    end
+
+    it 'returns a shorthand format with class name and file name' do
+      expect(page.inspect).to match(inspect_output_regex)
+    end
+  end
+
   describe '#should_generate_output?' do
     # Assuming the post template exists.
-    include_context 'with a post template'
+    include_context 'with fake templates'
 
     context 'when page has never been saved before' do
       it 'is true' do
@@ -148,6 +155,8 @@ describe Everything::Blog::Output::Page do
   end
 
   describe '#save_file' do
+    include_context 'stub out templates path'
+
     context 'when a post template does not exist' do
       let(:action) do
         page.save_file
@@ -157,6 +166,8 @@ describe Everything::Blog::Output::Page do
     end
 
     context 'when a post template exists' do
+      include_context 'with fake templates'
+
       let(:expected_file_data_regex) do
         /\<html.*\>/
       end

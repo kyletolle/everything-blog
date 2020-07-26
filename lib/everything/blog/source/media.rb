@@ -5,10 +5,14 @@ module Everything
   class Blog
     module Source
       class Media < FileBase
+        include Everything::Logger::LogIt
+
         attr_reader :source_file_path
 
         def initialize(source_file_path)
           @source_file_path = source_file_path
+
+          debug_it("Using source media: #{inspect}")
         end
 
         def content
@@ -20,6 +24,8 @@ module Everything
         end
 
         def ==(other)
+          return false unless other.respond_to?(:source_file_path)
+
           self.source_file_path == other.source_file_path
         end
 

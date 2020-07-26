@@ -9,17 +9,28 @@ module Everything
   class Blog
     module Source
       class Site
-        def initialize
-          # TODO: We could update this to only include the index and stylesheet if
-          # those pages have changed and need to be regenerated?
-          @files = [ blog_index, stylesheet ]
-          @files += pages
-          @files += media_for_posts
+        include Everything::Logger::LogIt
+
+        def files
+          info_it("Reading blog source files from `#{Everything.path}`")
+          # TODO: Also test memoization, and running compact
+          # TODO: Want to only include the index and stylesheet if those pages
+          # have changed and need to be regenerated?
+          @files ||=
+            [ blog_index, stylesheet ]
+            .concat(pages)
+            .concat(media_for_posts)
+            .tap do |o|
+              info_it("Processing a total of `#{o.count}` source files")
+            end
+            # .compact
         end
 
-        attr_reader :files
-
       private
+
+      def class_name
+        self.class.to_s
+      end
 
         def blog_index
           Everything::Blog::Source::Index.new(public_post_names_and_titles)
@@ -56,3 +67,4 @@ module Everything
     end
   end
 end
+

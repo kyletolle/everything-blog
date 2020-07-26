@@ -1,4 +1,5 @@
 # Everything::Blog
+[![Build Status](https://travis-ci.org/kyletolle/everything-blog.svg?branch=master)](https://travis-ci.org/kyletolle/everything-blog)
 
 Generate an HTML site for a blog of markdown pieces in your `everything` repo.
 
@@ -35,6 +36,43 @@ If you move time zones but want to keep generating dates the same way, you can o
 
 ```
 TZ='US/Mountain' bin/eb generate
+```
+
+If you want to use a different env file, you can do so like:
+```
+bundle exec dotenv -f "test.env" bin/eb generate
+```
+
+## Options
+
+Here are the options you can use when running the program.
+
+### Error Logging Mode
+
+By default, the program won't emit any messages other than errors as it runs.
+
+### Verbose Logging Mode
+
+The program will emit some info messages as it runs. Gives
+
+```
+bin/eb generate --verbose
+```
+or
+```
+bin/eb generate -v
+```
+
+### Debug Logging Mode
+
+The program will emit the most detailed types of messages as it runs.
+
+```
+bin/eb generate --debug
+```
+or
+```
+bin/eb generate -d
 ```
 
 ## Viewing
