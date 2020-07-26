@@ -17,6 +17,8 @@ describe Everything::Blog::Output::PostTemplate do
   end
 
   describe '#inspect' do
+    include_context 'stub out templates path'
+
     let(:inspect_output_regex) do
       /#<#{described_class}: template_path: `#{post_template.template_path}`, template_name: `#{post_template.template_name}`>/
     end
@@ -25,7 +27,7 @@ describe Everything::Blog::Output::PostTemplate do
       expect(post_template.inspect).to match(inspect_output_regex)
     end
   end
-  
+
   describe '#merge_content_and_template' do
     let(:given_content_html) do
       "<p>Hi.</p>"

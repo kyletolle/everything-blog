@@ -17,6 +17,8 @@ describe Everything::Blog::Output::IndexTemplate do
   end
 
   describe '#inspect' do
+    include_context 'stub out templates path'
+
     let(:inspect_output_regex) do
       /#<#{described_class}: template_path: `#{index_template.template_path}`, template_name: `#{index_template.template_name}`>/
     end
