@@ -43,7 +43,6 @@ describe Everything::Blog::Remote::HtmlFile do
 
   describe '#content_hash' do
     include_context 'stub out everything path'
-
     include_context 'with fake templates'
 
     subject { html_file.content_hash }
