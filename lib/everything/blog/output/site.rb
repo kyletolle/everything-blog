@@ -14,13 +14,13 @@ module Everything
           info_it("Creating blog output files...")
 
           output_files
-             .tap do |o|
+            .tap do |o|
               info_it("Processing a total of `#{o.count}` output files")
             end
             .select(&:should_generate_output?)
-             .tap do |o|
-                info_it("Generating and saving a total of `#{o.count}` output files")
-              end
+            .tap do |o|
+              info_it("Generating and saving a total of `#{o.count}` output files")
+            end
             .map(&:save_file)
 
           info_it("Creation of  blog output files complete.")
