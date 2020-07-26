@@ -24,6 +24,10 @@ module Everything
           raise NotImplementedError
         end
 
+        def inspect
+          "#<#{self.class}: remote_key: `#{remote_key}`>"
+        end
+
         def local_file_is_different?
           remote_file&.etag != content_hash
         end
