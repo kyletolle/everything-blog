@@ -6,18 +6,37 @@ module Everything
       class Index < Everything::Blog::Source::FileBase
         include Everything::Logger::LogIt
 
+        DIR = ''
+        FILE_NAME = 'index.html'
+
         def initialize(page_names_and_titles)
           @page_names_and_titles = page_names_and_titles
 
           debug_it("Using source index: #{inspect}")
         end
 
+        def absolute_dir
+          Everything.path
+        end
+
+        def absolute_path
+          File.join(absolute_dir, file_name)
+        end
+
         def content
           page_links_markdown
         end
 
+        def dir
+          DIR
+        end
+
         def file_name
-          'index.html'
+          FILE_NAME
+        end
+
+        def path
+          file_name
         end
 
         def ==(other)

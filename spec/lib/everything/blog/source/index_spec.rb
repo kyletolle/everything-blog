@@ -11,6 +11,28 @@ describe Everything::Blog::Source::Index do
     described_class.new(given_page_names_and_titles)
   end
 
+  describe '#absolute_dir' do
+    include_context 'stub out everything path'
+
+    let(:expected_absolute_dir) do
+      '/fake/everything/path'
+    end
+    it 'is the absolute dir for the index' do
+      expect(index.absolute_dir).to eq(expected_absolute_dir)
+    end
+  end
+
+  describe '#absolute_path' do
+    include_context 'stub out everything path'
+
+    let(:expected_absolute_path) do
+      '/fake/everything/path/index.html'
+    end
+    it 'is the absolute dir for the index' do
+      expect(index.absolute_path).to eq(expected_absolute_path)
+    end
+  end
+
   describe '#content' do
     let(:actual_content) do
       index.content
@@ -38,9 +60,26 @@ describe Everything::Blog::Source::Index do
     end
   end
 
+  describe '#dir' do
+    let(:expected_dir) { described_class::DIR }
+    it 'is the default index dir' do
+      expect(index.dir).to eq(expected_dir)
+    end
+  end
+
   describe '#file_name' do
     it 'is index.html' do
-      expect(index.file_name).to eq('index.html')
+      expect(index.file_name).to eq(described_class::FILE_NAME)
+    end
+  end
+
+  describe '#path' do
+    let(:expected_path) do
+      'index.html'
+    end
+    # TODO: I don't remember why the leading slash was a problem?
+    it 'is the index file in the root path, without a leading slash' do
+      expect(index.path).to eq(expected_path)
     end
   end
 
@@ -50,7 +89,7 @@ describe Everything::Blog::Source::Index do
   # TODO: Should this actually be an empty string?
   describe '#relative_dir_path' do
     it 'is the root path, without a leading slash' do
-      expect(index.relative_dir_path).to eq('')
+      expect(index.relative_dir_path).to eq(described_class::DIR)
     end
   end
 
@@ -59,7 +98,7 @@ describe Everything::Blog::Source::Index do
     include_context 'stub out everything path'
 
     it 'is the index file in the root path, without a leading slash' do
-      expect(index.relative_file_path).to eq('index.html')
+      expect(index.relative_file_path).to eq(described_class::FILE_NAME)
     end
   end
 
