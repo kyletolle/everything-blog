@@ -6,16 +6,35 @@ module Everything
       class Stylesheet < Everything::Blog::Source::FileBase
         include Everything::Logger::LogIt
 
+        DIR = 'css'
+        FILE_NAME = 'style.css'
+
         def initialize
           debug_it("Using source stylesheet: #{inspect}")
+        end
+
+        def absolute_dir
+          File.join(Everything.path, dir)
+        end
+
+        def absolute_path
+          File.join(absolute_dir, file_name)
         end
 
         def content
           @content ||= File.read(source_file_path)
         end
 
+        def dir
+          DIR
+        end
+
         def file_name
-          'style.css'
+          FILE_NAME
+        end
+
+        def path
+          File.join(dir, file_name)
         end
 
         # TODO: Make it check the absolute path
@@ -33,16 +52,16 @@ module Everything
 
         #TODO: I could see this using the follwing instead:
         #TODO: And this would apply to other source file types too.
-        # def dirname
+        # def dir
         #   'css'
         # end
 
-        # def basename
+        # def file_name
         #   'style.css'
         # end
 
         # def path
-        #   File.join(dirname, basename)
+        #   File.join(dir_name, base_name)
         # end
 
         # def pathname
