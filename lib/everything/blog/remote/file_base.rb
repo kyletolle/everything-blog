@@ -34,15 +34,13 @@ module Everything
 
         def send
           if remote_file_does_not_exist?
-            # puts "CREATING REMOTE FILE IS DISABLED"
-            # puts "CREATING REMOTE FILE"
+            debug_it("Creating remote file for #{inspect}")
             create_remote_file
           elsif local_file_is_different?
-            # puts "UPDATING REMOTE FILE IS DISABLED"
-            # puts "UPDATING REMOTE FILE"
+            debug_it("Updating remote file for #{inspect}")
             update_remote_file
           else
-            # puts "DOING NOTHING WITH REMOTE FILE"
+            debug_it("Doing nothing with remote file for #{inspect}")
           end
         end
 
