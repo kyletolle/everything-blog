@@ -20,12 +20,16 @@ describe Everything::Blog::Remote::HtmlFile do
   end
 
   describe '#initialize' do
+    include_context 'stub out everything path'
+
     it 'sets the output_file to the given output file' do
       expect(html_file.output_file).to eq(given_output_file)
     end
   end
 
   describe '#content' do
+    include_context 'stub out everything path'
+
     before do
       allow(given_output_file)
         .to receive(:output_content)
@@ -38,6 +42,8 @@ describe Everything::Blog::Remote::HtmlFile do
   end
 
   describe '#content_hash' do
+    include_context 'stub out everything path'
+
     include_context 'with fake templates'
 
     subject { html_file.content_hash }
@@ -71,6 +77,8 @@ describe Everything::Blog::Remote::HtmlFile do
   end
 
   describe '#content_type' do
+    include_context 'stub out everything path'
+
     it 'is equal to HTML_CONTENT_TYPE' do
       expect(html_file.content_type).to eq(described_class::HTML_CONTENT_TYPE)
     end
@@ -265,6 +273,7 @@ describe Everything::Blog::Remote::HtmlFile do
 
   describe '#remote_file' do
     include_context 'stub out everything path'
+    include_context 'with fake aws env vars'
 
     subject { html_file.remote_file }
 
@@ -320,6 +329,8 @@ describe Everything::Blog::Remote::HtmlFile do
   end
 
   describe '#remote_file_does_not_exist?' do
+    include_context 'stub out everything path'
+
     subject { html_file.remote_file_does_not_exist? }
 
     context 'when remote_file is nil' do
