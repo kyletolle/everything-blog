@@ -13,9 +13,36 @@ describe Everything::Blog::Source::Media do
     described_class.new(given_source_file_path)
   end
 
+  describe '#absolute_dir' do
+    let(:expected_absolute_dir) do
+      '/fake/everything/path/blog/not-a-real-post'
+    end
+    it 'is the absolute dir for the media' do
+      expect(media.absolute_dir).to eq(expected_absolute_dir)
+    end
+  end
+
+  describe '#absolute_path' do
+    let(:expected_absolute_path) do
+      '/fake/everything/path/blog/not-a-real-post/image.png'
+    end
+    it 'is the absolute path for the media' do
+      expect(media.absolute_path).to eq(expected_absolute_path)
+    end
+  end
+
   describe '#content' do
     it "is the given file's binary data" do
       expect(media.content).to eq(test_png_data)
+    end
+  end
+
+  describe '#dir' do
+    let(:expected_dir) do
+      'not-a-real-post'
+    end
+    it 'is the dir of the media' do
+      expect(media.dir).to eq(expected_dir)
     end
   end
 

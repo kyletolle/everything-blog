@@ -15,8 +15,25 @@ module Everything
           debug_it("Using source media: #{inspect}")
         end
 
+        def absolute_dir
+          File.dirname(source_file_path)
+        end
+
+        def absolute_path
+          source_file_path
+        end
+
         def content
           File.binread(source_file_path)
+        end
+
+        def dir
+          media_absolute_pathname = Pathname.new(
+            absolute_dir
+          )
+          media_absolute_pathname
+            .relative_path_from(Everything::Blog::Source.absolute_pathname)
+            .to_path
         end
 
         def file_name
