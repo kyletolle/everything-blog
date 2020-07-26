@@ -45,7 +45,15 @@ bundle exec dotenv -f "test.env" bin/eb generate
 
 ## Options
 
-### Verbose Mode
+Here are the options you can use when running the program.
+
+### Error Logging Mode
+
+By default, the program won't emit any messages other than errors as it runs.
+
+### Verbose Logging Mode
+
+The program will emit some info messages as it runs. Gives
 
 ```
 bin/eb generate --verbose
@@ -53,6 +61,18 @@ bin/eb generate --verbose
 or
 ```
 bin/eb generate -v
+```
+
+### Debug Logging Mode
+
+The program will emit the most detailed types of messages as it runs.
+
+```
+bin/eb generate --debug
+```
+or
+```
+bin/eb generate -d
 ```
 
 ## Viewing
