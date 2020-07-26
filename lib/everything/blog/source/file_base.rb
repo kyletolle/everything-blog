@@ -14,6 +14,10 @@ module Everything
         # base_source_dir_path and stuff.
         def relative_dir_path
           # We can use an approach like the one here: http://stackoverflow.com/questions/11471261/ruby-how-to-calculate-a-path-relative-to-another-one
+          # > Pathname.new('/fake/everything/path/css/style.css').relative_path_from(Pathname.new('/fake/everything/path'))
+          # => #<Pathname:css/style.css>
+          # > Pathname.new('/fake/everything/path/css/style.css').relative_path_from(Pathname.new('/fake/everything/path')).to_path
+          # => "css/style.css"
           @relative_dir_path ||= File.dirname(relative_file_path)
         end
 

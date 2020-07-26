@@ -22,7 +22,7 @@ describe Everything::Blog::Source::Stylesheet do
     let(:expected_absolute_path) do
       '/fake/everything/path/css/style.css'
     end
-    it 'is the absolute dir for the stylesheet' do
+    it 'is the absolute path for the stylesheet' do
       expect(stylesheet.absolute_path).to eq(expected_absolute_path)
     end
   end

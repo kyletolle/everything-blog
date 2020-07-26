@@ -16,8 +16,24 @@ module Everything
           debug_it("Using source page: #{inspect}")
         end
 
+        def absolute_dir
+          post.piece.full_path
+        end
+
+        def absolute_path
+          post.piece.content.file_path
+        end
+
         def content
           post.body
+        end
+
+        def dir
+          # Using an approach from https://stackoverflow.com/a/11471495/249218
+          post_absolute_pathname = Pathname.new(post.piece.full_path)
+          post_absolute_pathname
+            .relative_path_from(Everything::Blog::Source.absolute_pathname)
+            .to_path
         end
 
         def file_name

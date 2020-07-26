@@ -7,6 +7,7 @@ describe Everything::Blog::Source::Page do
   include PostHelpers
 
   include_context 'with fake piece'
+
   let(:given_piece_path) do
     # We want to create our fake posts in the blog directory.
     File.join(Everything::Blog::Source.absolute_path, given_post_name)
@@ -23,9 +24,36 @@ describe Everything::Blog::Source::Page do
     'index.md'
   end
 
+  describe '#absolute_dir' do
+    let(:expected_absolute_dir) do
+      '/fake/everything/path/blog/grond-crawled-on'
+    end
+    it 'is the absolute dir for the page' do
+      expect(page.absolute_dir).to eq(expected_absolute_dir)
+    end
+  end
+
+  describe '#absolute_path' do
+    let(:expected_absolute_path) do
+      '/fake/everything/path/blog/grond-crawled-on/index.md'
+    end
+    it 'is the absolute path for the page' do
+      expect(page.absolute_path).to eq(expected_absolute_path)
+    end
+  end
+
   describe '#content' do
     it "is the given post's content" do
       expect(page.content).to eq(fake_piece_body)
+    end
+  end
+
+  describe '#dir' do
+    let(:expected_dir) do
+      fake_post_name # 'grond-crawled-on'
+    end
+    it 'is the dir of the post' do
+      expect(page.dir).to eq(expected_dir)
     end
   end
 

@@ -28,7 +28,7 @@ describe Everything::Blog::Source::Index do
     let(:expected_absolute_path) do
       '/fake/everything/path/index.html'
     end
-    it 'is the absolute dir for the index' do
+    it 'is the absolute path for the index' do
       expect(index.absolute_path).to eq(expected_absolute_path)
     end
   end
