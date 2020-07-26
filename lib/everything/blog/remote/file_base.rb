@@ -50,12 +50,10 @@ module Everything
 
         def remote_file
           @remote_file ||= s3_bucket&.files&.head(remote_key)
-            .tap{|rf| next; puts "Remote File: "; pp rf}
         end
 
         def remote_key
           @remote_key ||= output_file.relative_file_path
-            .tap {|o| next; puts "OUTPUT RELATIVE FILE PATH: #{o}"}
         end
 
       private
