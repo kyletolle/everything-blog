@@ -8,11 +8,11 @@ module Everything
 
         def initialize(source_files)
           @source_files = source_files
-
         end
 
         def generate
           info_it("Creating blog output files...")
+
           output_files
              .tap do |o|
               info_it("Processing a total of `#{o.count}` output files")
@@ -22,6 +22,8 @@ module Everything
                 info_it("Generating and saving a total of `#{o.count}` output files")
               end
             .map(&:save_file)
+
+          info_it("Creation of  blog output files complete.")
         end
 
         def output_files
