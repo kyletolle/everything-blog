@@ -49,6 +49,8 @@ describe Everything::Blog::Source::Stylesheet do
   end
 
   describe '#dir' do
+    include_context 'stub out everything path'
+
     let(:expected_dir) { described_class::DIR }
     it 'is the default stylesheet dir' do
       expect(stylesheet.dir).to eq(expected_dir)
@@ -56,6 +58,8 @@ describe Everything::Blog::Source::Stylesheet do
   end
 
   describe '#path' do
+    include_context 'stub out everything path'
+
     let(:expected_path) do
       'css/style.css'
     end
