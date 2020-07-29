@@ -43,8 +43,11 @@ describe Everything::Blog::Output::Stylesheet do
   end
 
   describe '#output_file_name' do
+    let(:css_stylesheet_file_pathname) do
+      Pathname.new('style.css')
+    end
     it 'is a style css file' do
-      expect(stylesheet.output_file_name).to eq('style.css')
+      expect(stylesheet.output_file_name).to eq(css_stylesheet_file_pathname)
     end
   end
 
