@@ -22,7 +22,7 @@ module Everything
         end
 
         def content
-          @content ||= File.read(source_file_path)
+          @content ||= source_file_path.read
         end
 
         def dir
