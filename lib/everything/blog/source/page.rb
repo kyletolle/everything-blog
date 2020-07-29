@@ -5,7 +5,7 @@ require_relative '../source'
 module Everything
   class Blog
     module Source
-      class Page < FileBase
+      class Page < Everything::Blog::Source::FileBase
         include Everything::Logger::LogIt
 
         attr_reader :post
