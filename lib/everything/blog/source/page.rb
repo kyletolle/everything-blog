@@ -53,11 +53,12 @@ module Everything
 
       private
 
+        # TODO: Want to remove this.
         def base_source_dir_path
           Everything::Blog::Source.absolute_path
         end
 
-        # TODO: Deprecate this?
+        # TODO: Deprecate this? Want to remove this.
         def source_file_path
           post.piece.content.absolute_path
         end
@@ -65,3 +66,4 @@ module Everything
     end
   end
 end
+

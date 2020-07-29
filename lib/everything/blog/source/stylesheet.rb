@@ -58,33 +58,8 @@ module Everything
         def source_file_path
           Everything.path.join(DIR, file_name)
         end
-
-        #TODO: I could see this using the follwing instead:
-        #TODO: And this would apply to other source file types too.
-        # def dir
-        #   'css'
-        # end
-
-        # def file_name
-        #   'style.css'
-        # end
-
-        # def path
-        #   File.join(dir_name, base_name)
-        # end
-
-        # def pathname
-        #   Pathname.join(path)
-        # end
-
-        # def absolute_path
-        #   File.join(Everything.path, path)
-        # end
-
-        # def absolute_pathname
-        #   Everything.pathname.join(pathname)
-        # end
       end
     end
   end
 end
+
