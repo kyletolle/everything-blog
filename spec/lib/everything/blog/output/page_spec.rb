@@ -58,7 +58,7 @@ describe Everything::Blog::Output::Page do
 
         context 'when source metadata has been modified since the page was saved' do
           before do
-            FileUtils.touch(given_post.piece.metadata.file_path)
+            FileUtils.touch(given_post.piece.metadata.absolute_path)
           end
 
           it 'is true' do
@@ -69,7 +69,7 @@ describe Everything::Blog::Output::Page do
 
       context 'when the source markdown has been modified since the page was saved' do
         before do
-          FileUtils.touch(given_post.piece.content.file_path)
+          FileUtils.touch(given_post.piece.content.absolute_path)
         end
 
         it 'is true' do

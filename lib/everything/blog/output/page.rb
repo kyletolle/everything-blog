@@ -51,13 +51,13 @@ module Everything
 
         def content_mtime
           @content_mtime ||= File.mtime(
-            source_file.post.piece.content.file_path
+            source_file.post.piece.content.absolute_path
           )
         end
 
         def metadata_mtime
           @metadata_mtime ||= File.mtime(
-            source_file.post.piece.metadata.file_path
+            source_file.post.piece.metadata.absolute_path
           )
         end
       end
