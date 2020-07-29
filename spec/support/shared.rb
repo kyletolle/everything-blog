@@ -137,9 +137,6 @@ shared_context 'stub out blog output path' do
   let(:fake_blog_output_path) do
     '/fake/blog/output'
   end
-  let(:expected_absolute_path) do
-    fake_blog_output_path
-  end
 
   before do
     without_partial_double_verification do
