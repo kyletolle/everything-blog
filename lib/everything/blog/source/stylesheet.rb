@@ -14,13 +14,11 @@ module Everything
         end
 
         def absolute_dir
-          # TODO: Make this a Pathname like I did in everything-core
-          File.join(Everything.path, dir)
+          Everything.path.join(dir)
         end
 
         def absolute_path
-          # TODO: Make this a Pathname like I did in everything-core
-          File.join(absolute_dir, file_name)
+          absolute_dir.join(file_name)
         end
 
         def content
@@ -28,17 +26,15 @@ module Everything
         end
 
         def dir
-          # TODO: Make this a Pathname like I did in everything-core
-          DIR
+          Pathname.new(DIR)
         end
 
         def file_name
-          FILE_NAME
+          Pathname.new(FILE_NAME)
         end
 
         def path
-          # TODO: Make this a Pathname like I did in everything-core
-          File.join(dir, file_name)
+          dir.join(file_name)
         end
 
         # TODO: Want to get rid of this...
@@ -58,6 +54,7 @@ module Everything
 
       private
 
+        # TODO: Want to get rid of this...
         def source_file_path
           Everything.path.join(DIR, file_name)
         end

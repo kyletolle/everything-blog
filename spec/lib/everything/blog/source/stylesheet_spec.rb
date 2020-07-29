@@ -9,8 +9,9 @@ describe Everything::Blog::Source::Stylesheet do
     include_context 'stub out everything path'
 
     let(:expected_absolute_dir) do
-      '/fake/everything/path/css'
+      Pathname.new('/fake/everything/path/css')
     end
+
     it 'is the absolute dir for the stylesheet' do
       expect(stylesheet.absolute_dir).to eq(expected_absolute_dir)
     end
@@ -20,8 +21,9 @@ describe Everything::Blog::Source::Stylesheet do
     include_context 'stub out everything path'
 
     let(:expected_absolute_path) do
-      '/fake/everything/path/css/style.css'
+      Pathname.new('/fake/everything/path/css/style.css')
     end
+
     it 'is the absolute path for the stylesheet' do
       expect(stylesheet.absolute_path).to eq(expected_absolute_path)
     end
@@ -42,7 +44,10 @@ describe Everything::Blog::Source::Stylesheet do
   describe '#file_name' do
     include_context 'stub out everything path'
 
-    let(:expected_file_name) { described_class::FILE_NAME }
+    let(:expected_file_name) do
+      Pathname.new(described_class::FILE_NAME)
+    end
+
     it 'is the default stylesheet name' do
       expect(stylesheet.file_name).to eq(expected_file_name)
     end
@@ -51,7 +56,10 @@ describe Everything::Blog::Source::Stylesheet do
   describe '#dir' do
     include_context 'stub out everything path'
 
-    let(:expected_dir) { described_class::DIR }
+    let(:expected_dir) do
+      Pathname.new(described_class::DIR)
+    end
+
     it 'is the default stylesheet dir' do
       expect(stylesheet.dir).to eq(expected_dir)
     end
@@ -61,8 +69,9 @@ describe Everything::Blog::Source::Stylesheet do
     include_context 'stub out everything path'
 
     let(:expected_path) do
-      'css/style.css'
+      Pathname.new('css/style.css')
     end
+
     it 'is the joining of the relative dir and file name' do
       expect(stylesheet.path).to eq(expected_path)
     end
