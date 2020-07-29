@@ -48,7 +48,7 @@ describe Everything::Blog::Output::PostTemplate do
     end
 
     context 'when templates_path is set' do
-      include_context 'when templates_path is set'
+      include_context 'stub out templates path'
 
       context 'when a post template does not exist' do
         let(:action) do

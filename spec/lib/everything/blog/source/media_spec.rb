@@ -15,7 +15,7 @@ describe Everything::Blog::Source::Media do
 
   describe '#absolute_dir' do
     let(:expected_absolute_dir) do
-      '/fake/everything/path/blog/not-a-real-post'
+      Pathname.new('/fake/everything/path/blog/not-a-real-post')
     end
     it 'is the absolute dir for the media' do
       expect(media.absolute_dir).to eq(expected_absolute_dir)
@@ -24,7 +24,7 @@ describe Everything::Blog::Source::Media do
 
   describe '#absolute_path' do
     let(:expected_absolute_path) do
-      '/fake/everything/path/blog/not-a-real-post/image.png'
+      Pathname.new('/fake/everything/path/blog/not-a-real-post/image.png')
     end
     it 'is the absolute path for the media' do
       expect(media.absolute_path).to eq(expected_absolute_path)

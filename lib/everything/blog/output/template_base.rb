@@ -1,4 +1,5 @@
 require 'erb'
+require 'pathname'
 require 'tilt'
 
 module Everything
@@ -23,11 +24,11 @@ module Everything
         end
 
         def template_path
-          ::File.join(templates_path, template_name)
+          templates_path.join(template_name)
         end
 
         def templates_path
-          Fastenv.templates_path
+          Pathname.new(Fastenv.templates_path)
         end
       end
     end

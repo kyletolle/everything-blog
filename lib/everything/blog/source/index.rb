@@ -20,7 +20,7 @@ module Everything
         end
 
         def absolute_path
-          File.join(absolute_dir, file_name)
+          absolute_dir.join(file_name)
         end
 
         def content
@@ -36,7 +36,15 @@ module Everything
         end
 
         def path
-          file_name
+          Pathname.new(file_name)
+        end
+
+        # TODO: Want to get rid of this...
+        def relative_file_path
+          @relative_file_path ||= source_file_path.to_s
+            .sub(Everything.path.to_s, '')
+            .to_s
+            .delete_prefix('/')
         end
 
         def ==(other)

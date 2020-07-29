@@ -48,7 +48,7 @@ describe Everything::Blog::Output::IndexTemplate do
     end
 
     context 'when templates_path is set' do
-      include_context 'when templates_path is set'
+      include_context 'stub out templates path'
 
       context 'when an index template does not exist' do
         let(:action) do

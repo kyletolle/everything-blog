@@ -1,23 +1,23 @@
-require './lib/everything/add_pathname_to_everything_refinement'
-
 module Everything
   class Blog
     module Source
-      using Everything::AddPathnameToEverythingRefinement
-
       class << self
+        PATH = 'blog'
+
         def absolute_path
           absolute_pathname.to_s
         end
 
+        # TODO: Just make absolute_path a Pathname.
         def absolute_pathname
-          Everything.pathname.join(pathname)
+          Everything.path.join(path)
         end
 
         def path
-          'blog'
+          PATH
         end
 
+        # TODO: Just make path a Pathname.
         def pathname
           Pathname.new(path)
         end
@@ -25,3 +25,4 @@ module Everything
     end
   end
 end
+

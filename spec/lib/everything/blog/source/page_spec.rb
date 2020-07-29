@@ -26,7 +26,7 @@ describe Everything::Blog::Source::Page do
 
   describe '#absolute_dir' do
     let(:expected_absolute_dir) do
-      '/fake/everything/path/blog/grond-crawled-on'
+      Pathname.new('/fake/everything/path/blog/grond-crawled-on')
     end
     it 'is the absolute dir for the page' do
       expect(page.absolute_dir).to eq(expected_absolute_dir)
@@ -35,7 +35,7 @@ describe Everything::Blog::Source::Page do
 
   describe '#absolute_path' do
     let(:expected_absolute_path) do
-      '/fake/everything/path/blog/grond-crawled-on/index.md'
+      Pathname.new('/fake/everything/path/blog/grond-crawled-on/index.md')
     end
     it 'is the absolute path for the page' do
       expect(page.absolute_path).to eq(expected_absolute_path)
@@ -50,7 +50,7 @@ describe Everything::Blog::Source::Page do
 
   describe '#dir' do
     let(:expected_dir) do
-      fake_post_name # 'grond-crawled-on'
+      Pathname.new(fake_post_name) # 'grond-crawled-on'
     end
     it 'is the dir of the post' do
       expect(page.dir).to eq(expected_dir)

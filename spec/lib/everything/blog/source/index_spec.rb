@@ -15,7 +15,7 @@ describe Everything::Blog::Source::Index do
     include_context 'stub out everything path'
 
     let(:expected_absolute_dir) do
-      '/fake/everything/path'
+      Pathname.new('/fake/everything/path')
     end
     it 'is the absolute dir for the index' do
       expect(index.absolute_dir).to eq(expected_absolute_dir)
@@ -26,7 +26,7 @@ describe Everything::Blog::Source::Index do
     include_context 'stub out everything path'
 
     let(:expected_absolute_path) do
-      '/fake/everything/path/index.html'
+      Pathname.new('/fake/everything/path/index.html')
     end
     it 'is the absolute path for the index' do
       expect(index.absolute_path).to eq(expected_absolute_path)
@@ -75,7 +75,7 @@ describe Everything::Blog::Source::Index do
 
   describe '#path' do
     let(:expected_path) do
-      'index.html'
+      Pathname.new('index.html')
     end
     # TODO: I don't remember why the leading slash was a problem?
     it 'is the index file in the root path, without a leading slash' do

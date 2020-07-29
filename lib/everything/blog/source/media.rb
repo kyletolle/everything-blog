@@ -16,11 +16,12 @@ module Everything
         end
 
         def absolute_dir
-          File.dirname(source_file_path)
+          # TODO: Make this a Pathname like I did in everything-core
+          Pathname.new(File.dirname(source_file_path))
         end
 
         def absolute_path
-          source_file_path
+          Pathname.new(source_file_path)
         end
 
         def content

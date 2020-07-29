@@ -14,10 +14,12 @@ module Everything
         end
 
         def absolute_dir
+          # TODO: Make this a Pathname like I did in everything-core
           File.join(Everything.path, dir)
         end
 
         def absolute_path
+          # TODO: Make this a Pathname like I did in everything-core
           File.join(absolute_dir, file_name)
         end
 
@@ -26,6 +28,7 @@ module Everything
         end
 
         def dir
+          # TODO: Make this a Pathname like I did in everything-core
           DIR
         end
 
@@ -34,7 +37,16 @@ module Everything
         end
 
         def path
+          # TODO: Make this a Pathname like I did in everything-core
           File.join(dir, file_name)
+        end
+
+        # TODO: Want to get rid of this...
+        def relative_file_path
+          @relative_file_path ||= source_file_path.to_s
+            .sub(Everything.path.to_s, '')
+            .to_s
+            .delete_prefix('/')
         end
 
         # TODO: Make it check the absolute path
@@ -47,7 +59,7 @@ module Everything
       private
 
         def source_file_path
-          File.join('css', file_name)
+          Everything.path.join(DIR, file_name)
         end
 
         #TODO: I could see this using the follwing instead:

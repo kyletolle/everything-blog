@@ -122,14 +122,14 @@ describe Everything::Blog::Source::Site do
         end
         let(:three_media_files) do
           [
-            Everything::Blog::Source::Media.new(File.join(Everything::Blog::Source.absolute_path, 'three-title', 'lala.jpg')),
-            Everything::Blog::Source::Media.new(File.join(Everything::Blog::Source.absolute_path, 'three-title', 'lala.mp3'))
+            Everything::Blog::Source::Media.new(Everything::Blog::Source.absolute_pathname.join('three-title', 'lala.jpg')),
+            Everything::Blog::Source::Media.new(Everything::Blog::Source.absolute_pathname.join('three-title', 'lala.mp3')),
           ]
         end
         let(:four_media_files) do
           [
-            Everything::Blog::Source::Media.new(File.join(Everything::Blog::Source.absolute_path, 'four-title', 'lala.jpg')),
-            Everything::Blog::Source::Media.new(File.join(Everything::Blog::Source.absolute_path, 'four-title', 'lala.mp3'))
+            Everything::Blog::Source::Media.new(Everything::Blog::Source.absolute_pathname.join('four-title', 'lala.jpg')),
+            Everything::Blog::Source::Media.new(Everything::Blog::Source.absolute_pathname.join('four-title', 'lala.mp3')),
           ]
         end
         let(:expected_media_files) do

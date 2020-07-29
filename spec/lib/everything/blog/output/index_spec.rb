@@ -111,7 +111,7 @@ describe Everything::Blog::Output::Index do
         /\<html.*\>/
       end
 
-      include_context 'when templates_path is set'
+      include_context 'stub out templates path'
       include_context 'with an index template'
 
       context 'when the blog output path does not already exist' do

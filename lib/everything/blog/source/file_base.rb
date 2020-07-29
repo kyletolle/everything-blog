@@ -21,9 +21,10 @@ module Everything
           @relative_dir_path ||= File.dirname(relative_file_path)
         end
 
+        # TODO: Want to get rid of this...
         def relative_file_path
-          @relative_file_path ||= Pathname.new(source_file_path)
-            .sub(base_source_dir_path, '')
+          @relative_file_path ||= source_file_path.to_s
+            .sub(Everything::Blog::Source.absolute_path, '')
             .to_s
             .delete_prefix('/')
         end
@@ -42,19 +43,13 @@ module Everything
 
       private
 
-        # TODO: Move this into its own Source class/module. It makes sense to
-        # have it in its own location.
+        # TODO: Remove this and replace its usages with Everything.path
         def base_source_dir_path
           Everything.path
         end
 
-        # TODO: Do we want to add and use a method like this?
-        # def base_source_pathname
-        #   @base_source_pathname ||= Pathname.new base_source_dir_path
-        # end
-
         def source_file_path
-          File.join(base_source_dir_path, file_name)
+          Everything.path.join(file_name)
         end
       end
     end

@@ -51,12 +51,8 @@ shared_context 'with fake templates' do
 
     FileUtils.mkdir_p(fake_templates_path)
 
-    File.open(fake_index_template.template_path, 'w') do |f|
-      f.write(fake_template_html)
-    end
-    File.open(fake_post_template.template_path, 'w') do |f|
-      f.write(fake_template_html)
-    end
+    fake_index_template.template_path.write(fake_template_html)
+    fake_post_template.template_path.write(fake_template_html)
   end
 
   after do
@@ -89,7 +85,7 @@ shared_context 'with fake piece' do
     fake_post_name
   end
   let(:given_piece_path) do
-    File.join(Everything.path, given_post_name)
+    Everything.path.join(given_post_name)
   end
   let(:fake_piece) do
     Everything::Piece.new(given_piece_path)
@@ -110,18 +106,14 @@ shared_context 'with fake piece' do
   before do
     FakeFS.activate!
 
-    FileUtils.mkdir_p(fake_piece.full_path)
+    FileUtils.mkdir_p(fake_piece.absolute_dir)
 
-    File.open(fake_piece.content.file_path, 'w') do |f|
-      f.write("# #{fake_piece_title}\n\n#{fake_piece_body}")
-    end
+    fake_piece.absolute_path.write("# #{fake_piece_title}\n\n#{fake_piece_body}")
 
-    File.open(fake_piece.metadata.file_path, 'w') do |f|
       public_metadata = "public: #{post_options[:public?] || false}"
       now_iso8601 = Time.now.strftime('%Y-%m-%d')
       created_on_metadata = "created_on: #{post_options[:created_on] || now_iso8601}"
-      f.write("---\n#{public_metadata}\n#{created_on_metadata}")
-    end
+      fake_piece.metadata.absolute_path.write("---\n#{public_metadata}\n#{created_on_metadata}")
   end
 
   after do
@@ -133,13 +125,13 @@ end
 
 shared_context 'with deleted piece' do
   before do
-    FileUtils.rm_rf(fake_piece.full_path)
+    FileUtils.rm_rf(fake_piece.absolute_dir)
   end
 end
 
 shared_context 'with deleted metadata file' do
   before do
-    File.delete(fake_piece.metadata.file_path)
+    File.delete(fake_piece.metadata.absolute_path)
   end
 end
 
@@ -280,6 +272,7 @@ shared_context 'with fake binary file in s3' do
   end
 end
 
+# TODO: Want to remove this...
 shared_context 'when templates_path is not set' do
   # TODO: Is there a better way to test this stuff than actually setting and
   # deleting env vars?
@@ -293,9 +286,10 @@ shared_context 'when templates_path is not set' do
   end
 end
 
+# TODO: Want to remove this...
 shared_context 'when templates_path is set' do
   let(:given_templates_path) do
-    '/some/fake/path'
+    Pathname.new('/some/fake/path')
   end
 
   # TODO: Is there a better way to test this stuff than actually setting and
@@ -451,11 +445,13 @@ shared_examples 'behaves like a TemplateBase' do
       include_examples 'raises an error about the env var'
     end
 
-    context 'when templates_path is set' do
-      include_context 'when templates_path is set'
+    context 'when templates path is set' do
+      include_context 'stub out templates path'
 
       let(:expected_template_path) do
-        File.join('', 'some', 'fake', 'path', described_class::TEMPLATE_NAME)
+        Pathname.new(
+          Fastenv.templates_path
+        ).join(described_class::TEMPLATE_NAME)
       end
 
       it 'is the path for the template under the templates_path' do
@@ -474,10 +470,11 @@ shared_examples 'behaves like a TemplateBase' do
     end
 
     context 'when the env var is set' do
-      include_context 'when templates_path is set'
+      include_context 'stub out templates path'
 
       it 'returns the environment var' do
-        expect(given_template.templates_path).to eq(given_templates_path)
+        expect(given_template.templates_path)
+          .to eq(Pathname.new(fake_templates_path))
       end
     end
   end
@@ -495,11 +492,10 @@ shared_context 'with fake stylesheet' do
 
   before do
     FakeFS do
-      FileUtils.mkdir_p('css')
-      stylesheet_filename = File.join('css', 'style.css')
-      File.open(stylesheet_filename, 'w') do |f|
-        f.write given_stylesheet_content
-      end
+      fake_stylesheet_file_path = Everything.path.join('css')
+      FileUtils.mkdir_p(fake_stylesheet_file_path)
+      stylesheet_filename = fake_stylesheet_file_path.join('style.css')
+      stylesheet_filename.write(given_stylesheet_content)
     end
   end
 end
