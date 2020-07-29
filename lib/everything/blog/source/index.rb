@@ -28,15 +28,15 @@ module Everything
         end
 
         def dir
-          DIR
+          Pathname.new(DIR)
         end
 
         def file_name
-          FILE_NAME
+          Pathname.new(FILE_NAME)
         end
 
         def path
-          Pathname.new(file_name)
+          file_name
         end
 
         # TODO: Want to get rid of this...

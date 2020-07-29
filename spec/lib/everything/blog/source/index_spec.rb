@@ -17,6 +17,7 @@ describe Everything::Blog::Source::Index do
     let(:expected_absolute_dir) do
       Pathname.new('/fake/everything/path')
     end
+
     it 'is the absolute dir for the index' do
       expect(index.absolute_dir).to eq(expected_absolute_dir)
     end
@@ -28,6 +29,7 @@ describe Everything::Blog::Source::Index do
     let(:expected_absolute_path) do
       Pathname.new('/fake/everything/path/index.html')
     end
+
     it 'is the absolute path for the index' do
       expect(index.absolute_path).to eq(expected_absolute_path)
     end
@@ -61,15 +63,22 @@ describe Everything::Blog::Source::Index do
   end
 
   describe '#dir' do
-    let(:expected_dir) { described_class::DIR }
+    let(:expected_dir) do
+      Pathname.new(described_class::DIR)
+    end
+
     it 'is the default index dir' do
       expect(index.dir).to eq(expected_dir)
     end
   end
 
   describe '#file_name' do
+    let(:expected_file_name) do
+      Pathname.new(described_class::FILE_NAME)
+    end
+
     it 'is index.html' do
-      expect(index.file_name).to eq(described_class::FILE_NAME)
+      expect(index.file_name).to eq(expected_file_name)
     end
   end
 
@@ -77,6 +86,7 @@ describe Everything::Blog::Source::Index do
     let(:expected_path) do
       Pathname.new('index.html')
     end
+
     # TODO: I don't remember why the leading slash was a problem?
     it 'is the index file in the root path, without a leading slash' do
       expect(index.path).to eq(expected_path)
