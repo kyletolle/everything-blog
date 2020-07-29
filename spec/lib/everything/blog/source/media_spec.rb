@@ -14,6 +14,7 @@ describe Everything::Blog::Source::Media do
     let(:expected_absolute_dir) do
       Pathname.new('/fake/everything/path/blog/not-a-real-post')
     end
+
     it 'is the absolute dir for the media' do
       expect(media.absolute_dir).to eq(expected_absolute_dir)
     end
@@ -23,6 +24,7 @@ describe Everything::Blog::Source::Media do
     let(:expected_absolute_path) do
       Pathname.new('/fake/everything/path/blog/not-a-real-post/image.png')
     end
+
     it 'is the absolute path for the media' do
       expect(media.absolute_path).to eq(expected_absolute_path)
     end
@@ -36,27 +38,26 @@ describe Everything::Blog::Source::Media do
 
   describe '#dir' do
     let(:expected_dir) do
-      'not-a-real-post'
+      Pathname.new('not-a-real-post')
     end
-    it 'is the dir of the media' do
+
+    it 'is the relative dir of the media' do
       expect(media.dir).to eq(expected_dir)
     end
   end
 
   describe '#file_name' do
-    it "is the given file's file name" do
-      expect(media.file_name).to eq(given_png_file_name)
+    let(:expected_file_name) do
+      Pathname.new(given_png_file_name)
     end
-  end
 
-  describe '#source_file_path' do
-    it 'is the given source file path' do
-      expect(media.source_file_path).to eq(given_source_file_path)
+    it "is the given file's file name" do
+      expect(media.file_name).to eq(expected_file_name)
     end
   end
 
   describe '#==' do
-    context 'when the other object does not respond to #source_file_path' do
+    context 'when the other object does not respond to #absolute_path' do
       let(:other_object) { nil }
 
       it 'is false' do
@@ -64,7 +65,7 @@ describe Everything::Blog::Source::Media do
       end
     end
 
-    context 'when the other object does respond to #source_file_path' do
+    context 'when the other object does respond to #absolute_path' do
       context "when the other media's file path doesn't match" do
         let(:other_media) do
           described_class.new('/some/other/media/file.png')
