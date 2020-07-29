@@ -26,7 +26,7 @@ describe Everything::Blog::Output::Page do
 
   describe '#inspect' do
     let(:inspect_output_regex) do
-      /#<#{described_class}: path: `#{page.relative_dir_path}`, output_file_name: `#{page.output_file_name}`>/
+      /#<#{described_class}: dir: `#{page.dir}`, output_file_name: `#{page.output_file_name}`>/
     end
 
     it 'returns a shorthand format with class name and file name' do
@@ -121,33 +121,47 @@ describe Everything::Blog::Output::Page do
   end
 
   describe '#output_file_path' do
+    let(:expected_path) do
+      Pathname.new('/fake/blog/output/grond-crawled-on/index.html')
+    end
+
     it 'is the full path of the post dir and the index.html' do
-      expect(page.output_file_path).to eq('/fake/blog/output/grond-crawled-on/index.html')
+      expect(page.output_file_path).to eq(expected_path)
     end
   end
 
   describe '#output_dir_path' do
+    let(:expected_dir) do
+      Pathname.new('/fake/blog/output/grond-crawled-on')
+    end
+
     it 'is the full path of the post dir' do
-      expect(page.output_dir_path).to eq('/fake/blog/output/grond-crawled-on')
+      expect(page.output_dir_path).to eq(expected_dir)
     end
   end
 
-  describe '#relative_dir_path' do
+  describe '#dir' do
+    let(:expected_dir) do
+      Pathname.new('grond-crawled-on')
+    end
+
     it 'is the relative path of the post dir, without a leading slash' do
-      expect(page.relative_dir_path).to eq('grond-crawled-on')
+      expect(page.dir).to eq(expected_dir)
     end
   end
 
-  describe '#relative_file_path' do
+  describe '#path' do
     let(:expected_relative_file_path) do
-      given_source_page
-        .path
-        .to_s
-        .gsub('md', 'html')
+      Pathname.new(
+        given_source_page
+          .path
+          .to_s
+          .gsub('md', 'html')
+      )
     end
 
     it 'should be the same path as the source index, except an html file' do
-      expect(page.relative_file_path)
+      expect(page.path)
         .to eq(expected_relative_file_path)
     end
   end

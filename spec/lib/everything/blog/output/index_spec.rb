@@ -23,7 +23,7 @@ describe Everything::Blog::Output::Index do
 
   describe '#inspect' do
     let(:inspect_output_regex) do
-      /#<#{described_class}: path: `#{index.relative_dir_path}`, output_file_name: `#{index.output_file_name}`>/
+      /#<#{described_class}: dir: `#{index.dir}`, output_file_name: `#{index.output_file_name}`>/
     end
 
     it 'returns a shorthand format with class name and file name' do
@@ -56,7 +56,9 @@ describe Everything::Blog::Output::Index do
 
   describe '#output_dir_path' do
     let(:expected_output_dir_path) do
-      fake_blog_output_path
+      Pathname.new(
+        fake_blog_output_path
+      )
     end
 
     it 'is the full path for the output dir' do
@@ -72,7 +74,9 @@ describe Everything::Blog::Output::Index do
 
   describe '#output_file_path' do
     let(:expected_output_file_path) do
-      File.join(fake_blog_output_path, index.output_file_name)
+      Pathname.new(
+        File.join(fake_blog_output_path, index.output_file_name)
+      )
     end
 
     it 'is the full path for the output file' do
@@ -80,15 +84,15 @@ describe Everything::Blog::Output::Index do
     end
   end
 
-  describe '#relative_dir_path' do
+  describe '#dir' do
     it 'should be the same path as the source index' do
-      expect(index.relative_dir_path).to eq(source_index.dir.to_s)
+      expect(index.dir).to eq(source_index.dir)
     end
   end
 
-  describe '#relative_file_path' do
+  describe '#path' do
     it 'should be the same path as the source index' do
-      expect(index.relative_file_path).to eq(source_index.path.to_s)
+      expect(index.path).to eq(source_index.path)
     end
   end
 

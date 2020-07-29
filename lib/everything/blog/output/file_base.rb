@@ -34,7 +34,7 @@ module Everything
         end
 
         def inspect
-          "#<#{self.class}: path: `#{relative_dir_path}`, output_file_name: `#{output_file_name}`>"
+          "#<#{self.class}: dir: `#{dir}`, output_file_name: `#{output_file_name}`>"
         end
 
         def output_content
@@ -42,7 +42,7 @@ module Everything
         end
 
         def output_dir_path
-          File.dirname output_file_path
+          output_file_path.dirname
         end
 
         def output_file_name
@@ -50,23 +50,22 @@ module Everything
         end
 
         def output_file_path
-          File.join(
-            Everything::Blog::Output.absolute_path,
-            relative_dir_path,
-            output_file_name
+          Everything::Blog::Output
+            .absolute_path
+            .join(dir, output_file_name)
+        end
+
+        def dir
+          source_file.dir
+        end
+
+        def path
+          Pathname.new(
+            source_file
+              .path
+              .to_s
+              .gsub('md', 'html')
           )
-        end
-
-        # TODO: Rename this to just dir
-        def relative_dir_path
-          source_file.dir.to_s
-        end
-
-        def relative_file_path
-          source_file
-            .path
-            .to_s
-            .gsub('md', 'html')
         end
 
         def save_file

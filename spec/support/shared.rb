@@ -247,7 +247,7 @@ shared_context 'with fake binary file in s3' do
   include_context 'with fake output media'
 
   let(:expected_file_name) {
-    fake_output_media.relative_file_path
+    fake_output_media.path.to_s
   }
   let(:mock_binary_data) { test_png_data }
   let!(:mock_binary_file) do

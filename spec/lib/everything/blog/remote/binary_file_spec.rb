@@ -243,6 +243,8 @@ describe Everything::Blog::Remote::BinaryFile do
   end
 
   describe '#remote_file' do
+    include_context 'stub out everything path'
+
     subject { binary_file.remote_file }
 
     context 'when the bucket does not exist' do
@@ -263,7 +265,6 @@ describe Everything::Blog::Remote::BinaryFile do
       end
 
       context 'when the remote file exists' do
-        include_context 'with fake output media'
         include_context 'with fake binary file in s3'
 
         it 'returns an AWS file' do
@@ -334,8 +335,8 @@ describe Everything::Blog::Remote::BinaryFile do
       binary_file.remote_key
     end
 
-    it "is the output file's relative_file_path with a leading slash" do
-      expected_file_key = given_output_file.relative_file_path
+    it "is the output file's path with a leading slash" do
+      expected_file_key = given_output_file.path.to_s
       expect(subject).to eq(expected_file_key)
     end
 

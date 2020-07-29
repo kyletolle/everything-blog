@@ -26,7 +26,7 @@ describe Everything::Blog::Output::Stylesheet do
 
   describe '#inspect' do
     let(:inspect_output_regex) do
-      /#<#{described_class}: path: `#{stylesheet.relative_dir_path}`, output_file_name: `#{stylesheet.output_file_name}`>/
+      /#<#{described_class}: dir: `#{stylesheet.dir}`, output_file_name: `#{stylesheet.output_file_name}`>/
     end
 
     it 'returns a shorthand format with class name and file name' do
@@ -53,7 +53,7 @@ describe Everything::Blog::Output::Stylesheet do
 
   describe '#output_dir_path' do
     let(:expected_output_dir_path) do
-      File.join(fake_blog_output_path, 'css')
+      Pathname.new(File.join(fake_blog_output_path, 'css'))
     end
 
     it 'is the full path for the output css dir' do
@@ -63,7 +63,9 @@ describe Everything::Blog::Output::Stylesheet do
 
   describe '#output_file_path' do
     let(:expected_output_file_path) do
-      File.join(fake_blog_output_path, 'css', stylesheet.output_file_name)
+      Pathname.new(
+        File.join(fake_blog_output_path, 'css', stylesheet.output_file_name)
+      )
     end
 
     it 'is the full path for the output file' do
@@ -71,17 +73,17 @@ describe Everything::Blog::Output::Stylesheet do
     end
   end
 
-  describe '#relative_dir_path' do
+  describe '#dir' do
     it 'should be the same path as the source stylesheet' do
-      expect(stylesheet.relative_dir_path)
-        .to eq(given_source_stylesheet.dir.to_s)
+      expect(stylesheet.dir)
+        .to eq(given_source_stylesheet.dir)
     end
   end
 
-  describe '#relative_file_path' do
+  describe '#path' do
     it 'should be the same path as the source index' do
-      expect(stylesheet.relative_file_path)
-        .to eq(given_source_stylesheet.path.to_s)
+      expect(stylesheet.path)
+        .to eq(given_source_stylesheet.path)
     end
   end
 

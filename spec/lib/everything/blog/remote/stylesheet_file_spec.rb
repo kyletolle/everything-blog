@@ -105,7 +105,6 @@ describe Everything::Blog::Remote::StylesheetFile do
       end
 
       context 'when remote file does exist' do
-        include_context 'with fake output index'
         include_context 'with fake stylesheet file in s3'
 
         context 'and has a different hash than the current content' do
@@ -293,7 +292,6 @@ describe Everything::Blog::Remote::StylesheetFile do
       end
 
       context 'when the remote file exists' do
-        include_context 'with fake output stylesheet'
         include_context 'with fake stylesheet file in s3'
 
         it 'returns an AWS file' do
@@ -301,7 +299,7 @@ describe Everything::Blog::Remote::StylesheetFile do
         end
 
         it 'returns a file with matching remote_key' do
-          given_output_file.relative_file_path
+          given_output_file.path
           expect(subject.key).to eq(stylesheet_file.remote_key)
         end
 
@@ -369,8 +367,8 @@ describe Everything::Blog::Remote::StylesheetFile do
       stylesheet_file.remote_key
     end
 
-    it "is the output file's relative_file_path with a leading slash" do
-      expected_file_key = given_output_file.relative_file_path
+    it "is the output file's path with a leading slash" do
+      expected_file_key = given_output_file.path.to_s
       expect(subject).to eq(expected_file_key)
     end
 

@@ -121,10 +121,10 @@ describe Everything::Blog::Source::PostsFinder do
         it 'returns the media paths by newest post first' do
           expect(posts_finder.media_for_posts).to eq(
             [
-              Everything::Blog::Source.absolute_pathname.join('another-title', 'lala.jpg'),
-              Everything::Blog::Source.absolute_pathname.join('another-title', 'lala.mp3'),
-              Everything::Blog::Source.absolute_pathname.join('some-title', 'lala.jpg'),
-              Everything::Blog::Source.absolute_pathname.join('some-title', 'lala.mp3')
+              Everything::Blog::Source.absolute_path.join('another-title', 'lala.jpg'),
+              Everything::Blog::Source.absolute_path.join('another-title', 'lala.mp3'),
+              Everything::Blog::Source.absolute_path.join('some-title', 'lala.jpg'),
+              Everything::Blog::Source.absolute_path.join('some-title', 'lala.mp3')
             ]
           )
         end

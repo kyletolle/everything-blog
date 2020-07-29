@@ -53,7 +53,7 @@ module Everything
         end
 
         def remote_key
-          @remote_key ||= output_file.relative_file_path
+          @remote_key ||= output_file.path.to_s
         end
 
       private

@@ -17,7 +17,7 @@ describe Everything::Blog::Output::Media do
 
   describe '#inspect' do
     let(:inspect_output_regex) do
-      /#<#{described_class}: path: `#{media.relative_dir_path}`, output_file_name: `#{media.output_file_name}`>/
+      /#<#{described_class}: dir: `#{media.dir}`, output_file_name: `#{media.output_file_name}`>/
     end
 
     it 'returns a shorthand format with class name and file name' do
@@ -85,7 +85,9 @@ describe Everything::Blog::Output::Media do
 
   describe '#output_dir_path' do
     let(:expected_output_dir_path) do
-      File.join(fake_blog_output_path, given_post_name)
+      Pathname.new(
+        File.join(fake_blog_output_path, given_post_name)
+      )
     end
 
     it 'is the full path for the output dir' do
@@ -95,7 +97,13 @@ describe Everything::Blog::Output::Media do
 
   describe '#output_file_path' do
     let(:expected_output_file_path) do
-      File.join(fake_blog_output_path, given_post_name, media.output_file_name)
+      Pathname.new(
+        File.join(
+          fake_blog_output_path,
+          given_post_name,
+          media.output_file_name
+        )
+      )
     end
 
     it 'is the full path for the output file' do
@@ -103,27 +111,32 @@ describe Everything::Blog::Output::Media do
     end
   end
 
-  describe "#relative_dir_path" do
+  describe "#dir" do
     it "should be the same path as the source media" do
-      expect(media.relative_dir_path).to eq(source_media.dir.to_s)
+      expect(media.dir).to eq(source_media.dir)
     end
   end
 
-  describe '#relative_file_path' do
+  describe '#path' do
     it 'should be the same path as the source index' do
-      expect(media.relative_file_path)
-        .to eq(source_media.path.to_s)
+      expect(media.path).to eq(source_media.path)
     end
   end
 
   describe '#save_file' do
     context 'when the media output dir path does not already exist' do
+      before do
+        FileUtils.rm_rf(media.output_dir_path)
+      end
+
       it 'creates it' do
-        expect(Dir.exist?(media.output_dir_path)).to eq(false)
+        # TODO: Replace the many Dir.exist? and File.exist?/join with their
+        # Pathname equivalents.
+        expect(media.output_dir_path).not_to exist
 
         media.save_file
 
-        expect(Dir.exist?(media.output_dir_path)).to eq(true)
+        expect(media.output_dir_path).to exist
       end
     end
 

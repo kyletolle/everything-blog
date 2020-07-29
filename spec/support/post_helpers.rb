@@ -7,7 +7,7 @@ require './spec/support/shared'
 # Got this idea from: https://stackoverflow.com/questions/8126802/when-testing-with-rspec-where-to-put-common-test-utility-methods
 module PostHelpers
   def create_post(post_name, title:'Blah', body:'Super blah, foo blah.', is_public: false, created_on: nil)
-    piece_path = Everything::Blog::Source.absolute_pathname.join(post_name)
+    piece_path = Everything::Blog::Source.absolute_path.join(post_name)
     piece = Everything::Piece.new(piece_path)
 
     FileUtils.mkdir_p(piece.absolute_dir)
@@ -28,7 +28,7 @@ module PostHelpers
   end
 
   def create_media_for_post(post_name)
-    piece_path = Everything::Blog::Source.absolute_pathname.join(post_name)
+    piece_path = Everything::Blog::Source.absolute_path.join(post_name)
 
     ['jpg', 'mp3'].each do |media_type|
       media_path = piece_path.join("lala.#{media_type}")
@@ -37,7 +37,7 @@ module PostHelpers
   end
 
   def delete_post(post_name)
-    piece_path = Everything::Blog::Source.absolute_pathname.join(post_name)
+    piece_path = Everything::Blog::Source.absolute_path.join(post_name)
 
     FileUtils.rm_rf(piece_path)
   end

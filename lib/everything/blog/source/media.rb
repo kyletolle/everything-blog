@@ -28,7 +28,7 @@ module Everything
 
         def dir
           @dir ||= absolute_dir
-            .relative_path_from(Everything::Blog::Source.absolute_pathname)
+            .relative_path_from(Everything::Blog::Source.absolute_path)
         end
 
         def file_name
