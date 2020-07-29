@@ -80,26 +80,6 @@ describe Everything::Blog::Source::Page do
     end
   end
 
-  describe '#relative_dir_path' do
-    let(:expected_relative_dir_path) do
-      fake_post_name
-    end
-
-    it 'is a relative path to the dir, without a leading slash' do
-      expect(page.relative_dir_path).to eq(expected_relative_dir_path)
-    end
-  end
-
-  describe '#relative_file_path' do
-    let(:expected_relative_file_path) do
-      File.join(fake_post_name, expected_markdown_file_name)
-    end
-
-    it 'is a relative path to the file, without a leading slash' do
-      expect(page.relative_file_path).to eq(expected_relative_file_path)
-    end
-  end
-
   describe '#==' do
     context 'when the other object does not respond to #post' do
       let(:other_object) { nil }
@@ -151,7 +131,7 @@ describe Everything::Blog::Source::Page do
 
   describe '#inspect' do
     let(:inspect_output_regex) do
-      /#<#{described_class}: path: `#{page.relative_dir_path}`, file_name: `#{page.file_name}`>/
+      /#<#{described_class}: dir: `#{page.dir}`, file_name: `#{page.file_name}`>/
     end
 
     it 'returns a shorthand format with class name and file name' do

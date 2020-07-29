@@ -82,13 +82,13 @@ describe Everything::Blog::Output::Index do
 
   describe '#relative_dir_path' do
     it 'should be the same path as the source index' do
-      expect(index.relative_dir_path).to eq(source_index.relative_dir_path)
+      expect(index.relative_dir_path).to eq(source_index.dir.to_s)
     end
   end
 
   describe '#relative_file_path' do
     it 'should be the same path as the source index' do
-      expect(index.relative_file_path).to eq(source_index.relative_file_path)
+      expect(index.relative_file_path).to eq(source_index.path.to_s)
     end
   end
 

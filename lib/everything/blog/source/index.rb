@@ -39,22 +39,10 @@ module Everything
           file_name
         end
 
-        # TODO: Want to get rid of this...
-        def relative_file_path
-          @relative_file_path ||= source_file_path.to_s
-            .sub(Everything.path.to_s, '')
-            .to_s
-            .delete_prefix('/')
-        end
-
         def ==(other)
           return false unless other.respond_to?(:content)
 
           self.content == other.content
-        end
-
-        def relative_dir_path
-          ''
         end
 
       private
@@ -74,3 +62,4 @@ module Everything
     end
   end
 end
+

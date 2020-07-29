@@ -105,14 +105,14 @@ describe Everything::Blog::Output::Media do
 
   describe "#relative_dir_path" do
     it "should be the same path as the source media" do
-      expect(media.relative_dir_path).to eq(source_media.relative_dir_path)
+      expect(media.relative_dir_path).to eq(source_media.dir.to_s)
     end
   end
 
   describe '#relative_file_path' do
     it 'should be the same path as the source index' do
       expect(media.relative_file_path)
-        .to eq(source_media.relative_file_path)
+        .to eq(source_media.path.to_s)
     end
   end
 

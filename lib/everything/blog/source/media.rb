@@ -17,20 +17,26 @@ module Everything
         end
 
         def absolute_dir
-          absolute_path.dirname
+          @absolute_dir ||= absolute_path.dirname
         end
+
+        # #absolute_path is an attr_reader
 
         def content
           absolute_path.binread
         end
 
         def dir
-          absolute_dir
+          @dir ||= absolute_dir
             .relative_path_from(Everything::Blog::Source.absolute_pathname)
         end
 
         def file_name
-          absolute_path.basename
+          @file_name ||= absolute_path.basename
+        end
+
+        def path
+          @path ||= dir.join(file_name)
         end
 
         def ==(other)

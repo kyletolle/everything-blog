@@ -141,7 +141,8 @@ describe Everything::Blog::Output::Page do
   describe '#relative_file_path' do
     let(:expected_relative_file_path) do
       given_source_page
-        .relative_file_path
+        .path
+        .to_s
         .gsub('md', 'html')
     end
 

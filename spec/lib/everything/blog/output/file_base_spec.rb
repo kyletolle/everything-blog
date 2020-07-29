@@ -33,8 +33,10 @@ describe Everything::Blog::Output::FileBase do
       end
 
       context 'index' do
+        include_context 'with fake source index'
+
         let(:given_source_file) do
-          Everything::Blog::Source::Index.new({})
+          fake_source_index
         end
         let(:expected_output_class) do
           Everything::Blog::Output::Index
@@ -43,8 +45,10 @@ describe Everything::Blog::Output::FileBase do
       end
 
       context 'media' do
+        include_context 'with fake source media'
+
         let(:given_source_file) do
-          Everything::Blog::Source::Media.new('')
+          fake_source_media
         end
         let(:expected_output_class) do
           Everything::Blog::Output::Media

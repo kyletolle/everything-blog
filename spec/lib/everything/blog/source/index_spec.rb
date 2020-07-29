@@ -96,22 +96,6 @@ describe Everything::Blog::Source::Index do
   # TODO: Test the methods inherited from Source::FileBase too.
   # include_context 'acts like a source file'
 
-  # TODO: Should this actually be an empty string?
-  describe '#relative_dir_path' do
-    it 'is the root path, without a leading slash' do
-      expect(index.relative_dir_path).to eq(described_class::DIR)
-    end
-  end
-
-  # TODO: Should this actually be an empty string?
-  describe '#relative_file_path' do
-    include_context 'stub out everything path'
-
-    it 'is the index file in the root path, without a leading slash' do
-      expect(index.relative_file_path).to eq(described_class::FILE_NAME)
-    end
-  end
-
   describe '#==' do
     context 'when the other object does not respond to #content' do
       let(:other_object) { nil }
@@ -152,7 +136,7 @@ describe Everything::Blog::Source::Index do
 
   describe '#inspect' do
     let(:inspect_output_regex) do
-      /#<#{described_class}: path: `#{index.relative_dir_path}`, file_name: `#{index.file_name}`>/
+      /#<#{described_class}: dir: `#{index.dir}`, file_name: `#{index.file_name}`>/
     end
 
     it 'returns a shorthand format with class name and file name' do

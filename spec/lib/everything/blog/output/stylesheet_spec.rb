@@ -74,14 +74,14 @@ describe Everything::Blog::Output::Stylesheet do
   describe '#relative_dir_path' do
     it 'should be the same path as the source stylesheet' do
       expect(stylesheet.relative_dir_path)
-        .to eq(given_source_stylesheet.relative_dir_path)
+        .to eq(given_source_stylesheet.dir.to_s)
     end
   end
 
   describe '#relative_file_path' do
     it 'should be the same path as the source index' do
       expect(stylesheet.relative_file_path)
-        .to eq(given_source_stylesheet.relative_file_path)
+        .to eq(given_source_stylesheet.path.to_s)
     end
   end
 
@@ -210,3 +210,4 @@ describe Everything::Blog::Output::Stylesheet do
     end
   end
 end
+

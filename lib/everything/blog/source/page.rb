@@ -30,7 +30,7 @@ module Everything
 
         def dir
           # Using an approach from https://stackoverflow.com/a/11471495/249218
-          post.piece.absolute_dir
+          absolute_dir
             .relative_path_from(Everything::Blog::Source.absolute_pathname)
         end
 
@@ -49,18 +49,6 @@ module Everything
           return false unless other.respond_to?(:post)
 
           self.post.piece.full_path == other.post.piece.full_path
-        end
-
-      private
-
-        # TODO: Want to remove this.
-        def base_source_dir_path
-          Everything::Blog::Source.absolute_path
-        end
-
-        # TODO: Deprecate this? Want to remove this.
-        def source_file_path
-          post.piece.content.absolute_path
         end
       end
     end

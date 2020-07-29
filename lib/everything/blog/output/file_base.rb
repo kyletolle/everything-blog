@@ -57,13 +57,15 @@ module Everything
           )
         end
 
+        # TODO: Rename this to just dir
         def relative_dir_path
-          source_file.relative_dir_path
+          source_file.dir.to_s
         end
 
         def relative_file_path
           source_file
-            .relative_file_path
+            .path
+            .to_s
             .gsub('md', 'html')
         end
 
@@ -123,3 +125,4 @@ require_relative 'index'
 require_relative 'stylesheet'
 require_relative 'page'
 require_relative 'media'
+
