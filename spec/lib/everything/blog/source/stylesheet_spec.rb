@@ -15,6 +15,12 @@ describe Everything::Blog::Source::Stylesheet do
     it 'is the absolute dir for the stylesheet' do
       expect(stylesheet.absolute_dir).to eq(expected_absolute_dir)
     end
+
+    it 'memoizes the value' do
+      first_call_value = stylesheet.absolute_dir
+      second_call_value = stylesheet.absolute_dir
+      expect(first_call_value.object_id).to eq(second_call_value.object_id)
+    end
   end
 
   describe '#absolute_path' do
@@ -26,6 +32,12 @@ describe Everything::Blog::Source::Stylesheet do
 
     it 'is the absolute path for the stylesheet' do
       expect(stylesheet.absolute_path).to eq(expected_absolute_path)
+    end
+
+    it 'memoizes the value' do
+      first_call_value = stylesheet.absolute_path
+      second_call_value = stylesheet.absolute_path
+      expect(first_call_value.object_id).to eq(second_call_value.object_id)
     end
   end
 
@@ -51,6 +63,12 @@ describe Everything::Blog::Source::Stylesheet do
     it 'is the default stylesheet name' do
       expect(stylesheet.file_name).to eq(expected_file_name)
     end
+
+    it 'memoizes the value' do
+      first_call_value = stylesheet.file_name
+      second_call_value = stylesheet.file_name
+      expect(first_call_value.object_id).to eq(second_call_value.object_id)
+    end
   end
 
   describe '#dir' do
@@ -62,6 +80,12 @@ describe Everything::Blog::Source::Stylesheet do
 
     it 'is the default stylesheet dir' do
       expect(stylesheet.dir).to eq(expected_dir)
+    end
+
+    it 'memoizes the value' do
+      first_call_value = stylesheet.dir
+      second_call_value = stylesheet.dir
+      expect(first_call_value.object_id).to eq(second_call_value.object_id)
     end
   end
 
@@ -75,21 +99,11 @@ describe Everything::Blog::Source::Stylesheet do
     it 'is the joining of the relative dir and file name' do
       expect(stylesheet.path).to eq(expected_path)
     end
-  end
 
-  describe '#relative_dir_path' do
-    include_context 'stub out everything path'
-
-    it 'is a relative path to the dir, without a leading slash' do
-      expect(stylesheet.relative_dir_path).to eq('css')
-    end
-  end
-
-  describe '#relative_file_path' do
-    include_context 'stub out everything path'
-
-    it 'is a relative path to the file, without a leading slash' do
-      expect(stylesheet.relative_file_path).to eq('css/style.css')
+    it 'memoizes the value' do
+      first_call_value = stylesheet.path
+      second_call_value = stylesheet.path
+      expect(first_call_value.object_id).to eq(second_call_value.object_id)
     end
   end
 
@@ -137,7 +151,7 @@ describe Everything::Blog::Source::Stylesheet do
     include_context 'stub out everything path'
 
     let(:inspect_output_regex) do
-      /#<#{described_class}: path: `#{stylesheet.relative_dir_path}`, file_name: `#{stylesheet.file_name}`>/
+      /#<#{described_class}: dir: `#{stylesheet.dir}`, file_name: `#{stylesheet.file_name}`>/
     end
 
     it 'returns a shorthand format with class name and file name' do
