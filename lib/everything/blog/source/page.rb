@@ -17,11 +17,11 @@ module Everything
         end
 
         def absolute_dir
-          post.piece.absolute_dir
+          @absolute_dir ||= post.piece.absolute_dir
         end
 
         def absolute_path
-          post.piece.content.absolute_path
+          @absolute_path ||= post.piece.content.absolute_path
         end
 
         def content
@@ -30,16 +30,16 @@ module Everything
 
         def dir
           # Using an approach from https://stackoverflow.com/a/11471495/249218
-          absolute_dir
+          @dir ||= absolute_dir
             .relative_path_from(Everything::Blog::Source.absolute_pathname)
         end
 
         def file_name
-          post.piece.content.file_name
+          @file_name ||= post.piece.content.file_name
         end
 
         def path
-          post.piece.absolute_path
+          @path ||= post.piece.absolute_path
             .relative_path_from(Everything::Blog::Source.absolute_pathname)
         end
 

@@ -30,6 +30,12 @@ describe Everything::Blog::Source::Page do
     it 'is the absolute dir for the page' do
       expect(page.absolute_dir).to eq(expected_absolute_dir)
     end
+
+    it 'memoizes the value' do
+      first_call_value = page.absolute_dir
+      second_call_value = page.absolute_dir
+      expect(first_call_value.object_id).to eq(second_call_value.object_id)
+    end
   end
 
   describe '#absolute_path' do
@@ -39,6 +45,12 @@ describe Everything::Blog::Source::Page do
 
     it 'is the absolute path for the page' do
       expect(page.absolute_path).to eq(expected_absolute_path)
+    end
+
+    it 'memoizes the value' do
+      first_call_value = page.absolute_path
+      second_call_value = page.absolute_path
+      expect(first_call_value.object_id).to eq(second_call_value.object_id)
     end
   end
 
@@ -56,11 +68,23 @@ describe Everything::Blog::Source::Page do
     it 'is the relative dir of the post' do
       expect(page.dir).to eq(expected_dir)
     end
+
+    it 'memoizes the value' do
+      first_call_value = page.dir
+      second_call_value = page.dir
+      expect(first_call_value.object_id).to eq(second_call_value.object_id)
+    end
   end
 
   describe '#file_name' do
     it "is given post's markdown file" do
       expect(page.file_name).to eq(expected_markdown_file_name)
+    end
+
+    it 'memoizes the value' do
+      first_call_value = page.file_name
+      second_call_value = page.file_name
+      expect(first_call_value.object_id).to eq(second_call_value.object_id)
     end
   end
 
@@ -71,6 +95,12 @@ describe Everything::Blog::Source::Page do
 
     it 'is the relative path for the page' do
       expect(page.path).to eq(expected_relative_path)
+    end
+
+    it 'memoizes the value' do
+      first_call_value = page.path
+      second_call_value = page.path
+      expect(first_call_value.object_id).to eq(second_call_value.object_id)
     end
   end
 

@@ -21,6 +21,12 @@ describe Everything::Blog::Source::Index do
     it 'is the absolute dir for the index' do
       expect(index.absolute_dir).to eq(expected_absolute_dir)
     end
+
+    it 'memoizes the value' do
+      first_call_value = index.absolute_dir
+      second_call_value = index.absolute_dir
+      expect(first_call_value.object_id).to eq(second_call_value.object_id)
+    end
   end
 
   describe '#absolute_path' do
@@ -32,6 +38,12 @@ describe Everything::Blog::Source::Index do
 
     it 'is the absolute path for the index' do
       expect(index.absolute_path).to eq(expected_absolute_path)
+    end
+
+    it 'memoizes the value' do
+      first_call_value = index.absolute_path
+      second_call_value = index.absolute_path
+      expect(first_call_value.object_id).to eq(second_call_value.object_id)
     end
   end
 
@@ -70,6 +82,12 @@ describe Everything::Blog::Source::Index do
     it 'is the default index dir' do
       expect(index.dir).to eq(expected_dir)
     end
+
+    it 'memoizes the value' do
+      first_call_value = index.dir
+      second_call_value = index.dir
+      expect(first_call_value.object_id).to eq(second_call_value.object_id)
+    end
   end
 
   describe '#file_name' do
@@ -80,6 +98,12 @@ describe Everything::Blog::Source::Index do
     it 'is index.html' do
       expect(index.file_name).to eq(expected_file_name)
     end
+
+    it 'memoizes the value' do
+      first_call_value = index.file_name
+      second_call_value = index.file_name
+      expect(first_call_value.object_id).to eq(second_call_value.object_id)
+    end
   end
 
   describe '#path' do
@@ -87,9 +111,14 @@ describe Everything::Blog::Source::Index do
       Pathname.new('index.html')
     end
 
-    # TODO: I don't remember why the leading slash was a problem?
     it 'is the index file in the root path, without a leading slash' do
       expect(index.path).to eq(expected_path)
+    end
+
+    it 'memoizes the value' do
+      first_call_value = index.path
+      second_call_value = index.path
+      expect(first_call_value.object_id).to eq(second_call_value.object_id)
     end
   end
 

@@ -16,11 +16,11 @@ module Everything
         end
 
         def absolute_dir
-          Everything.path
+          @absolute_dir ||= Everything.path
         end
 
         def absolute_path
-          absolute_dir.join(file_name)
+          @absolute_paht ||= absolute_dir.join(file_name)
         end
 
         def content
@@ -28,15 +28,15 @@ module Everything
         end
 
         def dir
-          Pathname.new(DIR)
+          @dir ||= Pathname.new(DIR)
         end
 
         def file_name
-          Pathname.new(FILE_NAME)
+          @file_name ||= Pathname.new(FILE_NAME)
         end
 
         def path
-          file_name
+          @path ||= file_name
         end
 
         def ==(other)
