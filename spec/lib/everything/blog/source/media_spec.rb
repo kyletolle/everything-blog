@@ -1,9 +1,6 @@
 require 'spec_helper'
-require 'fakefs/spec_helpers'
 
 describe Everything::Blog::Source::Media do
-  include FakeFS::SpecHelpers
-
   include_context 'with fake png'
 
   let(:given_source_file_path) do

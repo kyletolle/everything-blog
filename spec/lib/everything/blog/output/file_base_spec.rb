@@ -1,9 +1,6 @@
 require 'spec_helper'
-require 'fakefs/spec_helpers'
 
 describe Everything::Blog::Output::FileBase do
-  include FakeFS::SpecHelpers
-
   describe '.ToOutputFile' do
     include_context 'stub out everything path'
 

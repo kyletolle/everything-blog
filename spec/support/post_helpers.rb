@@ -4,7 +4,6 @@ require 'active_support/core_ext/hash/keys'
 require 'fakefs/spec_helpers'
 require './spec/support/shared'
 
-# TODO: Need to make this use FakeFS
 # Got this idea from: https://stackoverflow.com/questions/8126802/when-testing-with-rspec-where-to-put-common-test-utility-methods
 module PostHelpers
   def create_post(post_name, title:'Blah', body:'Super blah, foo blah.', is_public: false, created_on: nil)
@@ -45,8 +44,6 @@ module PostHelpers
 end
 
 shared_context 'with fake blog path' do
-  include FakeFS::SpecHelpers
-
   include_context 'with fakefs'
   include_context 'create blog path'
 end

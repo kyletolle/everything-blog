@@ -1,9 +1,6 @@
 require 'spec_helper'
-require 'fakefs/spec_helpers'
 
 describe Everything::Blog::Output::IndexTemplate do
-  include FakeFS::SpecHelpers
-
   include_context 'with fakefs'
 
   let(:given_content_html) do

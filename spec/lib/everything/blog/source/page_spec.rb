@@ -1,9 +1,7 @@
 require 'spec_helper'
-require 'fakefs/spec_helpers'
 require './spec/support/post_helpers'
 
 describe Everything::Blog::Source::Page do
-  include FakeFS::SpecHelpers
   include PostHelpers
 
   include_context 'with fake piece'
@@ -28,6 +26,7 @@ describe Everything::Blog::Source::Page do
     let(:expected_absolute_dir) do
       Pathname.new('/fake/everything/path/blog/grond-crawled-on')
     end
+
     it 'is the absolute dir for the page' do
       expect(page.absolute_dir).to eq(expected_absolute_dir)
     end
@@ -37,6 +36,7 @@ describe Everything::Blog::Source::Page do
     let(:expected_absolute_path) do
       Pathname.new('/fake/everything/path/blog/grond-crawled-on/index.md')
     end
+
     it 'is the absolute path for the page' do
       expect(page.absolute_path).to eq(expected_absolute_path)
     end
@@ -52,6 +52,7 @@ describe Everything::Blog::Source::Page do
     let(:expected_dir) do
       Pathname.new(fake_post_name) # 'grond-crawled-on'
     end
+
     it 'is the dir of the post' do
       expect(page.dir).to eq(expected_dir)
     end

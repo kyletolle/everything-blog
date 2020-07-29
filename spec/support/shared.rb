@@ -1,3 +1,5 @@
+require 'fakefs/spec_helpers'
+
 shared_context 'stub out everything path' do
   let(:fake_everything_path) do
     '/fake/everything/path'
@@ -29,6 +31,7 @@ end
 
 shared_context 'with fake templates' do
   include_context 'stub out templates path'
+  include_context 'with fakefs'
 
   let(:fake_index_template) do
     Everything::Blog::Output::IndexTemplate.new('')
@@ -47,8 +50,6 @@ shared_context 'with fake templates' do
   end
 
   before do
-    FakeFS.activate!
-
     FileUtils.mkdir_p(fake_templates_path)
 
     fake_index_template.template_path.write(fake_template_html)
@@ -57,8 +58,6 @@ shared_context 'with fake templates' do
 
   after do
     FileUtils.rm_rf(fake_templates_path)
-
-    FakeFS.deactivate!
   end
 end
 
@@ -69,6 +68,8 @@ shared_context 'create blog path' do
 end
 
 shared_context 'with fakefs' do
+  include FakeFS::SpecHelpers
+
   before do
     FakeFS.activate!
   end
@@ -80,6 +81,7 @@ end
 
 shared_context 'with fake piece' do
   include_context 'stub out everything path'
+  include_context 'with fakefs'
 
   let(:given_post_name) do
     fake_post_name
@@ -104,8 +106,6 @@ shared_context 'with fake piece' do
   end
 
   before do
-    FakeFS.activate!
-
     FileUtils.mkdir_p(fake_piece.absolute_dir)
 
     fake_piece.absolute_path.write("# #{fake_piece_title}\n\n#{fake_piece_body}")
@@ -118,8 +118,6 @@ shared_context 'with fake piece' do
 
   after do
     FileUtils.rm_rf(given_piece_path)
-
-    FakeFS.deactivate!
   end
 end
 
@@ -192,6 +190,7 @@ end
 
 shared_context 'with fake png' do
   include_context 'stub out everything path'
+  include_context 'with fakefs'
 
   let(:test_png_file_path) do
     File.join(
@@ -218,8 +217,6 @@ shared_context 'with fake png' do
   end
 
   before do
-    FakeFS.activate!
-
     FileUtils.mkdir_p(given_png_dir_path)
 
     File.open(given_png_file_path, 'wb') do |f|
@@ -229,8 +226,6 @@ shared_context 'with fake png' do
 
   after do
     FileUtils.rm_rf(given_png_dir_path)
-
-    FakeFS.deactivate!
   end
 end
 
@@ -481,7 +476,6 @@ shared_examples 'behaves like a TemplateBase' do
 end
 
 shared_context 'with fake stylesheet' do
-  require 'fakefs/spec_helpers'
   include FakeFS::SpecHelpers
 
   include_context 'stub out everything path'

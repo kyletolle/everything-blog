@@ -1,9 +1,7 @@
 require 'spec_helper'
-require 'fakefs/spec_helpers'
 require './spec/support/post_helpers'
 
 describe Everything::Blog::Source::PostsFinder do
-  include FakeFS::SpecHelpers
   include PostHelpers
 
   include_context 'stub out everything path'
