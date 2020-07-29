@@ -38,6 +38,11 @@ module Everything
           post.piece.content.file_name
         end
 
+        def path
+          post.piece.absolute_path
+            .relative_path_from(Everything::Blog::Source.absolute_pathname)
+        end
+
         # TODO: Eventually this should only call a method on the page itself,
         # not the page's post.
         def ==(other)

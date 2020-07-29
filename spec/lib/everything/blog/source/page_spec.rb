@@ -53,7 +53,7 @@ describe Everything::Blog::Source::Page do
       Pathname.new(fake_post_name) # 'grond-crawled-on'
     end
 
-    it 'is the dir of the post' do
+    it 'is the relative dir of the post' do
       expect(page.dir).to eq(expected_dir)
     end
   end
@@ -61,6 +61,16 @@ describe Everything::Blog::Source::Page do
   describe '#file_name' do
     it "is given post's markdown file" do
       expect(page.file_name).to eq(expected_markdown_file_name)
+    end
+  end
+
+  describe '#path' do
+    let(:expected_relative_path) do
+      Pathname.new('grond-crawled-on/index.md')
+    end
+
+    it 'is the relative path for the page' do
+      expect(page.path).to eq(expected_relative_path)
     end
   end
 
@@ -74,6 +84,7 @@ describe Everything::Blog::Source::Page do
     let(:expected_relative_dir_path) do
       fake_post_name
     end
+
     it 'is a relative path to the dir, without a leading slash' do
       expect(page.relative_dir_path).to eq(expected_relative_dir_path)
     end
@@ -83,6 +94,7 @@ describe Everything::Blog::Source::Page do
     let(:expected_relative_file_path) do
       File.join(fake_post_name, expected_markdown_file_name)
     end
+
     it 'is a relative path to the file, without a leading slash' do
       expect(page.relative_file_path).to eq(expected_relative_file_path)
     end
@@ -147,3 +159,4 @@ describe Everything::Blog::Source::Page do
     end
   end
 end
+
