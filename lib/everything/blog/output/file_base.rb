@@ -64,7 +64,7 @@ module Everything
         end
 
         def save_file
-          FileUtils.mkdir_p(absolute_dir)
+          absolute_dir.mkpath
 
           File.open(absolute_path, file_mode) do |file|
             file.write(content)
