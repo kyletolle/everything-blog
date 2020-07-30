@@ -136,7 +136,7 @@ describe Everything::Blog::Output::Media do
       end
 
       before do
-        FileUtils.mkdir_p(media.absolute_dir)
+        media.absolute_dir.mkpath
         # Would like to use `File.binwrite(fake_file_path, test_png_data)` but
         # FakeFS does not seem to support it yet.
         File.open(fake_file_path, 'wb') {|f| f.write(test_png_data)}
@@ -185,7 +185,7 @@ describe Everything::Blog::Output::Media do
 
     context 'when the file already exists' do
       before do
-        FileUtils.mkdir_p(media.absolute_dir)
+        media.absolute_dir.mkpath
         media.absolute_path.write('random text')
       end
 

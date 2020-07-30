@@ -50,20 +50,20 @@ shared_context 'with fake templates' do
   end
 
   before do
-    FileUtils.mkdir_p(fake_templates_path)
+    fake_index_template.templates_path.mkpath
 
     fake_index_template.template_path.write(fake_template_html)
     fake_post_template.template_path.write(fake_template_html)
   end
 
   after do
-    FileUtils.rm_rf(fake_templates_path)
+    FileUtils.rm_rf(fake_index_template.templates_path)
   end
 end
 
 shared_context 'create blog path' do
   before do
-    FileUtils.mkdir_p(Everything::Blog::Source.absolute_dir)
+    Everything::Blog::Source.absolute_dir.mkpath
   end
 end
 
@@ -106,7 +106,7 @@ shared_context 'with fake piece' do
   end
 
   before do
-    FileUtils.mkdir_p(fake_piece.absolute_dir)
+    fake_piece.absolute_dir.mkpath
 
     fake_piece.absolute_path.write("# #{fake_piece_title}\n\n#{fake_piece_body}")
 
@@ -217,7 +217,7 @@ shared_context 'with fake png' do
   end
 
   before do
-    FileUtils.mkdir_p(given_png_dir_path)
+    given_png_dir_path.mkpath
 
     File.open(given_png_file_path, 'wb') do |f|
       f.write(test_png_data)
@@ -308,7 +308,7 @@ end
 
 shared_context 'with a fake template file' do
   before do
-    FileUtils.mkdir_p(given_template.templates_path)
+    given_template.templates_path.mkpath
     given_template.template_path.write('')
   end
 end
@@ -467,9 +467,12 @@ shared_examples 'behaves like a TemplateBase' do
     context 'when the env var is set' do
       include_context 'stub out templates path'
 
+      let(:expected_templates_path) do
+        Pathname.new(fake_templates_path)
+      end
+
       it 'returns the environment var' do
-        expect(given_template.templates_path)
-          .to eq(Pathname.new(fake_templates_path))
+        expect(given_template.templates_path).to eq(expected_templates_path)
       end
     end
   end
@@ -487,7 +490,7 @@ shared_context 'with fake stylesheet' do
   before do
     FakeFS do
       fake_stylesheet_file_path = Everything.path.join('css')
-      FileUtils.mkdir_p(fake_stylesheet_file_path)
+      fake_stylesheet_file_path.mkpath
       stylesheet_filename = fake_stylesheet_file_path.join('style.css')
       stylesheet_filename.write(given_stylesheet_content)
     end

@@ -10,7 +10,7 @@ module PostHelpers
     piece_path = Everything::Blog::Source.absolute_dir.join(post_name)
     piece = Everything::Piece.new(piece_path)
 
-    FileUtils.mkdir_p(piece.absolute_dir)
+    piece.absolute_dir.mkpath
 
     piece.content.absolute_path.write("# #{title}\n\n#{body}")
 

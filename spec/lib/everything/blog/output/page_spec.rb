@@ -202,7 +202,7 @@ describe Everything::Blog::Output::Page do
         end
 
         before do
-          FileUtils.mkdir_p(Everything::Blog::Output.absolute_dir)
+          Everything::Blog::Output.absolute_dir.mkpath
           fake_file_path.write('fake file')
         end
 
@@ -236,7 +236,7 @@ describe Everything::Blog::Output::Page do
         end
 
         before do
-          FileUtils.mkdir_p(page.absolute_dir)
+          page.absolute_dir.mkpath
           fake_file_path.write('fake file')
         end
 
@@ -286,7 +286,7 @@ describe Everything::Blog::Output::Page do
 
       context 'when the file already exists' do
         before do
-          FileUtils.mkdir_p(page.absolute_dir)
+          page.absolute_dir.mkpath
           page.absolute_path.write('random text')
         end
 

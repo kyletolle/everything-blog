@@ -119,7 +119,7 @@ describe Everything::Blog::Output::Stylesheet do
         end
 
         before do
-          FileUtils.mkdir_p(Everything::Blog::Output.absolute_dir)
+          Everything::Blog::Output.absolute_dir.mkpath
           fake_file_path.write('fake file')
         end
 
@@ -166,7 +166,7 @@ describe Everything::Blog::Output::Stylesheet do
 
       context 'when the file already exists' do
         before do
-          FileUtils.mkdir_p(stylesheet.absolute_dir)
+          stylesheet.absolute_dir.mkpath
           stylesheet.absolute_path.write('not even css')
         end
 

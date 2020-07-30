@@ -130,7 +130,7 @@ describe Everything::Blog::Output::Index do
         end
 
         before do
-          FileUtils.mkdir_p(Everything::Blog::Output.absolute_dir)
+          Everything::Blog::Output.absolute_dir.mkpath
           fake_file_path.write('fake file')
         end
 
@@ -179,7 +179,7 @@ describe Everything::Blog::Output::Index do
 
       context 'when the file already exists' do
         before do
-          FileUtils.mkdir_p(Everything::Blog::Output.absolute_dir)
+          Everything::Blog::Output.absolute_dir.mkpath
           index.absolute_path.write('random text')
         end
 
