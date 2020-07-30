@@ -129,7 +129,7 @@ end
 
 shared_context 'with deleted metadata file' do
   before do
-    File.delete(fake_piece.metadata.absolute_path)
+    fake_piece.metadata.absolute_path.delete
   end
 end
 
@@ -194,7 +194,8 @@ shared_context 'with fake png' do
       RSpec::Core::RubyProject.root,
       'spec',
       'data',
-      '1x1_black_square.png')
+      '1x1_black_square.png'
+    )
   end
   let(:test_png_data) do
     FakeFS::FileSystem.clone(test_png_file_path)

@@ -12,7 +12,7 @@ describe Everything::Blog::Output::Page do
 
   let(:given_piece_path) do
     # We want to create our fake posts in the blog directory.
-    File.join(Everything::Blog::Source.absolute_path, given_post_name)
+    Everything::Blog::Source.absolute_path.join(given_post_name)
   end
   let(:given_post) do
     fake_post
@@ -188,89 +188,89 @@ describe Everything::Blog::Output::Page do
 
       context 'when the blog output path does not already exist' do
         it 'creates it' do
-          expect(Dir.exist?(fake_blog_output_path)).to eq(false)
+          expect(Everything::Blog::Output.absolute_path).not_to exist
 
           page.save_file
 
-          expect(Dir.exist?(fake_blog_output_path)).to eq(true)
+          expect(Everything::Blog::Output.absolute_path).to exist
         end
       end
 
       context 'when the blog output path already exists' do
         let(:fake_file_path) do
-          File.join(fake_blog_output_path, 'something.txt')
+          Everything::Blog::Output.absolute_path.join('something.txt')
         end
 
         before do
-          FileUtils.mkdir_p(fake_blog_output_path)
-          File.write(fake_file_path, 'fake file')
+          FileUtils.mkdir_p(Everything::Blog::Output.absolute_path)
+          fake_file_path.write('fake file')
         end
 
         after do
           FileUtils.rm(fake_file_path)
           FileUtils.rm(page.absolute_path)
           FileUtils.rmdir(page.absolute_dir)
-          FileUtils.rmdir(fake_blog_output_path)
+          FileUtils.rmdir(Everything::Blog::Output.absolute_path)
         end
 
         it 'keeps the folder out there' do
-          expect(Dir.exist?(fake_blog_output_path)).to eq(true)
+          expect(Everything::Blog::Output.absolute_path).to exist
 
           page.save_file
 
-          expect(Dir.exist?(fake_blog_output_path)).to eq(true)
+          expect(Everything::Blog::Output.absolute_path).to exist
         end
 
         it 'does not clear existing files in the folder' do
-          expect(File.exist?(fake_file_path)).to eq(true)
+          expect(fake_file_path).to exist
 
           page.save_file
 
-          expect(File.exist?(fake_file_path)).to eq(true)
+          expect(fake_file_path).to exist
         end
       end
 
       context 'when the blog post output path already exists' do
         let(:fake_file_path) do
-          File.join(page.absolute_dir, 'something.txt')
+          page.absolute_dir.join('something.txt')
         end
 
         before do
           FileUtils.mkdir_p(page.absolute_dir)
-          File.write(fake_file_path, 'fake file')
+          fake_file_path.write('fake file')
         end
 
         after do
           FileUtils.rm(fake_file_path)
           FileUtils.rm(page.absolute_path)
           FileUtils.rmdir(page.absolute_dir)
-          FileUtils.rmdir(fake_blog_output_path)
+          FileUtils.rmdir(Everything::Blog::Output.absolute_path)
         end
 
         it 'keeps the folder out there' do
-          expect(Dir.exist?(page.absolute_dir)).to eq(true)
+          expect(page.absolute_dir).to exist
 
           page.save_file
 
-          expect(Dir.exist?(page.absolute_dir)).to eq(true)
+          expect(page.absolute_dir).to exist
         end
 
         it 'does not clear files in the folder' do
-          expect(File.exist?(fake_file_path)).to eq(true)
+          expect(fake_file_path).to exist
 
           page.save_file
 
-          expect(File.exist?(fake_file_path)).to eq(true)
+          expect(fake_file_path).to exist
         end
       end
 
       context 'when the file does not already exist' do
         it 'creates it' do
-          expect(File.exist?(page.absolute_path)).to eq(false)
+          expect(page.absolute_path).not_to exist
 
           page.save_file
 
-          expect(File.exist?(page.absolute_path)).to eq(true)
+          expect(page.absolute_path).to exist
         end
 
         it 'writes the HTML file data' do
@@ -279,7 +279,7 @@ describe Everything::Blog::Output::Page do
           # a lot of HTML into the spec file.
           page.save_file
 
-          page_file_data = File.read(page.absolute_path)
+          page_file_data = page.absolute_path.read
           expect(page_file_data).to match(expected_file_data_regex)
         end
       end
@@ -287,24 +287,24 @@ describe Everything::Blog::Output::Page do
       context 'when the file already exists' do
         before do
           FileUtils.mkdir_p(page.absolute_dir)
-          File.write(page.absolute_path, 'random text')
+          page.absolute_path.write('random text')
         end
 
         it 'does not delete the file' do
-          expect(File.exist?(page.absolute_path)).to eq(true)
+          expect(page.absolute_path).to exist
 
           page.save_file
 
-          expect(File.exist?(page.absolute_path)).to eq(true)
+          expect(page.absolute_path).to exist
         end
 
         it 'overwrites it with the correct file data' do
-          page_file_data = File.read(page.absolute_path)
+          page_file_data = page.absolute_path.read
           expect(page_file_data).not_to match(expected_file_data_regex)
 
           page.save_file
 
-          page_file_data = File.read(page.absolute_path)
+          page_file_data = page.absolute_path.read
           expect(page_file_data).to match(expected_file_data_regex)
         end
       end

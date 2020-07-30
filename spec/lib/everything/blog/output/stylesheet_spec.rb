@@ -53,7 +53,7 @@ describe Everything::Blog::Output::Stylesheet do
 
   describe '#absolute_dir' do
     let(:expected_absolute_dir) do
-      Pathname.new(File.join(fake_blog_output_path, 'css'))
+      Everything::Blog::Output.absolute_path.join('css')
     end
 
     it 'is the full path for the output css dir' do
@@ -63,9 +63,7 @@ describe Everything::Blog::Output::Stylesheet do
 
   describe '#absolute_path' do
     let(:expected_absolute_path) do
-      Pathname.new(
-        File.join(fake_blog_output_path, 'css', stylesheet.file_name)
-      )
+      Everything::Blog::Output.absolute_path.join('css', stylesheet.file_name)
     end
 
     it 'is the full path for the output file' do
@@ -107,61 +105,61 @@ describe Everything::Blog::Output::Stylesheet do
 
       context 'when the blog output path does not already exist' do
         it 'creates it', :aggregate_failures do
-          expect(Dir.exist?(fake_blog_output_path)).to eq(false)
+          expect(Everything::Blog::Output.absolute_path).not_to exist
 
           stylesheet.save_file
 
-          expect(Dir.exist?(fake_blog_output_path)).to eq(true)
+          expect(Everything::Blog::Output.absolute_path).to exist
         end
       end
 
       context 'when the blog output path already exists' do
         let(:fake_file_path) do
-          File.join(fake_blog_output_path, 'something.txt')
+          Everything::Blog::Output.absolute_path.join('something.txt')
         end
 
         before do
-          FileUtils.mkdir_p(fake_blog_output_path)
-          File.write(fake_file_path, 'fake file')
+          FileUtils.mkdir_p(Everything::Blog::Output.absolute_path)
+          fake_file_path.write('fake file')
         end
 
         after do
           FileUtils.rm(fake_file_path)
           FileUtils.rm(stylesheet.absolute_path)
           FileUtils.rmdir(stylesheet.absolute_dir)
-          FileUtils.rmdir(fake_blog_output_path)
+          FileUtils.rmdir(Everything::Blog::Output.absolute_path)
         end
 
         it 'keeps the folder out there, :aggregate_failures' do
-          expect(Dir.exist?(fake_blog_output_path)).to eq(true)
+          expect(Everything::Blog::Output.absolute_path).to exist
 
           stylesheet.save_file
 
-          expect(Dir.exist?(fake_blog_output_path)).to eq(true)
+          expect(Everything::Blog::Output.absolute_path).to exist
         end
 
         it 'does not clear existing files in the folder, :aggregate_failures' do
-          expect(File.exist?(fake_file_path)).to eq(true)
+          expect(fake_file_path).to exist
 
           stylesheet.save_file
 
-          expect(File.exist?(fake_file_path)).to eq(true)
+          expect(fake_file_path).to exist
         end
       end
 
       context 'when the file does not already exist' do
         it 'creates it, :aggregate_failures' do
-          expect(File.exist?(stylesheet.absolute_path)).to eq(false)
+          expect(stylesheet.absolute_path).not_to exist
 
           stylesheet.save_file
 
-          expect(File.exist?(stylesheet.absolute_path)).to eq(true)
+          expect(stylesheet.absolute_path).to exist
         end
 
         it 'write the CSS file data' do
           stylesheet.save_file
 
-          stylesheet_file_data = File.read(stylesheet.absolute_path)
+          stylesheet_file_data = stylesheet.absolute_path.read
           expect(stylesheet_file_data).to match(expected_file_data_regex)
         end
       end
@@ -169,24 +167,24 @@ describe Everything::Blog::Output::Stylesheet do
       context 'when the file already exists' do
         before do
           FileUtils.mkdir_p(stylesheet.absolute_dir)
-          File.write(stylesheet.absolute_path, 'not even css')
+          stylesheet.absolute_path.write('not even css')
         end
 
         it 'does not delete the file, :aggregate_failures' do
-          expect(File.exist?(stylesheet.absolute_path)).to eq(true)
+          expect(stylesheet.absolute_path).to exist
 
           stylesheet.save_file
 
-          expect(File.exist?(stylesheet.absolute_path)).to eq(true)
+          expect(stylesheet.absolute_path).to exist
         end
 
         it 'overwrites it with the correct file data, :aggregate_failures' do
-          stylesheet_file_data = File.read(stylesheet.absolute_path)
+          stylesheet_file_data = stylesheet.absolute_path.read
           expect(stylesheet_file_data).not_to match(expected_file_data_regex)
 
           stylesheet.save_file
 
-          stylesheet_file_data = File.read(stylesheet.absolute_path)
+          stylesheet_file_data = stylesheet.absolute_path.read
           expect(stylesheet_file_data).to match(expected_file_data_regex)
         end
       end

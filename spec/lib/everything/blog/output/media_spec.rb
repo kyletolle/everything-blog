@@ -85,9 +85,7 @@ describe Everything::Blog::Output::Media do
 
   describe '#absolute_dir' do
     let(:expected_absolute_dir) do
-      Pathname.new(
-        File.join(fake_blog_output_path, given_post_name)
-      )
+      Everything::Blog::Output.absolute_path.join(given_post_name)
     end
 
     it 'is the full path for the output dir' do
@@ -97,13 +95,7 @@ describe Everything::Blog::Output::Media do
 
   describe '#absolute_path' do
     let(:expected_absolute_path) do
-      Pathname.new(
-        File.join(
-          fake_blog_output_path,
-          given_post_name,
-          media.file_name
-        )
-      )
+      Everything::Blog::Output.absolute_path.join(given_post_name, media.file_name)
     end
 
     it 'is the full path for the output file' do
@@ -130,8 +122,6 @@ describe Everything::Blog::Output::Media do
       end
 
       it 'creates it' do
-        # TODO: Replace the many Dir.exist? and File.exist?/join with their
-        # Pathname equivalents.
         expect(media.absolute_dir).not_to exist
 
         media.save_file
@@ -142,12 +132,13 @@ describe Everything::Blog::Output::Media do
 
     context 'when the media output dir path already exists' do
       let(:fake_file_path) do
-        File.join(media.absolute_dir, 'something.txt')
+        media.absolute_dir.join('something.txt')
       end
 
       before do
         FileUtils.mkdir_p(media.absolute_dir)
-        # File.binwrite(fake_file_path, test_png_data)
+        # Would like to use `File.binwrite(fake_file_path, test_png_data)` but
+        # FakeFS does not seem to support it yet.
         File.open(fake_file_path, 'wb') {|f| f.write(test_png_data)}
       end
 
@@ -158,36 +149,36 @@ describe Everything::Blog::Output::Media do
       end
 
       it 'keeps the folder out there' do
-        expect(Dir.exist?(media.absolute_dir)).to eq(true)
+        expect(media.absolute_dir).to exist
 
         media.save_file
 
-        expect(Dir.exist?(media.absolute_dir)).to eq(true)
+        expect(media.absolute_dir).to exist
       end
 
       it 'does not clear existing files in the folder' do
-        expect(File.exist?(fake_file_path)).to eq(true)
+        expect(fake_file_path).to exist
 
         media.save_file
 
-        expect(File.exist?(fake_file_path)).to eq(true)
+        expect(fake_file_path).to exist
       end
     end
 
     context 'when the file does not already exist' do
       it 'creates it' do
-        expect(File.exist?(media.absolute_path)).to eq(false)
+        expect(media.absolute_path).not_to exist
 
         media.save_file
 
-        expect(File.exist?(media.absolute_path)).to eq(true)
+        expect(media.absolute_path).to exist
       end
 
       it 'writes the media file data' do
         media.save_file
 
         expected_png_binary_data = test_png_data
-        media_file_data = File.binread(media.absolute_path)
+        media_file_data = media.absolute_path.binread
         expect(media_file_data).to match(expected_png_binary_data)
       end
     end
@@ -195,25 +186,25 @@ describe Everything::Blog::Output::Media do
     context 'when the file already exists' do
       before do
         FileUtils.mkdir_p(media.absolute_dir)
-        File.write(media.absolute_path, 'random text')
+        media.absolute_path.write('random text')
       end
 
       it 'does not delete the file' do
-        expect(File.exist?(media.absolute_path)).to eq(true)
+        expect(media.absolute_path).to exist
 
         media.save_file
 
-        expect(File.exist?(media.absolute_path)).to eq(true)
+        expect(media.absolute_path).to exist
       end
 
       it 'overwrites it with the correct file data' do
-        media_file_data = File.binread(media.absolute_path)
+        media_file_data = media.absolute_path.binread
         expect(media_file_data).not_to match(test_png_data)
 
         media.save_file
 
         expected_png_binary_data = test_png_data
-        media_file_data = File.binread(media.absolute_path)
+        media_file_data = media.absolute_path.binread
         expect(media_file_data).to match(expected_png_binary_data)
       end
     end
