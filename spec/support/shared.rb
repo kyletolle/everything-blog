@@ -190,25 +190,29 @@ shared_context 'with fake png' do
   include_context 'with fakefs'
 
   let(:test_png_file_path) do
-    File.join(
-      RSpec::Core::RubyProject.root,
-      'spec',
-      'data',
-      '1x1_black_square.png'
+    Pathname.new(
+      File.join(
+        RSpec::Core::RubyProject.root,
+        'spec',
+        'data',
+        '1x1_black_square.png'
+      )
     )
   end
   let(:test_png_data) do
     FakeFS::FileSystem.clone(test_png_file_path)
-    File.binread(test_png_file_path)
+    test_png_file_path.binread
   end
   let(:given_png_file_name) do
     'image.png'
   end
   let(:given_png_dir_path) do
-    File.join(Everything::Blog::Source.absolute_path, given_post_name)
+    Everything::Blog::Source.absolute_path.join(given_post_name)
   end
   let(:given_png_file_path) do
-    File.join(given_png_dir_path, given_png_file_name)
+    # TODO: Removing .to_s from this causes a spec to blow up. Can we make that
+    # code support pathname instead of strings?
+    given_png_dir_path.join(given_png_file_name).to_s
   end
   let(:given_post_name) do
     'not-a-real-post'
@@ -307,7 +311,7 @@ end
 shared_context 'with a fake template file' do
   before do
     FileUtils.mkdir_p(given_template.templates_path)
-    File.write(given_template.template_path, '')
+    given_template.template_path.write('')
   end
 end
 
