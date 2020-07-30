@@ -489,7 +489,11 @@ shared_context 'with fake aws_access_key_id env var' do
   let(:fake_env_value) { 'fake_env_value' }
 
   before do
-    ENV['AWS_ACCESS_KEY_ID'] = fake_env_value
+    without_partial_double_verification do
+      allow(Fastenv)
+        .to receive(:aws_access_key_id)
+        .and_return(fake_env_value)
+    end
   end
 end
 
@@ -497,7 +501,11 @@ shared_context 'with fake aws_secret_access_key env var' do
   let(:fake_env_value) { 'fake_env_value' }
 
   before do
-    ENV['AWS_SECRET_ACCESS_KEY'] = fake_env_value
+    without_partial_double_verification do
+      allow(Fastenv)
+        .to receive(:aws_secret_access_key)
+        .and_return(fake_env_value)
+    end
   end
 end
 
@@ -505,7 +513,11 @@ shared_context 'with fake aws_storage_bucket env var' do
   let(:fake_env_value) { 'fake_env_value' }
 
   before do
-    ENV['AWS_STORAGE_BUCKET'] = fake_env_value
+    without_partial_double_verification do
+      allow(Fastenv)
+        .to receive(:aws_storage_bucket)
+        .and_return(fake_env_value)
+    end
   end
 end
 
@@ -513,7 +525,11 @@ shared_context 'with fake aws_storage_region env var' do
   let(:fake_env_value) { 'us-east-1' }
 
   before do
-    ENV['AWS_STORAGE_REGION'] = fake_env_value
+    without_partial_double_verification do
+      allow(Fastenv)
+        .to receive(:aws_storage_region)
+        .and_return(fake_env_value)
+    end
   end
 end
 
@@ -562,6 +578,18 @@ shared_context 'with mock bucket in s3' do
       puts "WARNING: File(s) exist in bucket:"
       puts bucket.files.map(&:key)
     end
+
+    bucket&.destroy
+  end
+end
+
+shared_context 'with mock s3 bucket deleted' do
+  include_context 'with fake aws env vars'
+  before do
+    bucket = Everything::Blog::S3Bucket.new
+      .s3_connection
+      .directories
+      .get(Fastenv.aws_storage_bucket)
 
     bucket&.destroy
   end

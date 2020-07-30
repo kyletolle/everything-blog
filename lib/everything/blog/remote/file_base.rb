@@ -49,21 +49,32 @@ module Everything
         end
 
         def remote_file
-          @remote_file ||= s3_bucket&.files&.head(remote_key)
+          @remote_file ||= s3_bucket
+            .tap{|b| debug_it("Using S3 bucket: #{b}") }
+            &.files
+            .tap{|f| debug_it("Working with these files: #{f}") }
+            &.head(remote_key)
+            .tap{|rf| debug_it("Getting head of remote file: #{rf}") }
         end
 
         def remote_key
           @remote_key ||= output_file.path.to_s
+            .tap{|rk| debug_it("Trying to read remote key: #{rk}") }
         end
 
       private
 
         def create_remote_file
-          s3_bucket&.files&.create(
-            key: remote_key,
-            body: content,
-            content_type: content_type
-          )
+          s3_bucket
+            .tap{|b| debug_it("Creating in S3 bucket: #{b}") }
+            &.files
+            .tap{|f| debug_it("Creating with these files: #{f}") }
+            &.create(
+              key: remote_key,
+              body: content,
+              content_type: content_type
+            )
+            .tap{|f| debug_it("Created this file: #{f}") }
         end
 
         def update_remote_file
