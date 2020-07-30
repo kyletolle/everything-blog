@@ -120,23 +120,23 @@ describe Everything::Blog::Output::Page do
     end
   end
 
-  describe '#output_file_path' do
+  describe '#absolute_path' do
     let(:expected_path) do
       Pathname.new('/fake/blog/output/grond-crawled-on/index.html')
     end
 
     it 'is the full path of the post dir and the index.html' do
-      expect(page.output_file_path).to eq(expected_path)
+      expect(page.absolute_path).to eq(expected_path)
     end
   end
 
-  describe '#output_dir_path' do
+  describe '#absolute_dir' do
     let(:expected_dir) do
       Pathname.new('/fake/blog/output/grond-crawled-on')
     end
 
     it 'is the full path of the post dir' do
-      expect(page.output_dir_path).to eq(expected_dir)
+      expect(page.absolute_dir).to eq(expected_dir)
     end
   end
 
@@ -208,8 +208,8 @@ describe Everything::Blog::Output::Page do
 
         after do
           FileUtils.rm(fake_file_path)
-          FileUtils.rm(page.output_file_path)
-          FileUtils.rmdir(page.output_dir_path)
+          FileUtils.rm(page.absolute_path)
+          FileUtils.rmdir(page.absolute_dir)
           FileUtils.rmdir(fake_blog_output_path)
         end
 
@@ -232,27 +232,27 @@ describe Everything::Blog::Output::Page do
 
       context 'when the blog post output path already exists' do
         let(:fake_file_path) do
-          File.join(page.output_dir_path, 'something.txt')
+          File.join(page.absolute_dir, 'something.txt')
         end
 
         before do
-          FileUtils.mkdir_p(page.output_dir_path)
+          FileUtils.mkdir_p(page.absolute_dir)
           File.write(fake_file_path, 'fake file')
         end
 
         after do
           FileUtils.rm(fake_file_path)
-          FileUtils.rm(page.output_file_path)
-          FileUtils.rmdir(page.output_dir_path)
+          FileUtils.rm(page.absolute_path)
+          FileUtils.rmdir(page.absolute_dir)
           FileUtils.rmdir(fake_blog_output_path)
         end
 
         it 'keeps the folder out there' do
-          expect(Dir.exist?(page.output_dir_path)).to eq(true)
+          expect(Dir.exist?(page.absolute_dir)).to eq(true)
 
           page.save_file
 
-          expect(Dir.exist?(page.output_dir_path)).to eq(true)
+          expect(Dir.exist?(page.absolute_dir)).to eq(true)
         end
 
         it 'does not clear files in the folder' do
@@ -266,11 +266,11 @@ describe Everything::Blog::Output::Page do
 
       context 'when the file does not already exist' do
         it 'creates it' do
-          expect(File.exist?(page.output_file_path)).to eq(false)
+          expect(File.exist?(page.absolute_path)).to eq(false)
 
           page.save_file
 
-          expect(File.exist?(page.output_file_path)).to eq(true)
+          expect(File.exist?(page.absolute_path)).to eq(true)
         end
 
         it 'writes the HTML file data' do
@@ -279,32 +279,32 @@ describe Everything::Blog::Output::Page do
           # a lot of HTML into the spec file.
           page.save_file
 
-          page_file_data = File.read(page.output_file_path)
+          page_file_data = File.read(page.absolute_path)
           expect(page_file_data).to match(expected_file_data_regex)
         end
       end
 
       context 'when the file already exists' do
         before do
-          FileUtils.mkdir_p(page.output_dir_path)
-          File.write(page.output_file_path, 'random text')
+          FileUtils.mkdir_p(page.absolute_dir)
+          File.write(page.absolute_path, 'random text')
         end
 
         it 'does not delete the file' do
-          expect(File.exist?(page.output_file_path)).to eq(true)
+          expect(File.exist?(page.absolute_path)).to eq(true)
 
           page.save_file
 
-          expect(File.exist?(page.output_file_path)).to eq(true)
+          expect(File.exist?(page.absolute_path)).to eq(true)
         end
 
         it 'overwrites it with the correct file data' do
-          page_file_data = File.read(page.output_file_path)
+          page_file_data = File.read(page.absolute_path)
           expect(page_file_data).not_to match(expected_file_data_regex)
 
           page.save_file
 
-          page_file_data = File.read(page.output_file_path)
+          page_file_data = File.read(page.absolute_path)
           expect(page_file_data).to match(expected_file_data_regex)
         end
       end

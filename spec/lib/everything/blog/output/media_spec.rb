@@ -83,7 +83,7 @@ describe Everything::Blog::Output::Media do
     end
   end
 
-  describe '#output_dir_path' do
+  describe '#absolute_dir' do
     let(:expected_output_dir_path) do
       Pathname.new(
         File.join(fake_blog_output_path, given_post_name)
@@ -91,11 +91,11 @@ describe Everything::Blog::Output::Media do
     end
 
     it 'is the full path for the output dir' do
-      expect(media.output_dir_path).to eq(expected_output_dir_path)
+      expect(media.absolute_dir).to eq(expected_output_dir_path)
     end
   end
 
-  describe '#output_file_path' do
+  describe '#absolute_path' do
     let(:expected_output_file_path) do
       Pathname.new(
         File.join(
@@ -107,7 +107,7 @@ describe Everything::Blog::Output::Media do
     end
 
     it 'is the full path for the output file' do
-      expect(media.output_file_path).to eq(expected_output_file_path)
+      expect(media.absolute_path).to eq(expected_output_file_path)
     end
   end
 
@@ -126,43 +126,43 @@ describe Everything::Blog::Output::Media do
   describe '#save_file' do
     context 'when the media output dir path does not already exist' do
       before do
-        FileUtils.rm_rf(media.output_dir_path)
+        FileUtils.rm_rf(media.absolute_dir)
       end
 
       it 'creates it' do
         # TODO: Replace the many Dir.exist? and File.exist?/join with their
         # Pathname equivalents.
-        expect(media.output_dir_path).not_to exist
+        expect(media.absolute_dir).not_to exist
 
         media.save_file
 
-        expect(media.output_dir_path).to exist
+        expect(media.absolute_dir).to exist
       end
     end
 
     context 'when the media output dir path already exists' do
       let(:fake_file_path) do
-        File.join(media.output_dir_path, 'something.txt')
+        File.join(media.absolute_dir, 'something.txt')
       end
 
       before do
-        FileUtils.mkdir_p(media.output_dir_path)
+        FileUtils.mkdir_p(media.absolute_dir)
         # File.binwrite(fake_file_path, test_png_data)
         File.open(fake_file_path, 'wb') {|f| f.write(test_png_data)}
       end
 
       after do
         FileUtils.rm(fake_file_path)
-        FileUtils.rm(media.output_file_path)
-        FileUtils.rmdir(media.output_dir_path)
+        FileUtils.rm(media.absolute_path)
+        FileUtils.rmdir(media.absolute_dir)
       end
 
       it 'keeps the folder out there' do
-        expect(Dir.exist?(media.output_dir_path)).to eq(true)
+        expect(Dir.exist?(media.absolute_dir)).to eq(true)
 
         media.save_file
 
-        expect(Dir.exist?(media.output_dir_path)).to eq(true)
+        expect(Dir.exist?(media.absolute_dir)).to eq(true)
       end
 
       it 'does not clear existing files in the folder' do
@@ -176,44 +176,44 @@ describe Everything::Blog::Output::Media do
 
     context 'when the file does not already exist' do
       it 'creates it' do
-        expect(File.exist?(media.output_file_path)).to eq(false)
+        expect(File.exist?(media.absolute_path)).to eq(false)
 
         media.save_file
 
-        expect(File.exist?(media.output_file_path)).to eq(true)
+        expect(File.exist?(media.absolute_path)).to eq(true)
       end
 
       it 'writes the media file data' do
         media.save_file
 
         expected_png_binary_data = test_png_data
-        media_file_data = File.binread(media.output_file_path)
+        media_file_data = File.binread(media.absolute_path)
         expect(media_file_data).to match(expected_png_binary_data)
       end
     end
 
     context 'when the file already exists' do
       before do
-        FileUtils.mkdir_p(media.output_dir_path)
-        File.write(media.output_file_path, 'random text')
+        FileUtils.mkdir_p(media.absolute_dir)
+        File.write(media.absolute_path, 'random text')
       end
 
       it 'does not delete the file' do
-        expect(File.exist?(media.output_file_path)).to eq(true)
+        expect(File.exist?(media.absolute_path)).to eq(true)
 
         media.save_file
 
-        expect(File.exist?(media.output_file_path)).to eq(true)
+        expect(File.exist?(media.absolute_path)).to eq(true)
       end
 
       it 'overwrites it with the correct file data' do
-        media_file_data = File.binread(media.output_file_path)
+        media_file_data = File.binread(media.absolute_path)
         expect(media_file_data).not_to match(test_png_data)
 
         media.save_file
 
         expected_png_binary_data = test_png_data
-        media_file_data = File.binread(media.output_file_path)
+        media_file_data = File.binread(media.absolute_path)
         expect(media_file_data).to match(expected_png_binary_data)
       end
     end

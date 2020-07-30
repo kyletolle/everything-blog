@@ -41,15 +41,18 @@ module Everything
           source_file.content
         end
 
-        def output_dir_path
-          output_file_path.dirname
+        # TODO: Rename this to absolute_dir
+        def absolute_dir
+          absolute_path.dirname
         end
 
+        # TODO: Rename this to file_name
         def output_file_name
           'index.html'
         end
 
-        def output_file_path
+        # TODO: Rename this to absolute_path?
+        def absolute_path
           Everything::Blog::Output
             .absolute_path
             .join(dir, output_file_name)
@@ -60,6 +63,7 @@ module Everything
         end
 
         def path
+          # TODO: Simplify this. Can't it just be dir.join(file_name)
           Pathname.new(
             source_file
               .path
@@ -69,9 +73,9 @@ module Everything
         end
 
         def save_file
-          FileUtils.mkdir_p(output_dir_path)
+          FileUtils.mkdir_p(absolute_dir)
 
-          File.open(output_file_path, file_mode) do |file|
+          File.open(absolute_path, file_mode) do |file|
             file.write(output_content)
           end
         end

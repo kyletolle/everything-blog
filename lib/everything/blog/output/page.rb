@@ -42,8 +42,8 @@ module Everything
 
         def output_mtime
           @output_time ||=
-            if File.exist?(output_file_path)
-              File.mtime(output_file_path)
+            if File.exist?(absolute_path)
+              File.mtime(absolute_path)
             else
               Time.at(0)
             end
