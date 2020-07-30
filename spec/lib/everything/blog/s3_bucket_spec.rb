@@ -11,10 +11,29 @@ describe Everything::Blog::S3Bucket do
     subject { s3_bucket.bucket }
 
     context 'when the bucket does not exist' do
-      include_context 'with fake aws env vars'
+      include_context 'with mock s3 bucket deleted'
 
-      it 'returns nil' do
-        expect(subject).to be_nil
+      let(:expected_bucket_name) do
+        Fastenv.aws_storage_bucket
+      end
+
+      # TODO: It should create the bucket...
+      # TODO: Why is this not working?!
+      it 'creates a bucket with the name given in the environment variable' do
+        bucket_before = Everything::Blog::S3Bucket.new
+          .s3_connection.directories.get(expected_bucket_name)
+        expect(bucket_before).to be_nil
+
+        s3_bucket.bucket
+
+        bucket_after = Everything::Blog::S3Bucket.new
+          .s3_connection.directories.get(expected_bucket_name)
+        expect(bucket_after).not_to be_nil
+        bucket_after.destroy
+      end
+
+      it 'returns a bucket with the name given in the environment variable' do
+        expect(subject.key).to eq(expected_bucket_name)
       end
     end
 
@@ -35,8 +54,10 @@ describe Everything::Blog::S3Bucket do
     subject { s3_bucket.files }
 
     context 'when the bucket does not exist' do
-      it 'is nil' do
-        expect(subject).to be_nil
+      include_context 'with mock s3 bucket deleted'
+
+      it 'is empty' do
+        expect(subject).to be_empty
       end
     end
 
@@ -74,10 +95,6 @@ describe Everything::Blog::S3Bucket do
 
     it 'is a connection to s3' do
       expect(subject).to respond_to(:get_bucket)
-    end
-
-    it 'memoizes the result' do
-      expect(subject.object_id).to eq(s3_bucket.s3_connection.object_id)
     end
   end
 end
