@@ -477,6 +477,12 @@ shared_context 'with fake stylesheet' do
       stylesheet_filename.write(given_stylesheet_content)
     end
   end
+
+  after do
+    FakeFS do
+      fake_stylesheet_file_path.rmtree
+    end
+  end
 end
 
 shared_context 'with fake aws_access_key_id env var' do
