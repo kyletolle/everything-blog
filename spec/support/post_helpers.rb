@@ -39,7 +39,7 @@ module PostHelpers
   def delete_post(post_name)
     piece_path = Everything::Blog::Source.absolute_dir.join(post_name)
 
-    FileUtils.rm_rf(piece_path)
+    piece_path.rmtree if piece_path.exist?
   end
 end
 

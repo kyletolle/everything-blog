@@ -124,10 +124,10 @@ describe Everything::Blog::Output::Stylesheet do
         end
 
         after do
-          FileUtils.rm(fake_file_path)
-          FileUtils.rm(stylesheet.absolute_path)
-          FileUtils.rmdir(stylesheet.absolute_dir)
-          FileUtils.rmdir(Everything::Blog::Output.absolute_dir)
+          fake_file_path.delete
+          stylesheet.absolute_path.delete
+          stylesheet.absolute_dir.rmdir
+          Everything::Blog::Output.absolute_dir.rmdir
         end
 
         it 'keeps the folder out there, :aggregate_failures' do

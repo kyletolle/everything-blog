@@ -117,13 +117,13 @@ shared_context 'with fake piece' do
   end
 
   after do
-    FileUtils.rm_rf(given_piece_path)
+    fake_piece.absolute_dir.rmtree if fake_piece.absolute_dir.exist?
   end
 end
 
 shared_context 'with deleted piece' do
   before do
-    FileUtils.rm_rf(fake_piece.absolute_dir)
+    fake_piece.absolute_dir.rmtree
   end
 end
 
@@ -225,7 +225,7 @@ shared_context 'with fake png' do
   end
 
   after do
-    FileUtils.rm_rf(given_png_dir_path)
+    given_png_dir_path.rmtree if given_png_dir_path.exist?
   end
 end
 

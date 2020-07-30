@@ -207,10 +207,10 @@ describe Everything::Blog::Output::Page do
         end
 
         after do
-          FileUtils.rm(fake_file_path)
-          FileUtils.rm(page.absolute_path)
-          FileUtils.rmdir(page.absolute_dir)
-          FileUtils.rmdir(Everything::Blog::Output.absolute_dir)
+          fake_file_path.delete
+          page.absolute_path.delete
+          page.absolute_dir.rmdir
+          Everything::Blog::Output.absolute_dir.rmdir
         end
 
         it 'keeps the folder out there' do
@@ -241,10 +241,10 @@ describe Everything::Blog::Output::Page do
         end
 
         after do
-          FileUtils.rm(fake_file_path)
-          FileUtils.rm(page.absolute_path)
-          FileUtils.rmdir(page.absolute_dir)
-          FileUtils.rmdir(Everything::Blog::Output.absolute_dir)
+          fake_file_path.delete
+          page.absolute_path.delete
+          page.absolute_dir.rmdir
+          Everything::Blog::Output.absolute_dir.rmdir
         end
 
         it 'keeps the folder out there' do

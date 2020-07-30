@@ -117,10 +117,6 @@ describe Everything::Blog::Output::Media do
 
   describe '#save_file' do
     context 'when the media output dir path does not already exist' do
-      before do
-        FileUtils.rm_rf(media.absolute_dir)
-      end
-
       it 'creates it' do
         expect(media.absolute_dir).not_to exist
 
@@ -143,9 +139,7 @@ describe Everything::Blog::Output::Media do
       end
 
       after do
-        FileUtils.rm(fake_file_path)
-        FileUtils.rm(media.absolute_path)
-        FileUtils.rmdir(media.absolute_dir)
+        media.absolute_dir.rmtree
       end
 
       it 'keeps the folder out there' do

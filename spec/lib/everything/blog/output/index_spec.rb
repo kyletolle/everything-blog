@@ -135,9 +135,9 @@ describe Everything::Blog::Output::Index do
         end
 
         after do
-          FileUtils.rm(fake_file_path)
-          FileUtils.rm(index.absolute_path)
-          FileUtils.rmdir(Everything::Blog::Output.absolute_dir)
+          fake_file_path.delete
+          index.absolute_path.delete
+          Everything::Blog::Output.absolute_dir.rmdir
         end
 
         it 'keeps the folder out there' do
