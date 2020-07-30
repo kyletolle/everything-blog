@@ -17,7 +17,7 @@ module Everything
         end
 
         def content_type
-          file_extension_match = source_file.source_file_path
+          file_extension_match = source_file.absolute_path.to_s
             .match(/\.(jpg|gif|png|mp3)$/)
           file_extension = file_extension_match[1]
           CONTENT_TYPES[file_extension]

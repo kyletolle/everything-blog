@@ -3,11 +3,11 @@ require 'spec_helper'
 describe Everything::Blog::Source::Media do
   include_context 'with fake png'
 
-  let(:given_source_file_path) do
+  let(:given_absolute_path) do
     given_png_file_path
   end
   let(:media) do
-    described_class.new(given_source_file_path)
+    described_class.new(given_absolute_path)
   end
 
   describe '#absolute_dir' do
@@ -120,7 +120,7 @@ describe Everything::Blog::Source::Media do
 
       context "when the other media's file path matches" do
         let(:other_media) do
-          described_class.new(given_source_file_path)
+          described_class.new(given_absolute_path)
         end
 
         it 'is true' do

@@ -40,7 +40,7 @@ describe Everything::Blog::Output::Media do
   describe '#content_type' do
     context 'when file has a jpg extension' do
       before do
-        allow(source_media).to receive(:source_file_path)
+        allow(source_media).to receive(:absolute_path)
           .and_return('/some/path/to/test.jpg')
       end
 
@@ -51,7 +51,7 @@ describe Everything::Blog::Output::Media do
 
     context 'when the file has a gif extension' do
       before do
-        allow(source_media).to receive(:source_file_path)
+        allow(source_media).to receive(:absolute_path)
           .and_return('/some/path/to/test.gif')
       end
 
@@ -62,7 +62,7 @@ describe Everything::Blog::Output::Media do
 
     context 'when the file has a png extension' do
       before do
-        allow(source_media).to receive(:source_file_path)
+        allow(source_media).to receive(:absolute_path)
           .and_return('/some/path/to/test.png')
       end
 
@@ -73,7 +73,7 @@ describe Everything::Blog::Output::Media do
 
     context 'when the file has a mp3 extension' do
       before do
-        allow(source_media).to receive(:source_file_path)
+        allow(source_media).to receive(:absolute_path)
           .and_return('/some/path/to/test.mp3')
       end
 

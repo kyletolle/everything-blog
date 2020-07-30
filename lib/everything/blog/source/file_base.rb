@@ -16,12 +16,6 @@ module Everything
         def inspect
           "#<#{self.class}: dir: `#{dir}`, file_name: `#{file_name}`>"
         end
-
-      private
-
-        def source_file_path
-          Everything.path.join(file_name)
-        end
       end
     end
   end

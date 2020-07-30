@@ -210,9 +210,7 @@ shared_context 'with fake png' do
     Everything::Blog::Source.absolute_path.join(given_post_name)
   end
   let(:given_png_file_path) do
-    # TODO: Removing .to_s from this causes a spec to blow up. Can we make that
-    # code support pathname instead of strings?
-    given_png_dir_path.join(given_png_file_name).to_s
+    given_png_dir_path.join(given_png_file_name)
   end
   let(:given_post_name) do
     'not-a-real-post'

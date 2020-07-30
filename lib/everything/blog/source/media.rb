@@ -7,10 +7,9 @@ module Everything
       class Media < Everything::Blog::Source::FileBase
         include Everything::Logger::LogIt
 
-        attr_reader :absolute_path, :source_file_path
+        attr_reader :absolute_path
 
         def initialize(absolute_path)
-          @source_file_path = absolute_path
           @absolute_path = Pathname.new(absolute_path)
 
           debug_it("Using source media: #{inspect}")
