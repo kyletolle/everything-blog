@@ -52,7 +52,7 @@ module Everything
         def absolute_path
           Everything::Blog::Output
             .absolute_path
-            .join(dir, file_name)
+            .join(path)
         end
 
         def dir
@@ -60,13 +60,7 @@ module Everything
         end
 
         def path
-          # TODO: Simplify this. Can't it just be dir.join(file_name)
-          Pathname.new(
-            source_file
-              .path
-              .to_s
-              .gsub('md', 'html')
-          )
+          dir.join(file_name)
         end
 
         def save_file
