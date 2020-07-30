@@ -1,5 +1,4 @@
 require 'erb'
-require 'pathname'
 require 'tilt'
 
 module Everything
