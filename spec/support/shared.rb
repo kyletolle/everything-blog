@@ -50,14 +50,14 @@ shared_context 'with fake templates' do
   end
 
   before do
-    fake_index_template.templates_path.mkpath
+    Everything::Blog::Output.templates_dir.mkpath
 
     fake_index_template.template_path.write(fake_template_html)
     fake_post_template.template_path.write(fake_template_html)
   end
 
   after do
-    FileUtils.rm_rf(fake_index_template.templates_path)
+    Everything::Blog::Output.templates_dir.rmtree
   end
 end
 
@@ -308,7 +308,7 @@ end
 
 shared_context 'with a fake template file' do
   before do
-    given_template.templates_path.mkpath
+    Everything::Blog::Output.templates_dir.mkpath
     given_template.template_path.write('')
   end
 end
@@ -444,35 +444,12 @@ shared_examples 'behaves like a TemplateBase' do
       include_context 'stub out templates path'
 
       let(:expected_template_path) do
-        Pathname.new(
-          Fastenv.templates_path
-        ).join(described_class::TEMPLATE_NAME)
+        Everything::Blog::Output.templates_dir
+          .join(described_class::TEMPLATE_NAME)
       end
 
       it 'is the path for the template under the templates_path' do
         expect(given_template.template_path).to eq(expected_template_path)
-      end
-    end
-  end
-
-  describe '#templates_path' do
-    context 'when the env var is not set' do
-      include_context 'when templates_path is not set'
-
-      it 'raises an error that the env var is not set' do
-        expect{given_template.templates_path}.to raise_error(NameError)
-      end
-    end
-
-    context 'when the env var is set' do
-      include_context 'stub out templates path'
-
-      let(:expected_templates_path) do
-        Pathname.new(fake_templates_path)
-      end
-
-      it 'returns the environment var' do
-        expect(given_template.templates_path).to eq(expected_templates_path)
       end
     end
   end
@@ -482,14 +459,19 @@ shared_context 'with fake stylesheet' do
   include FakeFS::SpecHelpers
 
   include_context 'stub out everything path'
+  include_context 'with fake templates'
 
   let(:given_stylesheet_content) do
     'p { font-size: 1em; }'
   end
+  let(:fake_stylesheet_file_path) do
+    Everything::Blog::Output
+      .templates_dir
+      .join('css')
+  end
 
   before do
     FakeFS do
-      fake_stylesheet_file_path = Everything.path.join('css')
       fake_stylesheet_file_path.mkpath
       stylesheet_filename = fake_stylesheet_file_path.join('style.css')
       stylesheet_filename.write(given_stylesheet_content)

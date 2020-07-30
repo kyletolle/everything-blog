@@ -14,7 +14,10 @@ module Everything
         end
 
         def absolute_dir
-          @absolute_dir ||= Everything.path.join(dir)
+          # TODO: Alright, this has gotten weird now that this is referencing
+          # the Output class. We should move it into the Source class? Or make
+          # the Templates class its own thing so .templates_dir can live there?
+          @absolute_dir ||= Everything::Blog::Output.templates_dir.join(dir)
         end
 
         def absolute_path

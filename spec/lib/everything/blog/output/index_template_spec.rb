@@ -39,7 +39,7 @@ describe Everything::Blog::Output::IndexTemplate do
       include_context 'when templates_path is not set'
 
       let(:action) do
-        index_template.templates_path
+        Everything::Blog::Output.templates_dir
       end
       include_examples 'raises an error about the env var'
     end

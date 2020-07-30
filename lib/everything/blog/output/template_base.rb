@@ -24,11 +24,7 @@ module Everything
         end
 
         def template_path
-          templates_path.join(template_name)
-        end
-
-        def templates_path
-          Pathname.new(Fastenv.templates_path)
+          Everything::Blog::Output.templates_dir.join(template_name)
         end
       end
     end

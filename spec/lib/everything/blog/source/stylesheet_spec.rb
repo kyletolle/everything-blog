@@ -6,10 +6,12 @@ describe Everything::Blog::Source::Stylesheet do
   end
 
   describe '#absolute_dir' do
-    include_context 'stub out everything path'
+    include_context 'with fake templates'
 
     let(:expected_absolute_dir) do
-      Pathname.new('/fake/everything/path/css')
+      Pathname.new(
+        '/fake/templates/path/css'
+      )
     end
 
     it 'is the absolute dir for the stylesheet' do
@@ -24,10 +26,10 @@ describe Everything::Blog::Source::Stylesheet do
   end
 
   describe '#absolute_path' do
-    include_context 'stub out everything path'
+    include_context 'with fake templates'
 
     let(:expected_absolute_path) do
-      Pathname.new('/fake/everything/path/css/style.css')
+      Pathname.new('/fake/templates/path/css/style.css')
     end
 
     it 'is the absolute path for the stylesheet' do
@@ -54,8 +56,6 @@ describe Everything::Blog::Source::Stylesheet do
   end
 
   describe '#file_name' do
-    include_context 'stub out everything path'
-
     let(:expected_file_name) do
       Pathname.new(described_class::FILE_NAME)
     end
@@ -72,8 +72,6 @@ describe Everything::Blog::Source::Stylesheet do
   end
 
   describe '#dir' do
-    include_context 'stub out everything path'
-
     let(:expected_dir) do
       Pathname.new(described_class::DIR)
     end
@@ -90,8 +88,6 @@ describe Everything::Blog::Source::Stylesheet do
   end
 
   describe '#path' do
-    include_context 'stub out everything path'
-
     let(:expected_path) do
       Pathname.new('css/style.css')
     end
@@ -109,8 +105,6 @@ describe Everything::Blog::Source::Stylesheet do
 
   # TODO: Make it check the absolute path
   describe '#==' do
-    include_context 'stub out everything path'
-
     context 'when the other object does not respond to #file_name' do
       let(:other_object) { nil }
 
@@ -148,8 +142,6 @@ describe Everything::Blog::Source::Stylesheet do
   end
 
   describe '#inspect' do
-    include_context 'stub out everything path'
-
     let(:inspect_output_regex) do
       /#<#{described_class}: dir: `#{stylesheet.dir}`, file_name: `#{stylesheet.file_name}`>/
     end
