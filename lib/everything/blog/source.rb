@@ -2,14 +2,14 @@ module Everything
   class Blog
     module Source
       class << self
-        PATH = 'blog'
+        DIR = 'blog'
 
-        def absolute_path
-          Everything.path.join(path)
+        def absolute_dir
+          Everything.path.join(dir)
         end
 
-        def path
-          Pathname.new(PATH)
+        def dir
+          Pathname.new(DIR)
         end
       end
     end

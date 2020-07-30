@@ -85,7 +85,7 @@ describe Everything::Blog::Output::Media do
 
   describe '#absolute_dir' do
     let(:expected_absolute_dir) do
-      Everything::Blog::Output.absolute_path.join(given_post_name)
+      Everything::Blog::Output.absolute_dir.join(given_post_name)
     end
 
     it 'is the full path for the output dir' do
@@ -95,7 +95,7 @@ describe Everything::Blog::Output::Media do
 
   describe '#absolute_path' do
     let(:expected_absolute_path) do
-      Everything::Blog::Output.absolute_path.join(given_post_name, media.file_name)
+      Everything::Blog::Output.absolute_dir.join(given_post_name, media.file_name)
     end
 
     it 'is the full path for the output file' do

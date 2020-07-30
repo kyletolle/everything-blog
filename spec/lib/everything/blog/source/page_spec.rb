@@ -8,7 +8,7 @@ describe Everything::Blog::Source::Page do
 
   let(:given_piece_path) do
     # We want to create our fake posts in the blog directory.
-    Everything::Blog::Source.absolute_path.join(given_post_name)
+    Everything::Blog::Source.absolute_dir.join(given_post_name)
   end
 
   let(:given_post) do

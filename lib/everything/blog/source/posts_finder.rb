@@ -34,7 +34,7 @@ module Everything
         end
 
         def blog_source_path
-          Everything::Blog::Source.absolute_path
+          Everything::Blog::Source.absolute_dir
         end
 
         def files_to_ignore

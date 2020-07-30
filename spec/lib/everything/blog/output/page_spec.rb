@@ -12,7 +12,7 @@ describe Everything::Blog::Output::Page do
 
   let(:given_piece_path) do
     # We want to create our fake posts in the blog directory.
-    Everything::Blog::Source.absolute_path.join(given_post_name)
+    Everything::Blog::Source.absolute_dir.join(given_post_name)
   end
   let(:given_post) do
     fake_post
@@ -188,21 +188,21 @@ describe Everything::Blog::Output::Page do
 
       context 'when the blog output path does not already exist' do
         it 'creates it' do
-          expect(Everything::Blog::Output.absolute_path).not_to exist
+          expect(Everything::Blog::Output.absolute_dir).not_to exist
 
           page.save_file
 
-          expect(Everything::Blog::Output.absolute_path).to exist
+          expect(Everything::Blog::Output.absolute_dir).to exist
         end
       end
 
       context 'when the blog output path already exists' do
         let(:fake_file_path) do
-          Everything::Blog::Output.absolute_path.join('something.txt')
+          Everything::Blog::Output.absolute_dir.join('something.txt')
         end
 
         before do
-          FileUtils.mkdir_p(Everything::Blog::Output.absolute_path)
+          FileUtils.mkdir_p(Everything::Blog::Output.absolute_dir)
           fake_file_path.write('fake file')
         end
 
@@ -210,15 +210,15 @@ describe Everything::Blog::Output::Page do
           FileUtils.rm(fake_file_path)
           FileUtils.rm(page.absolute_path)
           FileUtils.rmdir(page.absolute_dir)
-          FileUtils.rmdir(Everything::Blog::Output.absolute_path)
+          FileUtils.rmdir(Everything::Blog::Output.absolute_dir)
         end
 
         it 'keeps the folder out there' do
-          expect(Everything::Blog::Output.absolute_path).to exist
+          expect(Everything::Blog::Output.absolute_dir).to exist
 
           page.save_file
 
-          expect(Everything::Blog::Output.absolute_path).to exist
+          expect(Everything::Blog::Output.absolute_dir).to exist
         end
 
         it 'does not clear existing files in the folder' do
@@ -244,7 +244,7 @@ describe Everything::Blog::Output::Page do
           FileUtils.rm(fake_file_path)
           FileUtils.rm(page.absolute_path)
           FileUtils.rmdir(page.absolute_dir)
-          FileUtils.rmdir(Everything::Blog::Output.absolute_path)
+          FileUtils.rmdir(Everything::Blog::Output.absolute_dir)
         end
 
         it 'keeps the folder out there' do

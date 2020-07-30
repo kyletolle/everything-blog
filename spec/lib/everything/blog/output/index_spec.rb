@@ -56,7 +56,7 @@ describe Everything::Blog::Output::Index do
 
   describe '#absolute_dir' do
     let(:expected_absolute_dir) do
-      Everything::Blog::Output.absolute_path
+      Everything::Blog::Output.absolute_dir
     end
 
     it 'is the full path for the output dir' do
@@ -72,7 +72,7 @@ describe Everything::Blog::Output::Index do
 
   describe '#absolute_path' do
     let(:expected_absolute_path) do
-      Everything::Blog::Output.absolute_path.join(index.file_name)
+      Everything::Blog::Output.absolute_dir.join(index.file_name)
     end
 
     it 'is the full path for the output file' do
@@ -116,36 +116,36 @@ describe Everything::Blog::Output::Index do
 
       context 'when the blog output path does not already exist' do
         it 'creates it' do
-          expect(Everything::Blog::Output.absolute_path).not_to exist
+          expect(Everything::Blog::Output.absolute_dir).not_to exist
 
           index.save_file
 
-          expect(Everything::Blog::Output.absolute_path).to exist
+          expect(Everything::Blog::Output.absolute_dir).to exist
         end
       end
 
       context 'when the blog output path already exists' do
         let(:fake_file_path) do
-          Everything::Blog::Output.absolute_path.join('something.txt')
+          Everything::Blog::Output.absolute_dir.join('something.txt')
         end
 
         before do
-          FileUtils.mkdir_p(Everything::Blog::Output.absolute_path)
+          FileUtils.mkdir_p(Everything::Blog::Output.absolute_dir)
           fake_file_path.write('fake file')
         end
 
         after do
           FileUtils.rm(fake_file_path)
           FileUtils.rm(index.absolute_path)
-          FileUtils.rmdir(Everything::Blog::Output.absolute_path)
+          FileUtils.rmdir(Everything::Blog::Output.absolute_dir)
         end
 
         it 'keeps the folder out there' do
-          expect(Everything::Blog::Output.absolute_path).to exist
+          expect(Everything::Blog::Output.absolute_dir).to exist
 
           index.save_file
 
-          expect(Everything::Blog::Output.absolute_path).to exist
+          expect(Everything::Blog::Output.absolute_dir).to exist
         end
 
         it 'does not clear existing files in the folder' do
@@ -179,7 +179,7 @@ describe Everything::Blog::Output::Index do
 
       context 'when the file already exists' do
         before do
-          FileUtils.mkdir_p(Everything::Blog::Output.absolute_path)
+          FileUtils.mkdir_p(Everything::Blog::Output.absolute_dir)
           index.absolute_path.write('random text')
         end
 

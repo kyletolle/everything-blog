@@ -51,7 +51,7 @@ module Everything
 
         def absolute_path
           Everything::Blog::Output
-            .absolute_path
+            .absolute_dir
             .join(path)
         end
 

@@ -53,7 +53,7 @@ describe Everything::Blog::Output::Stylesheet do
 
   describe '#absolute_dir' do
     let(:expected_absolute_dir) do
-      Everything::Blog::Output.absolute_path.join('css')
+      Everything::Blog::Output.absolute_dir.join('css')
     end
 
     it 'is the full path for the output css dir' do
@@ -63,7 +63,7 @@ describe Everything::Blog::Output::Stylesheet do
 
   describe '#absolute_path' do
     let(:expected_absolute_path) do
-      Everything::Blog::Output.absolute_path.join('css', stylesheet.file_name)
+      Everything::Blog::Output.absolute_dir.join('css', stylesheet.file_name)
     end
 
     it 'is the full path for the output file' do
@@ -105,21 +105,21 @@ describe Everything::Blog::Output::Stylesheet do
 
       context 'when the blog output path does not already exist' do
         it 'creates it', :aggregate_failures do
-          expect(Everything::Blog::Output.absolute_path).not_to exist
+          expect(Everything::Blog::Output.absolute_dir).not_to exist
 
           stylesheet.save_file
 
-          expect(Everything::Blog::Output.absolute_path).to exist
+          expect(Everything::Blog::Output.absolute_dir).to exist
         end
       end
 
       context 'when the blog output path already exists' do
         let(:fake_file_path) do
-          Everything::Blog::Output.absolute_path.join('something.txt')
+          Everything::Blog::Output.absolute_dir.join('something.txt')
         end
 
         before do
-          FileUtils.mkdir_p(Everything::Blog::Output.absolute_path)
+          FileUtils.mkdir_p(Everything::Blog::Output.absolute_dir)
           fake_file_path.write('fake file')
         end
 
@@ -127,15 +127,15 @@ describe Everything::Blog::Output::Stylesheet do
           FileUtils.rm(fake_file_path)
           FileUtils.rm(stylesheet.absolute_path)
           FileUtils.rmdir(stylesheet.absolute_dir)
-          FileUtils.rmdir(Everything::Blog::Output.absolute_path)
+          FileUtils.rmdir(Everything::Blog::Output.absolute_dir)
         end
 
         it 'keeps the folder out there, :aggregate_failures' do
-          expect(Everything::Blog::Output.absolute_path).to exist
+          expect(Everything::Blog::Output.absolute_dir).to exist
 
           stylesheet.save_file
 
-          expect(Everything::Blog::Output.absolute_path).to exist
+          expect(Everything::Blog::Output.absolute_dir).to exist
         end
 
         it 'does not clear existing files in the folder, :aggregate_failures' do

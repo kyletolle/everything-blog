@@ -63,7 +63,7 @@ end
 
 shared_context 'create blog path' do
   before do
-    FileUtils.mkdir_p(Everything::Blog::Source.absolute_path)
+    FileUtils.mkdir_p(Everything::Blog::Source.absolute_dir)
   end
 end
 
@@ -207,7 +207,7 @@ shared_context 'with fake png' do
     'image.png'
   end
   let(:given_png_dir_path) do
-    Everything::Blog::Source.absolute_path.join(given_post_name)
+    Everything::Blog::Source.absolute_dir.join(given_post_name)
   end
   let(:given_png_file_path) do
     given_png_dir_path.join(given_png_file_name)

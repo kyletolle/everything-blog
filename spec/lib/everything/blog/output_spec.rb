@@ -4,12 +4,12 @@ describe Everything::Blog::Output do
   describe '.absolute_path' do
     include_context 'stub out blog output path'
 
-    let(:expected_absolute_path) do
+    let(:expected_absolute_dir) do
       Pathname.new(fake_blog_output_path)
     end
 
-    it 'is the absolute output path' do
-      expect(described_class.absolute_path).to eq(expected_absolute_path)
+    it 'is the absolute dir' do
+      expect(described_class.absolute_dir).to eq(expected_absolute_dir)
     end
   end
 end
