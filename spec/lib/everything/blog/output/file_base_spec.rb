@@ -94,11 +94,11 @@ describe Everything::Blog::Output::FileBase do
 
     before do
       allow(output_file_base_instance)
-        .to receive(:output_file_name)
+        .to receive(:file_name)
         .and_return("/a/fake/file/name/for/inspect.md")
     end
     let(:inspect_output_regex) do
-      /#<#{described_class}: dir: `#{output_file_base_instance.dir}`, output_file_name: `#{output_file_base_instance.output_file_name}`>/
+      /#<#{described_class}: dir: `#{output_file_base_instance.dir}`, file_name: `#{output_file_base_instance.file_name}`>/
     end
 
     it 'returns a shorthand format with class name and file name' do

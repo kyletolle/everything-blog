@@ -12,7 +12,7 @@ module Everything
           debug_it("Using output media: #{inspect}")
         end
 
-        def output_file_name
+        def file_name
           source_file.file_name
         end
 

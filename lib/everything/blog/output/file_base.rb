@@ -34,28 +34,25 @@ module Everything
         end
 
         def inspect
-          "#<#{self.class}: dir: `#{dir}`, output_file_name: `#{output_file_name}`>"
+          "#<#{self.class}: dir: `#{dir}`, file_name: `#{file_name}`>"
         end
 
         def output_content
           source_file.content
         end
 
-        # TODO: Rename this to absolute_dir
         def absolute_dir
           absolute_path.dirname
         end
 
-        # TODO: Rename this to file_name
-        def output_file_name
+        def file_name
           'index.html'
         end
 
-        # TODO: Rename this to absolute_path?
         def absolute_path
           Everything::Blog::Output
             .absolute_path
-            .join(dir, output_file_name)
+            .join(dir, file_name)
         end
 
         def dir

@@ -26,7 +26,7 @@ describe Everything::Blog::Output::Stylesheet do
 
   describe '#inspect' do
     let(:inspect_output_regex) do
-      /#<#{described_class}: dir: `#{stylesheet.dir}`, output_file_name: `#{stylesheet.output_file_name}`>/
+      /#<#{described_class}: dir: `#{stylesheet.dir}`, file_name: `#{stylesheet.file_name}`>/
     end
 
     it 'returns a shorthand format with class name and file name' do
@@ -42,12 +42,12 @@ describe Everything::Blog::Output::Stylesheet do
     end
   end
 
-  describe '#output_file_name' do
+  describe '#file_name' do
     let(:css_stylesheet_file_pathname) do
       Pathname.new('style.css')
     end
     it 'is a style css file' do
-      expect(stylesheet.output_file_name).to eq(css_stylesheet_file_pathname)
+      expect(stylesheet.file_name).to eq(css_stylesheet_file_pathname)
     end
   end
 
@@ -64,7 +64,7 @@ describe Everything::Blog::Output::Stylesheet do
   describe '#absolute_path' do
     let(:expected_output_file_path) do
       Pathname.new(
-        File.join(fake_blog_output_path, 'css', stylesheet.output_file_name)
+        File.join(fake_blog_output_path, 'css', stylesheet.file_name)
       )
     end
 

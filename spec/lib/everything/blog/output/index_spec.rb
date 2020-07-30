@@ -23,7 +23,7 @@ describe Everything::Blog::Output::Index do
 
   describe '#inspect' do
     let(:inspect_output_regex) do
-      /#<#{described_class}: dir: `#{index.dir}`, output_file_name: `#{index.output_file_name}`>/
+      /#<#{described_class}: dir: `#{index.dir}`, file_name: `#{index.file_name}`>/
     end
 
     it 'returns a shorthand format with class name and file name' do
@@ -66,16 +66,16 @@ describe Everything::Blog::Output::Index do
     end
   end
 
-  describe '#output_file_name' do
+  describe '#file_name' do
     it 'is an index html file' do
-      expect(index.output_file_name).to eq('index.html')
+      expect(index.file_name).to eq('index.html')
     end
   end
 
   describe '#absolute_path' do
     let(:expected_output_file_path) do
       Pathname.new(
-        File.join(fake_blog_output_path, index.output_file_name)
+        File.join(fake_blog_output_path, index.file_name)
       )
     end
 

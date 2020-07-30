@@ -17,7 +17,7 @@ describe Everything::Blog::Output::Media do
 
   describe '#inspect' do
     let(:inspect_output_regex) do
-      /#<#{described_class}: dir: `#{media.dir}`, output_file_name: `#{media.output_file_name}`>/
+      /#<#{described_class}: dir: `#{media.dir}`, file_name: `#{media.file_name}`>/
     end
 
     it 'returns a shorthand format with class name and file name' do
@@ -31,9 +31,9 @@ describe Everything::Blog::Output::Media do
     end
   end
 
-  describe '#output_file_name' do
+  describe '#file_name' do
     it 'is the source file name' do
-      expect(media.output_file_name).to eq(source_media.file_name)
+      expect(media.file_name).to eq(source_media.file_name)
     end
   end
 
@@ -101,7 +101,7 @@ describe Everything::Blog::Output::Media do
         File.join(
           fake_blog_output_path,
           given_post_name,
-          media.output_file_name
+          media.file_name
         )
       )
     end

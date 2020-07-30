@@ -26,7 +26,7 @@ describe Everything::Blog::Output::Page do
 
   describe '#inspect' do
     let(:inspect_output_regex) do
-      /#<#{described_class}: dir: `#{page.dir}`, output_file_name: `#{page.output_file_name}`>/
+      /#<#{described_class}: dir: `#{page.dir}`, file_name: `#{page.file_name}`>/
     end
 
     it 'returns a shorthand format with class name and file name' do
@@ -114,9 +114,9 @@ describe Everything::Blog::Output::Page do
     end
   end
 
-  describe '#output_file_name' do
+  describe '#file_name' do
     it 'is index.html' do
-      expect(page.output_file_name).to eq('index.html')
+      expect(page.file_name).to eq('index.html')
     end
   end
 
