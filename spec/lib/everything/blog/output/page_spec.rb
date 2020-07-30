@@ -1,9 +1,6 @@
 require 'spec_helper'
-require 'fakefs/spec_helpers'
 
 describe Everything::Blog::Output::Page do
-  include FakeFS::SpecHelpers
-
   include_context 'stub out everything path'
   include_context 'with fakefs'
   include_context 'create blog path'
@@ -15,7 +12,7 @@ describe Everything::Blog::Output::Page do
 
   let(:given_piece_path) do
     # We want to create our fake posts in the blog directory.
-    File.join(Everything::Blog::Source.absolute_path, given_post_name)
+    Everything::Blog::Source.absolute_dir.join(given_post_name)
   end
   let(:given_post) do
     fake_post
@@ -29,7 +26,7 @@ describe Everything::Blog::Output::Page do
 
   describe '#inspect' do
     let(:inspect_output_regex) do
-      /#<#{described_class}: path: `#{page.relative_dir_path}`, output_file_name: `#{page.output_file_name}`>/
+      /#<#{described_class}: dir: `#{page.dir}`, file_name: `#{page.file_name}`>/
     end
 
     it 'returns a shorthand format with class name and file name' do
@@ -61,7 +58,7 @@ describe Everything::Blog::Output::Page do
 
         context 'when source metadata has been modified since the page was saved' do
           before do
-            FileUtils.touch(given_post.piece.metadata.file_path)
+            FileUtils.touch(given_post.piece.metadata.absolute_path)
           end
 
           it 'is true' do
@@ -72,7 +69,7 @@ describe Everything::Blog::Output::Page do
 
       context 'when the source markdown has been modified since the page was saved' do
         before do
-          FileUtils.touch(given_post.piece.content.file_path)
+          FileUtils.touch(given_post.piece.content.absolute_path)
         end
 
         it 'is true' do
@@ -94,7 +91,7 @@ describe Everything::Blog::Output::Page do
     end
   end
 
-  describe '#output_content' do
+  describe '#content' do
     let(:template_double) { instance_double(page.template_klass) }
     let(:fake_content_and_template) { '<p>Faked out, yo!</p>' }
 
@@ -108,48 +105,63 @@ describe Everything::Blog::Output::Page do
     end
 
     it 'returns merged template and content' do
-      expect(page.output_content).to eq(fake_content_and_template)
+      expect(page.content).to eq(fake_content_and_template)
     end
 
     it 'memoizes the return value' do
-      expect(page.output_content.object_id)
-        .to eq(page.output_content.object_id)
+      expect(page.content.object_id)
+        .to eq(page.content.object_id)
     end
   end
 
-  describe '#output_file_name' do
+  describe '#file_name' do
     it 'is index.html' do
-      expect(page.output_file_name).to eq('index.html')
+      expect(page.file_name).to eq('index.html')
     end
   end
 
-  describe '#output_file_path' do
+  describe '#absolute_path' do
+    let(:expected_path) do
+      Pathname.new('/fake/blog/output/grond-crawled-on/index.html')
+    end
+
     it 'is the full path of the post dir and the index.html' do
-      expect(page.output_file_path).to eq('/fake/blog/output/grond-crawled-on/index.html')
+      expect(page.absolute_path).to eq(expected_path)
     end
   end
 
-  describe '#output_dir_path' do
+  describe '#absolute_dir' do
+    let(:expected_dir) do
+      Pathname.new('/fake/blog/output/grond-crawled-on')
+    end
+
     it 'is the full path of the post dir' do
-      expect(page.output_dir_path).to eq('/fake/blog/output/grond-crawled-on')
+      expect(page.absolute_dir).to eq(expected_dir)
     end
   end
 
-  describe '#relative_dir_path' do
+  describe '#dir' do
+    let(:expected_dir) do
+      Pathname.new('grond-crawled-on')
+    end
+
     it 'is the relative path of the post dir, without a leading slash' do
-      expect(page.relative_dir_path).to eq('grond-crawled-on')
+      expect(page.dir).to eq(expected_dir)
     end
   end
 
-  describe '#relative_file_path' do
+  describe '#path' do
     let(:expected_relative_file_path) do
-      given_source_page
-        .relative_file_path
-        .gsub('md', 'html')
+      Pathname.new(
+        given_source_page
+          .path
+          .to_s
+          .gsub('md', 'html')
+      )
     end
 
     it 'should be the same path as the source index, except an html file' do
-      expect(page.relative_file_path)
+      expect(page.path)
         .to eq(expected_relative_file_path)
     end
   end
@@ -176,89 +188,89 @@ describe Everything::Blog::Output::Page do
 
       context 'when the blog output path does not already exist' do
         it 'creates it' do
-          expect(Dir.exist?(fake_blog_output_path)).to eq(false)
+          expect(Everything::Blog::Output.absolute_dir).not_to exist
 
           page.save_file
 
-          expect(Dir.exist?(fake_blog_output_path)).to eq(true)
+          expect(Everything::Blog::Output.absolute_dir).to exist
         end
       end
 
       context 'when the blog output path already exists' do
         let(:fake_file_path) do
-          File.join(fake_blog_output_path, 'something.txt')
+          Everything::Blog::Output.absolute_dir.join('something.txt')
         end
 
         before do
-          FileUtils.mkdir_p(fake_blog_output_path)
-          File.write(fake_file_path, 'fake file')
+          Everything::Blog::Output.absolute_dir.mkpath
+          fake_file_path.write('fake file')
         end
 
         after do
-          FileUtils.rm(fake_file_path)
-          FileUtils.rm(page.output_file_path)
-          FileUtils.rmdir(page.output_dir_path)
-          FileUtils.rmdir(fake_blog_output_path)
+          fake_file_path.delete
+          page.absolute_path.delete
+          page.absolute_dir.rmdir
+          Everything::Blog::Output.absolute_dir.rmdir
         end
 
         it 'keeps the folder out there' do
-          expect(Dir.exist?(fake_blog_output_path)).to eq(true)
+          expect(Everything::Blog::Output.absolute_dir).to exist
 
           page.save_file
 
-          expect(Dir.exist?(fake_blog_output_path)).to eq(true)
+          expect(Everything::Blog::Output.absolute_dir).to exist
         end
 
         it 'does not clear existing files in the folder' do
-          expect(File.exist?(fake_file_path)).to eq(true)
+          expect(fake_file_path).to exist
 
           page.save_file
 
-          expect(File.exist?(fake_file_path)).to eq(true)
+          expect(fake_file_path).to exist
         end
       end
 
       context 'when the blog post output path already exists' do
         let(:fake_file_path) do
-          File.join(page.output_dir_path, 'something.txt')
+          page.absolute_dir.join('something.txt')
         end
 
         before do
-          FileUtils.mkdir_p(page.output_dir_path)
-          File.write(fake_file_path, 'fake file')
+          page.absolute_dir.mkpath
+          fake_file_path.write('fake file')
         end
 
         after do
-          FileUtils.rm(fake_file_path)
-          FileUtils.rm(page.output_file_path)
-          FileUtils.rmdir(page.output_dir_path)
-          FileUtils.rmdir(fake_blog_output_path)
+          fake_file_path.delete
+          page.absolute_path.delete
+          page.absolute_dir.rmdir
+          Everything::Blog::Output.absolute_dir.rmdir
         end
 
         it 'keeps the folder out there' do
-          expect(Dir.exist?(page.output_dir_path)).to eq(true)
+          expect(page.absolute_dir).to exist
 
           page.save_file
 
-          expect(Dir.exist?(page.output_dir_path)).to eq(true)
+          expect(page.absolute_dir).to exist
         end
 
         it 'does not clear files in the folder' do
-          expect(File.exist?(fake_file_path)).to eq(true)
+          expect(fake_file_path).to exist
 
           page.save_file
 
-          expect(File.exist?(fake_file_path)).to eq(true)
+          expect(fake_file_path).to exist
         end
       end
 
       context 'when the file does not already exist' do
         it 'creates it' do
-          expect(File.exist?(page.output_file_path)).to eq(false)
+          expect(page.absolute_path).not_to exist
 
           page.save_file
 
-          expect(File.exist?(page.output_file_path)).to eq(true)
+          expect(page.absolute_path).to exist
         end
 
         it 'writes the HTML file data' do
@@ -267,32 +279,32 @@ describe Everything::Blog::Output::Page do
           # a lot of HTML into the spec file.
           page.save_file
 
-          page_file_data = File.read(page.output_file_path)
+          page_file_data = page.absolute_path.read
           expect(page_file_data).to match(expected_file_data_regex)
         end
       end
 
       context 'when the file already exists' do
         before do
-          FileUtils.mkdir_p(page.output_dir_path)
-          File.write(page.output_file_path, 'random text')
+          page.absolute_dir.mkpath
+          page.absolute_path.write('random text')
         end
 
         it 'does not delete the file' do
-          expect(File.exist?(page.output_file_path)).to eq(true)
+          expect(page.absolute_path).to exist
 
           page.save_file
 
-          expect(File.exist?(page.output_file_path)).to eq(true)
+          expect(page.absolute_path).to exist
         end
 
         it 'overwrites it with the correct file data' do
-          page_file_data = File.read(page.output_file_path)
+          page_file_data = page.absolute_path.read
           expect(page_file_data).not_to match(expected_file_data_regex)
 
           page.save_file
 
-          page_file_data = File.read(page.output_file_path)
+          page_file_data = page.absolute_path.read
           expect(page_file_data).to match(expected_file_data_regex)
         end
       end

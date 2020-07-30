@@ -1,9 +1,6 @@
 require 'spec_helper'
-require 'fakefs/spec_helpers'
 
 describe Everything::Blog::Output::FileBase do
-  include FakeFS::SpecHelpers
-
   describe '.ToOutputFile' do
     include_context 'stub out everything path'
 
@@ -36,8 +33,10 @@ describe Everything::Blog::Output::FileBase do
       end
 
       context 'index' do
+        include_context 'with fake source index'
+
         let(:given_source_file) do
-          Everything::Blog::Source::Index.new({})
+          fake_source_index
         end
         let(:expected_output_class) do
           Everything::Blog::Output::Index
@@ -46,8 +45,10 @@ describe Everything::Blog::Output::FileBase do
       end
 
       context 'media' do
+        include_context 'with fake source media'
+
         let(:given_source_file) do
-          Everything::Blog::Source::Media.new('')
+          fake_source_media
         end
         let(:expected_output_class) do
           Everything::Blog::Output::Media
@@ -93,11 +94,11 @@ describe Everything::Blog::Output::FileBase do
 
     before do
       allow(output_file_base_instance)
-        .to receive(:output_file_name)
+        .to receive(:file_name)
         .and_return("/a/fake/file/name/for/inspect.md")
     end
     let(:inspect_output_regex) do
-      /#<#{described_class}: path: `#{output_file_base_instance.relative_dir_path}`, output_file_name: `#{output_file_base_instance.output_file_name}`>/
+      /#<#{described_class}: dir: `#{output_file_base_instance.dir}`, file_name: `#{output_file_base_instance.file_name}`>/
     end
 
     it 'returns a shorthand format with class name and file name' do

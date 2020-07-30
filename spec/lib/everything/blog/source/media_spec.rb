@@ -1,16 +1,45 @@
 require 'spec_helper'
-require 'fakefs/spec_helpers'
 
 describe Everything::Blog::Source::Media do
-  include FakeFS::SpecHelpers
-
   include_context 'with fake png'
 
-  let(:given_source_file_path) do
+  let(:given_absolute_path) do
     given_png_file_path
   end
   let(:media) do
-    described_class.new(given_source_file_path)
+    described_class.new(given_absolute_path)
+  end
+
+  describe '#absolute_dir' do
+    let(:expected_absolute_dir) do
+      Pathname.new('/fake/everything/path/blog/not-a-real-post')
+    end
+
+    it 'is the absolute dir for the media' do
+      expect(media.absolute_dir).to eq(expected_absolute_dir)
+    end
+
+    it 'memoizes the value' do
+      first_call_value = media.absolute_dir
+      second_call_value = media.absolute_dir
+      expect(first_call_value.object_id).to eq(second_call_value.object_id)
+    end
+  end
+
+  describe '#absolute_path' do
+    let(:expected_absolute_path) do
+      Pathname.new('/fake/everything/path/blog/not-a-real-post/image.png')
+    end
+
+    it 'is the absolute path for the media' do
+      expect(media.absolute_path).to eq(expected_absolute_path)
+    end
+
+    it 'memoizes the value' do
+      first_call_value = media.absolute_path
+      second_call_value = media.absolute_path
+      expect(first_call_value.object_id).to eq(second_call_value.object_id)
+    end
   end
 
   describe '#content' do
@@ -19,20 +48,58 @@ describe Everything::Blog::Source::Media do
     end
   end
 
-  describe '#file_name' do
-    it "is the given file's file name" do
-      expect(media.file_name).to eq(given_png_file_name)
+  describe '#dir' do
+    let(:expected_dir) do
+      Pathname.new('not-a-real-post')
+    end
+
+    it 'is the relative dir of the media' do
+      expect(media.dir).to eq(expected_dir)
+    end
+
+    it 'memoizes the value' do
+      first_call_value = media.dir
+      second_call_value = media.dir
+      expect(first_call_value.object_id).to eq(second_call_value.object_id)
     end
   end
 
-  describe '#source_file_path' do
-    it 'is the given source file path' do
-      expect(media.source_file_path).to eq(given_source_file_path)
+  describe '#file_name' do
+    let(:expected_file_name) do
+      Pathname.new(given_png_file_name)
+    end
+
+    it "is the given file's file name" do
+      expect(media.file_name).to eq(expected_file_name)
+    end
+
+    it 'memoizes the value' do
+      first_call_value = media.file_name
+      second_call_value = media.file_name
+      expect(first_call_value.object_id).to eq(second_call_value.object_id)
+    end
+  end
+
+  describe '#path' do
+    include_context 'stub out everything path'
+
+    let(:expected_path) do
+      Pathname.new('not-a-real-post').join(given_png_file_name)
+    end
+
+    it 'is the joining of the relative dir and file name' do
+      expect(media.path).to eq(expected_path)
+    end
+
+    it 'memoizes the value' do
+      first_call_value = media.path
+      second_call_value = media.path
+      expect(first_call_value.object_id).to eq(second_call_value.object_id)
     end
   end
 
   describe '#==' do
-    context 'when the other object does not respond to #source_file_path' do
+    context 'when the other object does not respond to #absolute_path' do
       let(:other_object) { nil }
 
       it 'is false' do
@@ -40,7 +107,7 @@ describe Everything::Blog::Source::Media do
       end
     end
 
-    context 'when the other object does respond to #source_file_path' do
+    context 'when the other object does respond to #absolute_path' do
       context "when the other media's file path doesn't match" do
         let(:other_media) do
           described_class.new('/some/other/media/file.png')
@@ -53,7 +120,7 @@ describe Everything::Blog::Source::Media do
 
       context "when the other media's file path matches" do
         let(:other_media) do
-          described_class.new(given_source_file_path)
+          described_class.new(given_absolute_path)
         end
 
         it 'is true' do
@@ -65,7 +132,7 @@ describe Everything::Blog::Source::Media do
 
   describe '#inspect' do
     let(:inspect_output_regex) do
-      /#<#{described_class}: path: `#{media.relative_dir_path}`, file_name: `#{media.file_name}`>/
+      /#<#{described_class}: dir: `#{media.dir}`, file_name: `#{media.file_name}`>/
     end
 
     it 'returns a shorthand format with class name and file name' do
@@ -75,25 +142,5 @@ describe Everything::Blog::Source::Media do
 
   # TODO: Test the methods inherited from Source::FileBase too.
   # include_context 'acts like a source file'
-
-  describe "#relative_dir_path" do
-    let(:expected_relative_dir_path) do
-      'not-a-real-post'
-    end
-
-    it 'is a relative path to the dir, without a leading slash' do
-      expect(media.relative_dir_path).to eq(expected_relative_dir_path)
-    end
-  end
-
-  describe "#relative_file_path" do
-    let(:expected_relative_file_path) do
-      'not-a-real-post/image.png'
-    end
-
-    it 'is a relative path to the file, without a leading slash' do
-      expect(media.relative_file_path).to eq(expected_relative_file_path)
-    end
-  end
 end
 

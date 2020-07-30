@@ -1,9 +1,6 @@
 require 'spec_helper'
-require 'fakefs/spec_helpers'
 
 describe Everything::Blog::Output::Media do
-  include FakeFS::SpecHelpers
-
   include_context 'stub out everything path'
   include_context 'with fakefs'
   include_context 'create blog path'
@@ -20,7 +17,7 @@ describe Everything::Blog::Output::Media do
 
   describe '#inspect' do
     let(:inspect_output_regex) do
-      /#<#{described_class}: path: `#{media.relative_dir_path}`, output_file_name: `#{media.output_file_name}`>/
+      /#<#{described_class}: dir: `#{media.dir}`, file_name: `#{media.file_name}`>/
     end
 
     it 'returns a shorthand format with class name and file name' do
@@ -28,23 +25,27 @@ describe Everything::Blog::Output::Media do
     end
   end
 
-  describe '#output_content' do
+  describe '#content' do
     it 'is the source content' do
-      expect(media.output_content).to eq(source_media.content)
+      expect(media.content).to eq(source_media.content)
     end
   end
 
-  describe '#output_file_name' do
+  describe '#file_name' do
     it 'is the source file name' do
-      expect(media.output_file_name).to eq(source_media.file_name)
+      expect(media.file_name).to eq(source_media.file_name)
     end
   end
 
   describe '#content_type' do
     context 'when file has a jpg extension' do
+      let(:given_media_file_path) do
+        Pathname.new('/some/path/to/test.jpg')
+      end
+
       before do
-        allow(source_media).to receive(:source_file_path)
-          .and_return('/some/path/to/test.jpg')
+        allow(source_media).to receive(:absolute_path)
+          .and_return(given_media_file_path)
       end
 
       it 'is the jpg MIME type' do
@@ -53,9 +54,13 @@ describe Everything::Blog::Output::Media do
     end
 
     context 'when the file has a gif extension' do
+      let(:given_media_file_path) do
+        Pathname.new('/some/path/to/test.gif')
+      end
+
       before do
-        allow(source_media).to receive(:source_file_path)
-          .and_return('/some/path/to/test.gif')
+        allow(source_media).to receive(:absolute_path)
+          .and_return(given_media_file_path)
       end
 
       it 'is the gif MIME type' do
@@ -64,9 +69,13 @@ describe Everything::Blog::Output::Media do
     end
 
     context 'when the file has a png extension' do
+      let(:given_media_file_path) do
+        Pathname.new('/some/path/to/test.png')
+      end
+
       before do
-        allow(source_media).to receive(:source_file_path)
-          .and_return('/some/path/to/test.png')
+        allow(source_media).to receive(:absolute_path)
+          .and_return(given_media_file_path)
       end
 
       it 'is the png MIME type' do
@@ -75,9 +84,13 @@ describe Everything::Blog::Output::Media do
     end
 
     context 'when the file has a mp3 extension' do
+      let(:given_media_file_path) do
+        Pathname.new('/some/path/to/test.mp3')
+      end
+
       before do
-        allow(source_media).to receive(:source_file_path)
-          .and_return('/some/path/to/test.mp3')
+        allow(source_media).to receive(:absolute_path)
+          .and_return(given_media_file_path)
       end
 
       it 'is the mpeg MIME type' do
@@ -86,124 +99,122 @@ describe Everything::Blog::Output::Media do
     end
   end
 
-  describe '#output_dir_path' do
-    let(:expected_output_dir_path) do
-      File.join(fake_blog_output_path, given_post_name)
+  describe '#absolute_dir' do
+    let(:expected_absolute_dir) do
+      Everything::Blog::Output.absolute_dir.join(given_post_name)
     end
 
     it 'is the full path for the output dir' do
-      expect(media.output_dir_path).to eq(expected_output_dir_path)
+      expect(media.absolute_dir).to eq(expected_absolute_dir)
     end
   end
 
-  describe '#output_file_path' do
-    let(:expected_output_file_path) do
-      File.join(fake_blog_output_path, given_post_name, media.output_file_name)
+  describe '#absolute_path' do
+    let(:expected_absolute_path) do
+      Everything::Blog::Output.absolute_dir.join(given_post_name, media.file_name)
     end
 
     it 'is the full path for the output file' do
-      expect(media.output_file_path).to eq(expected_output_file_path)
+      expect(media.absolute_path).to eq(expected_absolute_path)
     end
   end
 
-  describe "#relative_dir_path" do
+  describe "#dir" do
     it "should be the same path as the source media" do
-      expect(media.relative_dir_path).to eq(source_media.relative_dir_path)
+      expect(media.dir).to eq(source_media.dir)
     end
   end
 
-  describe '#relative_file_path' do
+  describe '#path' do
     it 'should be the same path as the source index' do
-      expect(media.relative_file_path)
-        .to eq(source_media.relative_file_path)
+      expect(media.path).to eq(source_media.path)
     end
   end
 
   describe '#save_file' do
     context 'when the media output dir path does not already exist' do
       it 'creates it' do
-        expect(Dir.exist?(media.output_dir_path)).to eq(false)
+        expect(media.absolute_dir).not_to exist
 
         media.save_file
 
-        expect(Dir.exist?(media.output_dir_path)).to eq(true)
+        expect(media.absolute_dir).to exist
       end
     end
 
     context 'when the media output dir path already exists' do
       let(:fake_file_path) do
-        File.join(media.output_dir_path, 'something.txt')
+        media.absolute_dir.join('something.txt')
       end
 
       before do
-        FileUtils.mkdir_p(media.output_dir_path)
-        # File.binwrite(fake_file_path, test_png_data)
+        media.absolute_dir.mkpath
+        # Would like to use `File.binwrite(fake_file_path, test_png_data)` but
+        # FakeFS does not seem to support it yet.
         File.open(fake_file_path, 'wb') {|f| f.write(test_png_data)}
       end
 
       after do
-        FileUtils.rm(fake_file_path)
-        FileUtils.rm(media.output_file_path)
-        FileUtils.rmdir(media.output_dir_path)
+        media.absolute_dir.rmtree
       end
 
       it 'keeps the folder out there' do
-        expect(Dir.exist?(media.output_dir_path)).to eq(true)
+        expect(media.absolute_dir).to exist
 
         media.save_file
 
-        expect(Dir.exist?(media.output_dir_path)).to eq(true)
+        expect(media.absolute_dir).to exist
       end
 
       it 'does not clear existing files in the folder' do
-        expect(File.exist?(fake_file_path)).to eq(true)
+        expect(fake_file_path).to exist
 
         media.save_file
 
-        expect(File.exist?(fake_file_path)).to eq(true)
+        expect(fake_file_path).to exist
       end
     end
 
     context 'when the file does not already exist' do
       it 'creates it' do
-        expect(File.exist?(media.output_file_path)).to eq(false)
+        expect(media.absolute_path).not_to exist
 
         media.save_file
 
-        expect(File.exist?(media.output_file_path)).to eq(true)
+        expect(media.absolute_path).to exist
       end
 
       it 'writes the media file data' do
         media.save_file
 
         expected_png_binary_data = test_png_data
-        media_file_data = File.binread(media.output_file_path)
+        media_file_data = media.absolute_path.binread
         expect(media_file_data).to match(expected_png_binary_data)
       end
     end
 
     context 'when the file already exists' do
       before do
-        FileUtils.mkdir_p(media.output_dir_path)
-        File.write(media.output_file_path, 'random text')
+        media.absolute_dir.mkpath
+        media.absolute_path.write('random text')
       end
 
       it 'does not delete the file' do
-        expect(File.exist?(media.output_file_path)).to eq(true)
+        expect(media.absolute_path).to exist
 
         media.save_file
 
-        expect(File.exist?(media.output_file_path)).to eq(true)
+        expect(media.absolute_path).to exist
       end
 
       it 'overwrites it with the correct file data' do
-        media_file_data = File.binread(media.output_file_path)
+        media_file_data = media.absolute_path.binread
         expect(media_file_data).not_to match(test_png_data)
 
         media.save_file
 
         expected_png_binary_data = test_png_data
-        media_file_data = File.binread(media.output_file_path)
+        media_file_data = media.absolute_path.binread
         expect(media_file_data).to match(expected_png_binary_data)
       end
     end

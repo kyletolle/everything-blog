@@ -15,7 +15,7 @@ module Everything
         HTML_CONTENT_TYPE = 'text/html'
 
         def content
-          output_file.output_content
+          output_file.content
         end
 
         def content_type

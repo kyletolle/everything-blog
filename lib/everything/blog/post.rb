@@ -49,7 +49,7 @@ module Everything
       end
 
       def public?
-        return false unless piece && File.exist?(piece.metadata.file_path)
+        return false unless piece && piece.metadata.absolute_path.exist?
 
         piece.public?
       end
@@ -60,10 +60,11 @@ module Everything
 
       def media_paths
         Dir.glob(media_glob)
+          .map{|media_path| Pathname.new(media_path) }
       end
 
       def media_glob
-        File.join(piece.full_path, '*.{jpg,png,gif,mp3}')
+        piece.absolute_dir.join('*.{jpg,png,gif,mp3}').to_s
       end
 
       def piece

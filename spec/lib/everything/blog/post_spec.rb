@@ -260,13 +260,11 @@ describe Everything::Blog::Post do
   describe '#media_paths' do
     shared_context 'with fake file of type' do |file_type|
      let(:fake_file_path) do
-       File.join(fake_piece.full_path, "fake_file.#{file_type}")
+       fake_piece.absolute_dir.join("fake_file.#{file_type}")
      end
 
       before do
-        File.open(fake_file_path, 'w') do |f|
-          f.write("This is a fake #{file_type}")
-        end
+        fake_file_path.write("This is a fake #{file_type}")
       end
     end
 
@@ -302,7 +300,7 @@ describe Everything::Blog::Post do
 
   describe '#media_glob' do
     it "globs files in the piece's path" do
-      expect(post.media_glob).to start_with(fake_piece.full_path)
+      expect(post.media_glob).to start_with(fake_piece.absolute_dir.to_s)
     end
 
     shared_examples 'includes files of type' do |file_type|
@@ -326,11 +324,11 @@ describe Everything::Blog::Post do
   describe '#piece' do
     context 'when the post is in the root directory' do
       let(:expected_root_piece_path) do
-        File.join(Everything.path, given_post_name)
+        Everything.path.join(given_post_name)
       end
 
       it 'finds the root piece' do
-        expect(post.piece.full_path).to eq(expected_root_piece_path)
+        expect(post.piece.absolute_dir).to eq(expected_root_piece_path)
       end
     end
 
@@ -340,11 +338,11 @@ describe Everything::Blog::Post do
       end
 
       let(:expected_nested_piece_path) do
-        File.join(Everything.path, 'nested_dir', fake_post_name)
+        Everything.path.join('nested_dir', fake_post_name)
       end
 
       it 'finds the nested piece' do
-        expect(post.piece.full_path).to eq(expected_nested_piece_path)
+        expect(post.piece.absolute_dir).to eq(expected_nested_piece_path)
       end
     end
   end

@@ -1,9 +1,6 @@
 require 'spec_helper'
-require 'fakefs/spec_helpers'
 
 describe Everything::Blog::Output::IndexTemplate do
-  include FakeFS::SpecHelpers
-
   include_context 'with fakefs'
 
   let(:given_content_html) do
@@ -42,13 +39,13 @@ describe Everything::Blog::Output::IndexTemplate do
       include_context 'when templates_path is not set'
 
       let(:action) do
-        index_template.templates_path
+        Everything::Blog::Output.templates_dir
       end
       include_examples 'raises an error about the env var'
     end
 
     context 'when templates_path is set' do
-      include_context 'when templates_path is set'
+      include_context 'stub out templates path'
 
       context 'when an index template does not exist' do
         let(:action) do

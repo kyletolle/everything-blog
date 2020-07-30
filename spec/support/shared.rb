@@ -1,3 +1,5 @@
+require 'fakefs/spec_helpers'
+
 shared_context 'stub out everything path' do
   let(:fake_everything_path) do
     '/fake/everything/path'
@@ -29,6 +31,7 @@ end
 
 shared_context 'with fake templates' do
   include_context 'stub out templates path'
+  include_context 'with fakefs'
 
   let(:fake_index_template) do
     Everything::Blog::Output::IndexTemplate.new('')
@@ -47,32 +50,26 @@ shared_context 'with fake templates' do
   end
 
   before do
-    FakeFS.activate!
+    Everything::Blog::Output.templates_dir.mkpath
 
-    FileUtils.mkdir_p(fake_templates_path)
-
-    File.open(fake_index_template.template_path, 'w') do |f|
-      f.write(fake_template_html)
-    end
-    File.open(fake_post_template.template_path, 'w') do |f|
-      f.write(fake_template_html)
-    end
+    fake_index_template.template_path.write(fake_template_html)
+    fake_post_template.template_path.write(fake_template_html)
   end
 
   after do
-    FileUtils.rm_rf(fake_templates_path)
-
-    FakeFS.deactivate!
+    Everything::Blog::Output.templates_dir.rmtree
   end
 end
 
 shared_context 'create blog path' do
   before do
-    FileUtils.mkdir_p(Everything::Blog::Source.absolute_path)
+    Everything::Blog::Source.absolute_dir.mkpath
   end
 end
 
 shared_context 'with fakefs' do
+  include FakeFS::SpecHelpers
+
   before do
     FakeFS.activate!
   end
@@ -84,12 +81,13 @@ end
 
 shared_context 'with fake piece' do
   include_context 'stub out everything path'
+  include_context 'with fakefs'
 
   let(:given_post_name) do
     fake_post_name
   end
   let(:given_piece_path) do
-    File.join(Everything.path, given_post_name)
+    Everything.path.join(given_post_name)
   end
   let(:fake_piece) do
     Everything::Piece.new(given_piece_path)
@@ -108,47 +106,36 @@ shared_context 'with fake piece' do
   end
 
   before do
-    FakeFS.activate!
+    fake_piece.absolute_dir.mkpath
 
-    FileUtils.mkdir_p(fake_piece.full_path)
+    fake_piece.absolute_path.write("# #{fake_piece_title}\n\n#{fake_piece_body}")
 
-    File.open(fake_piece.content.file_path, 'w') do |f|
-      f.write("# #{fake_piece_title}\n\n#{fake_piece_body}")
-    end
-
-    File.open(fake_piece.metadata.file_path, 'w') do |f|
       public_metadata = "public: #{post_options[:public?] || false}"
       now_iso8601 = Time.now.strftime('%Y-%m-%d')
       created_on_metadata = "created_on: #{post_options[:created_on] || now_iso8601}"
-      f.write("---\n#{public_metadata}\n#{created_on_metadata}")
-    end
+      fake_piece.metadata.absolute_path.write("---\n#{public_metadata}\n#{created_on_metadata}")
   end
 
   after do
-    FileUtils.rm_rf(given_piece_path)
-
-    FakeFS.deactivate!
+    fake_piece.absolute_dir.rmtree if fake_piece.absolute_dir.exist?
   end
 end
 
 shared_context 'with deleted piece' do
   before do
-    FileUtils.rm_rf(fake_piece.full_path)
+    fake_piece.absolute_dir.rmtree
   end
 end
 
 shared_context 'with deleted metadata file' do
   before do
-    File.delete(fake_piece.metadata.file_path)
+    fake_piece.metadata.absolute_path.delete
   end
 end
 
 shared_context 'stub out blog output path' do
   let(:fake_blog_output_path) do
     '/fake/blog/output'
-  end
-  let(:expected_absolute_path) do
-    fake_blog_output_path
   end
 
   before do
@@ -200,35 +187,37 @@ end
 
 shared_context 'with fake png' do
   include_context 'stub out everything path'
+  include_context 'with fakefs'
 
   let(:test_png_file_path) do
-    File.join(
-      RSpec::Core::RubyProject.root,
-      'spec',
-      'data',
-      '1x1_black_square.png')
+    Pathname.new(
+      File.join(
+        RSpec::Core::RubyProject.root,
+        'spec',
+        'data',
+        '1x1_black_square.png'
+      )
+    )
   end
   let(:test_png_data) do
     FakeFS::FileSystem.clone(test_png_file_path)
-    File.binread(test_png_file_path)
+    test_png_file_path.binread
   end
   let(:given_png_file_name) do
     'image.png'
   end
   let(:given_png_dir_path) do
-    File.join(Everything::Blog::Source.absolute_path, given_post_name)
+    Everything::Blog::Source.absolute_dir.join(given_post_name)
   end
   let(:given_png_file_path) do
-    File.join(given_png_dir_path, given_png_file_name)
+    given_png_dir_path.join(given_png_file_name)
   end
   let(:given_post_name) do
     'not-a-real-post'
   end
 
   before do
-    FakeFS.activate!
-
-    FileUtils.mkdir_p(given_png_dir_path)
+    given_png_dir_path.mkpath
 
     File.open(given_png_file_path, 'wb') do |f|
       f.write(test_png_data)
@@ -236,9 +225,7 @@ shared_context 'with fake png' do
   end
 
   after do
-    FileUtils.rm_rf(given_png_dir_path)
-
-    FakeFS.deactivate!
+    given_png_dir_path.rmtree if given_png_dir_path.exist?
   end
 end
 
@@ -263,7 +250,7 @@ shared_context 'with fake binary file in s3' do
   include_context 'with fake output media'
 
   let(:expected_file_name) {
-    fake_output_media.relative_file_path
+    fake_output_media.path.to_s
   }
   let(:mock_binary_data) { test_png_data }
   let!(:mock_binary_file) do
@@ -280,6 +267,7 @@ shared_context 'with fake binary file in s3' do
   end
 end
 
+# TODO: Want to remove this...
 shared_context 'when templates_path is not set' do
   # TODO: Is there a better way to test this stuff than actually setting and
   # deleting env vars?
@@ -293,9 +281,10 @@ shared_context 'when templates_path is not set' do
   end
 end
 
+# TODO: Want to remove this...
 shared_context 'when templates_path is set' do
   let(:given_templates_path) do
-    '/some/fake/path'
+    Pathname.new('/some/fake/path')
   end
 
   # TODO: Is there a better way to test this stuff than actually setting and
@@ -319,8 +308,8 @@ end
 
 shared_context 'with a fake template file' do
   before do
-    FileUtils.mkdir_p(given_template.templates_path)
-    File.write(given_template.template_path, '')
+    Everything::Blog::Output.templates_dir.mkpath
+    given_template.template_path.write('')
   end
 end
 
@@ -451,11 +440,12 @@ shared_examples 'behaves like a TemplateBase' do
       include_examples 'raises an error about the env var'
     end
 
-    context 'when templates_path is set' do
-      include_context 'when templates_path is set'
+    context 'when templates path is set' do
+      include_context 'stub out templates path'
 
       let(:expected_template_path) do
-        File.join('', 'some', 'fake', 'path', described_class::TEMPLATE_NAME)
+        Everything::Blog::Output.templates_dir
+          .join(described_class::TEMPLATE_NAME)
       end
 
       it 'is the path for the template under the templates_path' do
@@ -463,43 +453,34 @@ shared_examples 'behaves like a TemplateBase' do
       end
     end
   end
-
-  describe '#templates_path' do
-    context 'when the env var is not set' do
-      include_context 'when templates_path is not set'
-
-      it 'raises an error that the env var is not set' do
-        expect{given_template.templates_path}.to raise_error(NameError)
-      end
-    end
-
-    context 'when the env var is set' do
-      include_context 'when templates_path is set'
-
-      it 'returns the environment var' do
-        expect(given_template.templates_path).to eq(given_templates_path)
-      end
-    end
-  end
 end
 
 shared_context 'with fake stylesheet' do
-  require 'fakefs/spec_helpers'
   include FakeFS::SpecHelpers
 
   include_context 'stub out everything path'
+  include_context 'with fake templates'
 
   let(:given_stylesheet_content) do
     'p { font-size: 1em; }'
   end
+  let(:fake_stylesheet_file_path) do
+    Everything::Blog::Output
+      .templates_dir
+      .join('css')
+  end
 
   before do
     FakeFS do
-      FileUtils.mkdir_p('css')
-      stylesheet_filename = File.join('css', 'style.css')
-      File.open(stylesheet_filename, 'w') do |f|
-        f.write given_stylesheet_content
-      end
+      fake_stylesheet_file_path.mkpath
+      stylesheet_filename = fake_stylesheet_file_path.join('style.css')
+      stylesheet_filename.write(given_stylesheet_content)
+    end
+  end
+
+  after do
+    FakeFS do
+      fake_stylesheet_file_path.rmtree
     end
   end
 end

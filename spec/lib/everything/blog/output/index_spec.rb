@@ -23,7 +23,7 @@ describe Everything::Blog::Output::Index do
 
   describe '#inspect' do
     let(:inspect_output_regex) do
-      /#<#{described_class}: path: `#{index.relative_dir_path}`, output_file_name: `#{index.output_file_name}`>/
+      /#<#{described_class}: dir: `#{index.dir}`, file_name: `#{index.file_name}`>/
     end
 
     it 'returns a shorthand format with class name and file name' do
@@ -31,7 +31,7 @@ describe Everything::Blog::Output::Index do
     end
   end
 
-  describe '#output_content' do
+  describe '#content' do
     let(:template_double) { instance_double(index.template_klass) }
     let(:fake_content_and_template) { '<p>Faked out, yo!</p>' }
 
@@ -45,50 +45,50 @@ describe Everything::Blog::Output::Index do
     end
 
     it 'returns merged template and content' do
-      expect(index.output_content).to eq(fake_content_and_template)
+      expect(index.content).to eq(fake_content_and_template)
     end
 
     it 'memoizes the return value' do
-      expect(index.output_content.object_id)
-        .to eq(index.output_content.object_id)
+      expect(index.content.object_id)
+        .to eq(index.content.object_id)
     end
   end
 
-  describe '#output_dir_path' do
-    let(:expected_output_dir_path) do
-      fake_blog_output_path
+  describe '#absolute_dir' do
+    let(:expected_absolute_dir) do
+      Everything::Blog::Output.absolute_dir
     end
 
     it 'is the full path for the output dir' do
-      expect(index.output_dir_path).to eq(expected_output_dir_path)
+      expect(index.absolute_dir).to eq(expected_absolute_dir)
     end
   end
 
-  describe '#output_file_name' do
+  describe '#file_name' do
     it 'is an index html file' do
-      expect(index.output_file_name).to eq('index.html')
+      expect(index.file_name).to eq('index.html')
     end
   end
 
-  describe '#output_file_path' do
-    let(:expected_output_file_path) do
-      File.join(fake_blog_output_path, index.output_file_name)
+  describe '#absolute_path' do
+    let(:expected_absolute_path) do
+      Everything::Blog::Output.absolute_dir.join(index.file_name)
     end
 
     it 'is the full path for the output file' do
-      expect(index.output_file_path).to eq(expected_output_file_path)
+      expect(index.absolute_path).to eq(expected_absolute_path)
     end
   end
 
-  describe '#relative_dir_path' do
+  describe '#dir' do
     it 'should be the same path as the source index' do
-      expect(index.relative_dir_path).to eq(source_index.relative_dir_path)
+      expect(index.dir).to eq(source_index.dir)
     end
   end
 
-  describe '#relative_file_path' do
+  describe '#path' do
     it 'should be the same path as the source index' do
-      expect(index.relative_file_path).to eq(source_index.relative_file_path)
+      expect(index.path).to eq(source_index.path)
     end
   end
 
@@ -111,59 +111,59 @@ describe Everything::Blog::Output::Index do
         /\<html.*\>/
       end
 
-      include_context 'when templates_path is set'
+      include_context 'stub out templates path'
       include_context 'with an index template'
 
       context 'when the blog output path does not already exist' do
         it 'creates it' do
-          expect(Dir.exist?(fake_blog_output_path)).to eq(false)
+          expect(Everything::Blog::Output.absolute_dir).not_to exist
 
           index.save_file
 
-          expect(Dir.exist?(fake_blog_output_path)).to eq(true)
+          expect(Everything::Blog::Output.absolute_dir).to exist
         end
       end
 
       context 'when the blog output path already exists' do
         let(:fake_file_path) do
-          File.join(fake_blog_output_path, 'something.txt')
+          Everything::Blog::Output.absolute_dir.join('something.txt')
         end
 
         before do
-          FileUtils.mkdir_p(fake_blog_output_path)
-          File.write(fake_file_path, 'fake file')
+          Everything::Blog::Output.absolute_dir.mkpath
+          fake_file_path.write('fake file')
         end
 
         after do
-          FileUtils.rm(fake_file_path)
-          FileUtils.rm(index.output_file_path)
-          FileUtils.rmdir(fake_blog_output_path)
+          fake_file_path.delete
+          index.absolute_path.delete
+          Everything::Blog::Output.absolute_dir.rmdir
         end
 
         it 'keeps the folder out there' do
-          expect(Dir.exist?(fake_blog_output_path)).to eq(true)
+          expect(Everything::Blog::Output.absolute_dir).to exist
 
           index.save_file
 
-          expect(Dir.exist?(fake_blog_output_path)).to eq(true)
+          expect(Everything::Blog::Output.absolute_dir).to exist
         end
 
         it 'does not clear existing files in the folder' do
-          expect(File.exist?(fake_file_path)).to eq(true)
+          expect(fake_file_path).to exist
 
           index.save_file
 
-          expect(File.exist?(fake_file_path)).to eq(true)
+          expect(fake_file_path).to exist
         end
       end
 
       context 'when the file does not already exist' do
         it 'creates it' do
-          expect(File.exist?(index.output_file_path)).to eq(false)
+          expect(index.absolute_path).not_to exist
 
           index.save_file
 
-          expect(File.exist?(index.output_file_path)).to eq(true)
+          expect(index.absolute_path).to exist
         end
 
         it 'writes the HTML file data' do
@@ -172,32 +172,32 @@ describe Everything::Blog::Output::Index do
           # a lot of HTML into the spec file.
           index.save_file
 
-          index_file_data = File.read(index.output_file_path)
+          index_file_data = index.absolute_path.read
           expect(index_file_data).to match(expected_file_data_regex)
         end
       end
 
       context 'when the file already exists' do
         before do
-          FileUtils.mkdir_p(fake_blog_output_path)
-          File.write(index.output_file_path, 'random text')
+          Everything::Blog::Output.absolute_dir.mkpath
+          index.absolute_path.write('random text')
         end
 
         it 'does not delete the file' do
-          expect(File.exist?(index.output_file_path)).to eq(true)
+          expect(index.absolute_path).to exist
 
           index.save_file
 
-          expect(File.exist?(index.output_file_path)).to eq(true)
+          expect(index.absolute_path).to exist
         end
 
         it 'overwrites it with the correct file data' do
-          index_file_data = File.read(index.output_file_path)
+          index_file_data = index.absolute_path.read
           expect(index_file_data).not_to match(expected_file_data_regex)
 
           index.save_file
 
-          index_file_data = File.read(index.output_file_path)
+          index_file_data = index.absolute_path.read
           expect(index_file_data).to match(expected_file_data_regex)
         end
       end

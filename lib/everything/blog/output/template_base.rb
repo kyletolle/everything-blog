@@ -23,11 +23,7 @@ module Everything
         end
 
         def template_path
-          ::File.join(templates_path, template_name)
-        end
-
-        def templates_path
-          Fastenv.templates_path
+          Everything::Blog::Output.templates_dir.join(template_name)
         end
       end
     end

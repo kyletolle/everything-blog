@@ -1,9 +1,7 @@
 require 'spec_helper'
-require 'fakefs/spec_helpers'
 require './spec/support/post_helpers'
 
 describe Everything::Blog::Source::PostsFinder do
-  include FakeFS::SpecHelpers
   include PostHelpers
 
   include_context 'stub out everything path'
@@ -123,10 +121,10 @@ describe Everything::Blog::Source::PostsFinder do
         it 'returns the media paths by newest post first' do
           expect(posts_finder.media_for_posts).to eq(
             [
-              File.join(Everything::Blog::Source.absolute_path, 'another-title', 'lala.jpg'),
-              File.join(Everything::Blog::Source.absolute_path, 'another-title', 'lala.mp3'),
-              File.join(Everything::Blog::Source.absolute_path, 'some-title', 'lala.jpg'),
-              File.join(Everything::Blog::Source.absolute_path, 'some-title', 'lala.mp3')
+              Everything::Blog::Source.absolute_dir.join('another-title', 'lala.jpg'),
+              Everything::Blog::Source.absolute_dir.join('another-title', 'lala.mp3'),
+              Everything::Blog::Source.absolute_dir.join('some-title', 'lala.jpg'),
+              Everything::Blog::Source.absolute_dir.join('some-title', 'lala.mp3')
             ]
           )
         end

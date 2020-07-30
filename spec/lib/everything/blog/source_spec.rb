@@ -1,42 +1,24 @@
 require 'spec_helper'
 
 describe Everything::Blog::Source do
-  describe '.absolute_path' do
+  describe '.absolute_dir' do
     include_context 'stub out everything path'
 
-    let(:expected_absolute_path) { '/fake/everything/path/blog' }
-
-    it 'is the absolute blog dir' do
-      expect(described_class.absolute_path).to eq(expected_absolute_path)
-    end
-  end
-
-  describe '.absolute_pathname' do
-    include_context 'stub out everything path'
-
-    let(:expected_absolute_pathname) do
+    let(:expected_absolute_dir) do
       Pathname.new('/fake/everything/path/blog')
     end
 
-    it 'is the absolute blog pathname' do
-      expect(described_class.absolute_pathname)
-        .to eq(expected_absolute_pathname)
+    it 'is the absolute blog dir' do
+      expect(described_class.absolute_dir).to eq(expected_absolute_dir)
     end
   end
 
-  describe '.path' do
-    let(:expected_path) { 'blog' }
+  describe '.dir' do
+    let(:expected_dir) { Pathname.new('blog') }
 
-    it 'is the blog path' do
-      expect(described_class.path). to eq(expected_path)
-    end
-  end
-
-  describe '.pathname' do
-    let(:expected_pathname) { Pathname.new('blog') }
-
-    it 'is the blog pathname' do
-      expect(described_class.pathname).to eq(expected_pathname)
+    it 'is the blog dir' do
+      expect(described_class.dir).to eq(expected_dir)
     end
   end
 end
+

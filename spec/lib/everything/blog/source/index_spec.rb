@@ -11,6 +11,42 @@ describe Everything::Blog::Source::Index do
     described_class.new(given_page_names_and_titles)
   end
 
+  describe '#absolute_dir' do
+    include_context 'stub out everything path'
+
+    let(:expected_absolute_dir) do
+      Pathname.new('/fake/everything/path')
+    end
+
+    it 'is the absolute dir for the index' do
+      expect(index.absolute_dir).to eq(expected_absolute_dir)
+    end
+
+    it 'memoizes the value' do
+      first_call_value = index.absolute_dir
+      second_call_value = index.absolute_dir
+      expect(first_call_value.object_id).to eq(second_call_value.object_id)
+    end
+  end
+
+  describe '#absolute_path' do
+    include_context 'stub out everything path'
+
+    let(:expected_absolute_path) do
+      Pathname.new('/fake/everything/path/index.html')
+    end
+
+    it 'is the absolute path for the index' do
+      expect(index.absolute_path).to eq(expected_absolute_path)
+    end
+
+    it 'memoizes the value' do
+      first_call_value = index.absolute_path
+      second_call_value = index.absolute_path
+      expect(first_call_value.object_id).to eq(second_call_value.object_id)
+    end
+  end
+
   describe '#content' do
     let(:actual_content) do
       index.content
@@ -38,30 +74,56 @@ describe Everything::Blog::Source::Index do
     end
   end
 
+  describe '#dir' do
+    let(:expected_dir) do
+      Pathname.new(described_class::DIR)
+    end
+
+    it 'is the default index dir' do
+      expect(index.dir).to eq(expected_dir)
+    end
+
+    it 'memoizes the value' do
+      first_call_value = index.dir
+      second_call_value = index.dir
+      expect(first_call_value.object_id).to eq(second_call_value.object_id)
+    end
+  end
+
   describe '#file_name' do
+    let(:expected_file_name) do
+      Pathname.new(described_class::FILE_NAME)
+    end
+
     it 'is index.html' do
-      expect(index.file_name).to eq('index.html')
+      expect(index.file_name).to eq(expected_file_name)
+    end
+
+    it 'memoizes the value' do
+      first_call_value = index.file_name
+      second_call_value = index.file_name
+      expect(first_call_value.object_id).to eq(second_call_value.object_id)
+    end
+  end
+
+  describe '#path' do
+    let(:expected_path) do
+      Pathname.new('index.html')
+    end
+
+    it 'is the index file in the root path, without a leading slash' do
+      expect(index.path).to eq(expected_path)
+    end
+
+    it 'memoizes the value' do
+      first_call_value = index.path
+      second_call_value = index.path
+      expect(first_call_value.object_id).to eq(second_call_value.object_id)
     end
   end
 
   # TODO: Test the methods inherited from Source::FileBase too.
   # include_context 'acts like a source file'
-
-  # TODO: Should this actually be an empty string?
-  describe '#relative_dir_path' do
-    it 'is the root path, without a leading slash' do
-      expect(index.relative_dir_path).to eq('')
-    end
-  end
-
-  # TODO: Should this actually be an empty string?
-  describe '#relative_file_path' do
-    include_context 'stub out everything path'
-
-    it 'is the index file in the root path, without a leading slash' do
-      expect(index.relative_file_path).to eq('index.html')
-    end
-  end
 
   describe '#==' do
     context 'when the other object does not respond to #content' do
@@ -103,7 +165,7 @@ describe Everything::Blog::Source::Index do
 
   describe '#inspect' do
     let(:inspect_output_regex) do
-      /#<#{described_class}: path: `#{index.relative_dir_path}`, file_name: `#{index.file_name}`>/
+      /#<#{described_class}: dir: `#{index.dir}`, file_name: `#{index.file_name}`>/
     end
 
     it 'returns a shorthand format with class name and file name' do

@@ -32,18 +32,17 @@ describe Everything::Blog::Remote::HtmlFile do
 
     before do
       allow(given_output_file)
-        .to receive(:output_content)
+        .to receive(:content)
         .and_return("This content's completely fake and should not be trusted.")
     end
 
-    it "is the output file's output_content" do
-      expect(html_file.content).to eq(given_output_file.output_content)
+    it "is the output file's content" do
+      expect(html_file.content).to eq(given_output_file.content)
     end
   end
 
   describe '#content_hash' do
     include_context 'stub out everything path'
-
     include_context 'with fake templates'
 
     subject { html_file.content_hash }
@@ -372,8 +371,8 @@ describe Everything::Blog::Remote::HtmlFile do
       html_file.remote_key
     end
 
-    it "is the output file's relative_file_path with a leading slash" do
-      expected_file_key = given_output_file.relative_file_path
+    it "is the output file's path with a leading slash" do
+      expected_file_key = given_output_file.path.to_s
       expect(subject).to eq(expected_file_key)
     end
 

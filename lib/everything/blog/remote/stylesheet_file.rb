@@ -15,7 +15,7 @@ module Everything
         STYLESHEET_CONTENT_TYPE = 'text/css'
 
         def content
-          output_file.output_content
+          output_file.content
         end
 
         def content_type

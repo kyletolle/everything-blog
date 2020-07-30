@@ -34,44 +34,40 @@ module Everything
         end
 
         def inspect
-          "#<#{self.class}: path: `#{relative_dir_path}`, output_file_name: `#{output_file_name}`>"
+          "#<#{self.class}: dir: `#{dir}`, file_name: `#{file_name}`>"
         end
 
-        def output_content
+        def content
           source_file.content
         end
 
-        def output_dir_path
-          File.dirname output_file_path
+        def absolute_dir
+          absolute_path.dirname
         end
 
-        def output_file_name
+        def file_name
           'index.html'
         end
 
-        def output_file_path
-          File.join(
-            Everything::Blog::Output.absolute_path,
-            relative_dir_path,
-            output_file_name
-          )
+        def absolute_path
+          Everything::Blog::Output
+            .absolute_dir
+            .join(path)
         end
 
-        def relative_dir_path
-          source_file.relative_dir_path
+        def dir
+          source_file.dir
         end
 
-        def relative_file_path
-          source_file
-            .relative_file_path
-            .gsub('md', 'html')
+        def path
+          dir.join(file_name)
         end
 
         def save_file
-          FileUtils.mkdir_p(output_dir_path)
+          absolute_dir.mkpath
 
-          File.open(output_file_path, file_mode) do |file|
-            file.write(output_content)
+          File.open(absolute_path, file_mode) do |file|
+            file.write(content)
           end
         end
 
@@ -123,3 +119,4 @@ require_relative 'index'
 require_relative 'stylesheet'
 require_relative 'page'
 require_relative 'media'
+

@@ -42,25 +42,22 @@ module Everything
 
         def output_mtime
           @output_time ||=
-            if File.exist?(output_file_path)
-              File.mtime(output_file_path)
+            if absolute_path.exist?
+              absolute_path.mtime
             else
               Time.at(0)
             end
         end
 
         def content_mtime
-          @content_mtime ||= File.mtime(
-            source_file.post.piece.content.file_path
-          )
+          @content_mtime ||= source_file.post.piece.content.absolute_path.mtime
         end
 
         def metadata_mtime
-          @metadata_mtime ||= File.mtime(
-            source_file.post.piece.metadata.file_path
-          )
+          @metadata_mtime ||= source_file.post.piece.metadata.absolute_path.mtime
         end
       end
     end
   end
 end
+

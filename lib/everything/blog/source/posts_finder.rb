@@ -25,16 +25,12 @@ module Everything
       private
 
         def all_post_dirs
-          Dir.entries(blog_source_path) - files_to_ignore
+          Dir.entries(Everything::Blog::Source.absolute_dir) - files_to_ignore
         end
 
         def all_posts
           all_post_dirs
             .map { |post_name| Everything::Blog::Post.new(post_name) }
-        end
-
-        def blog_source_path
-          Everything::Blog::Source.absolute_path
         end
 
         def files_to_ignore

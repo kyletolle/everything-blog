@@ -12,12 +12,14 @@ module Everything
           debug_it("Using output media: #{inspect}")
         end
 
-        def output_file_name
+        def file_name
           source_file.file_name
         end
 
         def content_type
-          file_extension_match = source_file.source_file_path
+          file_extension_match = source_file
+            .absolute_path
+            .to_s
             .match(/\.(jpg|gif|png|mp3)$/)
           file_extension = file_extension_match[1]
           CONTENT_TYPES[file_extension]
@@ -35,3 +37,4 @@ module Everything
     end
   end
 end
+

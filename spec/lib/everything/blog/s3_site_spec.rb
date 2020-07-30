@@ -43,8 +43,10 @@ describe Everything::Blog::S3Site do
       end
 
       context 'index' do
+        include_context 'with fake source index'
+
         let(:given_source_file) do
-          Everything::Blog::Source::Index.new({})
+          fake_source_index
         end
         let(:given_output_file) do
           Everything::Blog::Output::Index.new(given_source_file)
@@ -56,8 +58,10 @@ describe Everything::Blog::S3Site do
       end
 
       context 'media' do
+        include_context 'with fake source media'
+
         let(:given_source_file) do
-          Everything::Blog::Source::Media.new('')
+          fake_source_media
         end
         let(:given_output_file) do
           Everything::Blog::Output::Media.new(given_source_file)
