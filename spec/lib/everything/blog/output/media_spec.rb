@@ -39,9 +39,13 @@ describe Everything::Blog::Output::Media do
 
   describe '#content_type' do
     context 'when file has a jpg extension' do
+      let(:given_media_file_path) do
+        Pathname.new('/some/path/to/test.jpg')
+      end
+
       before do
         allow(source_media).to receive(:absolute_path)
-          .and_return('/some/path/to/test.jpg')
+          .and_return(given_media_file_path)
       end
 
       it 'is the jpg MIME type' do
@@ -50,9 +54,13 @@ describe Everything::Blog::Output::Media do
     end
 
     context 'when the file has a gif extension' do
+      let(:given_media_file_path) do
+        Pathname.new('/some/path/to/test.gif')
+      end
+
       before do
         allow(source_media).to receive(:absolute_path)
-          .and_return('/some/path/to/test.gif')
+          .and_return(given_media_file_path)
       end
 
       it 'is the gif MIME type' do
@@ -61,9 +69,13 @@ describe Everything::Blog::Output::Media do
     end
 
     context 'when the file has a png extension' do
+      let(:given_media_file_path) do
+        Pathname.new('/some/path/to/test.png')
+      end
+
       before do
         allow(source_media).to receive(:absolute_path)
-          .and_return('/some/path/to/test.png')
+          .and_return(given_media_file_path)
       end
 
       it 'is the png MIME type' do
@@ -72,9 +84,13 @@ describe Everything::Blog::Output::Media do
     end
 
     context 'when the file has a mp3 extension' do
+      let(:given_media_file_path) do
+        Pathname.new('/some/path/to/test.mp3')
+      end
+
       before do
         allow(source_media).to receive(:absolute_path)
-          .and_return('/some/path/to/test.mp3')
+          .and_return(given_media_file_path)
       end
 
       it 'is the mpeg MIME type' do
