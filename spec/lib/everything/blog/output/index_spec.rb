@@ -55,14 +55,14 @@ describe Everything::Blog::Output::Index do
   end
 
   describe '#absolute_dir' do
-    let(:expected_output_dir_path) do
+    let(:expected_absolute_dir) do
       Pathname.new(
         fake_blog_output_path
       )
     end
 
     it 'is the full path for the output dir' do
-      expect(index.absolute_dir).to eq(expected_output_dir_path)
+      expect(index.absolute_dir).to eq(expected_absolute_dir)
     end
   end
 
@@ -73,14 +73,14 @@ describe Everything::Blog::Output::Index do
   end
 
   describe '#absolute_path' do
-    let(:expected_output_file_path) do
+    let(:expected_absolute_path) do
       Pathname.new(
         File.join(fake_blog_output_path, index.file_name)
       )
     end
 
     it 'is the full path for the output file' do
-      expect(index.absolute_path).to eq(expected_output_file_path)
+      expect(index.absolute_path).to eq(expected_absolute_path)
     end
   end
 

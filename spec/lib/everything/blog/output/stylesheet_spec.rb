@@ -52,24 +52,24 @@ describe Everything::Blog::Output::Stylesheet do
   end
 
   describe '#absolute_dir' do
-    let(:expected_output_dir_path) do
+    let(:expected_absolute_dir) do
       Pathname.new(File.join(fake_blog_output_path, 'css'))
     end
 
     it 'is the full path for the output css dir' do
-      expect(stylesheet.absolute_dir).to eq(expected_output_dir_path)
+      expect(stylesheet.absolute_dir).to eq(expected_absolute_dir)
     end
   end
 
   describe '#absolute_path' do
-    let(:expected_output_file_path) do
+    let(:expected_absolute_path) do
       Pathname.new(
         File.join(fake_blog_output_path, 'css', stylesheet.file_name)
       )
     end
 
     it 'is the full path for the output file' do
-      expect(stylesheet.absolute_path).to eq(expected_output_file_path)
+      expect(stylesheet.absolute_path).to eq(expected_absolute_path)
     end
   end
 

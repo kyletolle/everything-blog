@@ -84,19 +84,19 @@ describe Everything::Blog::Output::Media do
   end
 
   describe '#absolute_dir' do
-    let(:expected_output_dir_path) do
+    let(:expected_absolute_dir) do
       Pathname.new(
         File.join(fake_blog_output_path, given_post_name)
       )
     end
 
     it 'is the full path for the output dir' do
-      expect(media.absolute_dir).to eq(expected_output_dir_path)
+      expect(media.absolute_dir).to eq(expected_absolute_dir)
     end
   end
 
   describe '#absolute_path' do
-    let(:expected_output_file_path) do
+    let(:expected_absolute_path) do
       Pathname.new(
         File.join(
           fake_blog_output_path,
@@ -107,7 +107,7 @@ describe Everything::Blog::Output::Media do
     end
 
     it 'is the full path for the output file' do
-      expect(media.absolute_path).to eq(expected_output_file_path)
+      expect(media.absolute_path).to eq(expected_absolute_path)
     end
   end
 
