@@ -87,7 +87,8 @@ describe Everything::Blog::Output::Stylesheet do
 
   # TODO: Lots of overlap with blog/output/page_spec
   describe '#save_file' do
-    # TODO:
+    include_context 'stub out templates path'
+
     context 'when a stylesheet does not exist' do
       let(:action) do
         stylesheet.save_file
