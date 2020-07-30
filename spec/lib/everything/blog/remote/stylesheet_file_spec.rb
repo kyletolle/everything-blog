@@ -30,12 +30,12 @@ describe Everything::Blog::Remote::StylesheetFile do
 
     before do
       allow(given_output_file)
-        .to receive(:output_content)
+        .to receive(:content)
         .and_return("This content's completely fake and should not be trusted.")
     end
 
     it "is the output's file's content" do
-      expect(stylesheet_file.content).to eq(given_output_file.output_content)
+      expect(stylesheet_file.content).to eq(given_output_file.content)
     end
   end
 

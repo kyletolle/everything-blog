@@ -13,7 +13,7 @@ module Everything
         end
 
         def content
-          output_file.output_content
+          output_file.content
         end
 
         def content_type

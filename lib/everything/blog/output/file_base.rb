@@ -37,7 +37,7 @@ module Everything
           "#<#{self.class}: dir: `#{dir}`, file_name: `#{file_name}`>"
         end
 
-        def output_content
+        def content
           source_file.content
         end
 
@@ -67,7 +67,7 @@ module Everything
           FileUtils.mkdir_p(absolute_dir)
 
           File.open(absolute_path, file_mode) do |file|
-            file.write(output_content)
+            file.write(content)
           end
         end
 

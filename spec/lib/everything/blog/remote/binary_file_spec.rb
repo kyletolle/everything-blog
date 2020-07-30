@@ -20,12 +20,12 @@ describe Everything::Blog::Remote::BinaryFile do
   describe '#content' do
     before do
       allow(given_output_file)
-        .to receive(:output_content)
+        .to receive(:content)
         .and_return("This content's completely fake and should not be trusted.")
     end
 
-    it "is the output file's output_content" do
-      expect(binary_file.content).to eq(given_output_file.output_content)
+    it "is the output file's content" do
+      expect(binary_file.content).to eq(given_output_file.content)
     end
   end
 

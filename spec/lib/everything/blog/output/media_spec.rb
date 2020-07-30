@@ -25,9 +25,9 @@ describe Everything::Blog::Output::Media do
     end
   end
 
-  describe '#output_content' do
+  describe '#content' do
     it 'is the source content' do
-      expect(media.output_content).to eq(source_media.content)
+      expect(media.content).to eq(source_media.content)
     end
   end
 

@@ -31,7 +31,7 @@ describe Everything::Blog::Output::Index do
     end
   end
 
-  describe '#output_content' do
+  describe '#content' do
     let(:template_double) { instance_double(index.template_klass) }
     let(:fake_content_and_template) { '<p>Faked out, yo!</p>' }
 
@@ -45,12 +45,12 @@ describe Everything::Blog::Output::Index do
     end
 
     it 'returns merged template and content' do
-      expect(index.output_content).to eq(fake_content_and_template)
+      expect(index.content).to eq(fake_content_and_template)
     end
 
     it 'memoizes the return value' do
-      expect(index.output_content.object_id)
-        .to eq(index.output_content.object_id)
+      expect(index.content.object_id)
+        .to eq(index.content.object_id)
     end
   end
 
